@@ -2,8 +2,8 @@
 <html lang="en">
    <head>
       <meta charset="UTF-8">
-      <title> BIP - SLS </title>
-      <meta name="description" content="Gaisano Malls Tenant Portal" />
+      <title> Price Inquiry </title>
+      <meta name="description" content="Price Inquiry" />
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
       <!--begin::Fonts-->
       <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
@@ -11,31 +11,17 @@
       <link rel="stylesheet" href="{{ asset('/css/globals/plugins.bundle.css')}}" async>
       <link rel="stylesheet" href="{{ asset('/css/globals/prismjs.bundle.css')}}" async>
       <link rel="stylesheet" href="{{ asset('/css/globals/style.bundle.min.css')}}" async>
+
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
       @once
       @stack('styles')
       @endonce
       <!--end::Global CSS-->
    </head>
-   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading">
+   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading" style="background-color:#84be4d;">
       <!--begin::Main-->
       <!--begin::Header Mobile-->
-      <div id="kt_header_mobile" class="header-mobile bg-primary header-mobile-fixed">
-         <!--begin::Logo-->
-         <a href="/admin/dashboard">
-         <img alt="Logo" src="{{asset('/assets/images/GaisanoMalls-White.png')}}" class="max-h-30px" />
-         {{-- Logo for Mobile View --}}
-         </a>
-         <!--end::Logo-->
-
-         <!--begin::Toolbar-->
-         <div class="d-flex align-items-center">
-            <button class="btn p-0 burger-icon burger-icon-left ml-4" id="kt_header_mobile_toggle">
-            <span></span>
-            </button>
-
-         </div>
-         <!--end::Toolbar-->
-      </div>
+      
       <!--end::Header Mobile-->
       <div class="d-flex flex-column flex-root">
          <!--begin::Page-->
@@ -43,59 +29,7 @@
             <!--begin::Wrapper-->
             <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
                <!--begin::Header-->
-               <div id="kt_header" class="header flex-column header-fixed">
-                  <!--begin::Top-->
-                  <div class="header-top">
-                     <!--begin::Container-->
-                     <div class="container">
-                        <!--begin::Left-->
-                        <div class="d-none d-lg-flex align-items-center mr-3">
-                           <!--begin::Logo-->
-                           <a href="/admin/dashboard" class="mr-20">
-                            <img alt="Logo" src="{{asset('/assets/images/GaisanoMalls-White.png')}}" class="max-h-30px" />
 
-                           {{-- Logo For Desktop view --}}
-                           </a>
-                           <!--end::Logo-->
-                        </div>
-                        <!--end::Left-->
-                     </div>
-                     <!--end::Container-->
-                  </div>
-                  <!--end::Top-->
-                  <!--begin::Bottom-->
-                  <div class="header-bottom">
-                     <!--begin::Container-->
-                     <div class="container">
-                        <!--begin::Header Menu Wrapper-->
-                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
-                           <!--begin::Header Menu-->
-                           <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
-                              <!--begin::Header Nav-->
-                              <ul class="menu-nav">
-                                 <li class="menu-item menu-item-submenu menu-item-rel {{Request::routeIs('bip.index') ? ' menu-item-here' : ''}}" >
-                                    <a href="{{route('bip.index')}}" class="menu-link active">
-                                    <span class="menu-text">Barcode Interface Program</span>
-                                    {{-- <span class="menu-desc">Barcode Interface Program</span> --}}
-                                    </a>
-                                 </li>
-                                 <li class="menu-item menu-item-submenu menu-item-rel {{Request::routeIs('sls.index') ? ' menu-item-here' : ''}}">
-                                    <a href="{{route('sls.index')}}" class="menu-link">
-                                    <span class="menu-text">Shelf Label System</span>
-                                    {{-- <span class="menu-desc">Shelf Label System</span> --}}
-                                    </a>
-                                 </li>
-                              </ul>
-                              <!--end::Header Nav-->
-                           </div>
-                           <!--end::Header Menu-->
-                        </div>
-                        <!--end::Header Menu Wrapper-->
-                     </div>
-                     <!--end::Container-->
-                  </div>
-                  <!--end::Bottom-->
-               </div>
                <!--end::Header-->
                <!--begin::Content-->
                <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -134,9 +68,12 @@
       <script src="{{ asset('/js/globals/plugins.bundle.js')}}" ></script>
       <script src="{{ asset('/js/globals/prismjs.bundle.js')}}" ></script>
       <script src="{{ asset('/js/globals/scripts.bundle.min.js')}}" ></script>
-      <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script>
+      <!--script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script-->
       {{-- <script src="{{ asset('/js/globals/js_barcode.min.js')}}" ></script> --}}
       <!--end::Global Theme Bundle-->
+
+      
+
       @once
         @stack('scripts')
       @endonce

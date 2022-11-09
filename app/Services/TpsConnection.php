@@ -12,7 +12,38 @@ class TpsConnection {
 
     public function getItemBySKU($sku)
     {
-        return $this->db->table('invmst')->select('sku','upc','short_descr','price','ven_no','vendor','buy_unit')->where('sku',$sku)->get()->toArray();
+        $data = $this->db->table('invmst')->select('sku','upc','short_descr','price','ven_no','vendor','buy_unit');
+        
+        if(strlen($sku) == 7)
+        {
+           $skunum='00'.$sku;
+           return $data->where('sku',$skunum)->get()->toArray();
+        }else
+        {
+            $upc= '';
+            $upctype=strlen($sku);
+            if($upctype==8)
+            {$upc='0000000000'.$sku;}
+            else if($upctype==12)
+            {$upc='000000'.$sku;}
+            else if($upctype==13)
+            {$upc='00000'.$sku;}
+                
+            
+          $invupc = $this->db->table('invupc')->select('sku','upc')->Where('upc',$upc)->get();
+          $invmst = $data->where('sku',$invupc[0]->sku)->get();
+
+          $compact = [
+          'sku' => $invupc[0]->sku,
+          'short_descr' => $invmst[0]->short_descr,
+          'buy_unit' => $invmst[0]->buy_unit,
+          'ven_no' => $invmst[0]->ven_no,
+          'price' => $invmst[0]->price,
+          'vendor' => $invmst[0]->vendor,
+          'upc' => $invupc[0]->upc];
+
+          return array($compact);
+        }
     }
 
     public function getStorelist()

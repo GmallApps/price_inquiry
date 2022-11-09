@@ -17,8 +17,7 @@ use App\Http\Controllers\StoreController;
 
 Route::middleware('guest')->group(function(){
     Route::view('/','pages.index')->name('login');
-    Route::get('/bip',[StoreController::class,'bipIndexView'])->name('bip.index');
-    Route::get('/sls',[StoreController::class,'slsIndexView'])->name('sls.index');
+    Route::get('/inquiry',[StoreController::class,'bipIndexView'])->name('bip.index');
 });
 
     Route::get('/api/fetch/tpsStore',[StoreController::class,'fetchStoreData']);
