@@ -77,10 +77,10 @@
                             </div>
                             <div class="text-center  mb-18">
                                 <h3 class="fs-2hx text-dark mb-3"><b>Barcode</b></h3>
-                                <input type="hidden" style="background-color:#EBEBE4;" class="form-control" name="store" id="store" value="">
-                                <input type="hidden" style="background-color:#EBEBE4;" class="form-control" name="store_code" id="store_code" value="2001">
-                                <input type="url" style="background-color:#EBEBE4;" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
-                                <input type="hidden" style="background-color:#EBEBE4;" class="form-control" name="upc_dummy" id="upc_dummy" autofocus>
+                                <input type="hidden" class="form-control" name="store" id="store" value="">
+                                <input type="hidden" class="form-control" name="store_code" id="store_code" value="2001">
+                                <input type="url" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
+                                <input type="hidden" class="form-control" name="upc_dummy" id="upc_dummy" autofocus>
                             </div>
                         </div>
                         <!--end::Post-->
