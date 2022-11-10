@@ -19,22 +19,14 @@ void new class BipIndex{
         document.querySelector('#upc_barcode').addEventListener('keydown',(e) => { 
             console.log(e.which)
             let upcData = (e.target.value == null ? '' : e.target.value)
-            //this.upcData = upcData
             if(e.which == 13){
-                this.upcData = this.passData()
+                this.upcData = upcData
                 console.log(upcData)
                 this.getItemBySku(upcData)
             }
 
         })
 
-    }
-
-    passData = ()=> {
-        let input2 = document.getElementById("upc_barcode").value;
-        $('#upc_dummy').val(input2)
-        let input3 = document.getElementById("upc_dummy").value;
-        return input3;
     }
 
     getItemBySku = async(barcode) => { 
