@@ -22,7 +22,7 @@
 @section('content')
 
 <div class="container" >
-    <form class="form" id="kt_form" >
+    
 
         <div class="card card-custom gutter-b" style="background-color:#94d952;">
             <div class="card-body" >
@@ -156,7 +156,7 @@
             </div>
         </div>
         
-    </form>
+    
 </div>
 
 @endsection
