@@ -79,7 +79,7 @@
                                 <h3 class="fs-2hx text-dark mb-3"><b>Barcode</b></h3>
                                 <input type="hidden" class="form-control" name="store" id="store" value="">
                                 <input type="hidden" class="form-control" name="store_code" id="store_code" value="2001">
-                                <input type="url" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
+                                <input type="text" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
                             </div>
                         </div>
                         <!--end::Post-->
