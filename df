@@ -1,0 +1,29 @@
+[1mdiff --git a/resources/js/pages/bip/bip_index.js b/resources/js/pages/bip/bip_index.js[m
+[1mindex aebd331..e1d310c 100644[m
+[1m--- a/resources/js/pages/bip/bip_index.js[m
+[1m+++ b/resources/js/pages/bip/bip_index.js[m
+[36m@@ -19,9 +19,8 @@[m [mvoid new class BipIndex{[m
+         document.querySelector('#upc_barcode').addEventListener('keydown',(e) => { [m
+             console.log(e.which)[m
+             let upcData = (e.target.value == null ? '' : e.target.value)[m
+[31m-            //this.upcData = upcData[m
+             if(e.which == 13){[m
+[31m-                this.upcData = this.passData()[m
+[32m+[m[32m                this.upcData = upcData[m
+                 console.log(upcData)[m
+                 this.getItemBySku(upcData)[m
+             }[m
+[36m@@ -30,13 +29,6 @@[m [mvoid new class BipIndex{[m
+ [m
+     }[m
+ [m
+[31m-    passData = ()=> {[m
+[31m-        let input2 = document.getElementById("upc_barcode").value;[m
+[31m-        $('#upc_dummy').val(input2)[m
+[31m-        let input3 = document.getElementById("upc_dummy").value;[m
+[31m-        return input3;[m
+[31m-    }[m
+[31m-[m
+     getItemBySku = async(barcode) => { [m
+         const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})[m
+         this.data = result [m

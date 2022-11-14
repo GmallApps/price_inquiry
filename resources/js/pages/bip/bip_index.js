@@ -10,7 +10,7 @@ void new class BipIndex{
     }
 
     initialization = () => { 
-        this.bipForm = document.querySelector('#kt_form')
+       // this.bipForm = document.querySelector('#kt_form')
         this.currentCode = document.querySelector('#store_code')
         
     }
@@ -21,12 +21,41 @@ void new class BipIndex{
             let upcData = (e.target.value == null ? '' : e.target.value)
             if(e.which == 13){
                 this.upcData = upcData
-                console.log(upcData)
-                this.getItemBySku(upcData)
+                console.log(this.convertData(upcData))
+                this.getItemBySku(this.convertData(upcData))
             }
 
         })
 
+    }
+
+    convertData = (upcData) => {
+        this.upcDataLength = upcData.length
+        let addLeadingZeros = ''
+        switch(this.upcDataLength) {
+            case 7: {
+                addLeadingZeros=upcData.padStart(9, '0')
+               break;
+            }
+            case 8: {
+                addLeadingZeros=upcData.padStart(18, '0')
+               break;
+            }
+            case 12: {
+                addLeadingZeros=upcData.padStart(18, '0')
+                break;
+             }
+             case 13: {
+                addLeadingZeros=upcData.padStart(18, '0')
+                break;
+             }
+            default: {
+               //statements;
+               break;
+            }
+         }
+
+         return addLeadingZeros
     }
 
     getItemBySku = async(barcode) => { 

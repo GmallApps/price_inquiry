@@ -14,23 +14,12 @@ class TpsConnection {
     {
         $data = $this->db->table('invmst')->select('sku','upc','short_descr','price','ven_no','vendor','buy_unit');
         
-        if(strlen($sku) == 7)
+        if(strlen($sku) == 9)
         {
-           $skunum='00'.$sku;
-           return $data->where('sku',$skunum)->get()->toArray();
+           return $data->where('sku',$sku)->get()->toArray();
         }else
         {
-            $upc= '';
-            $upctype=strlen($sku);
-            if($upctype==8)
-            {$upc='0000000000'.$sku;}
-            else if($upctype==12)
-            {$upc='000000'.$sku;}
-            else if($upctype==13)
-            {$upc='00000'.$sku;}
-                
-            
-          $invupc = $this->db->table('invupc')->select('sku','upc')->Where('upc',$upc)->get();
+          $invupc = $this->db->table('invupc')->select('sku','upc')->Where('upc',$sku)->get();
           $invmst = $data->where('sku',$invupc[0]->sku)->get();
 
           $compact = [
