@@ -99,46 +99,6 @@ return [
             'password' => ''
         ],
 
-        'odbc_2003' => [
-            'driver' => 'odbc',
-            'database' => '',
-            'dsn' => 'ODBC_2003',
-            'username' => '',
-            'password' => ''
-        ],
-
-        'odbc_2006' => [
-            'driver' => 'odbc',
-            'database' => '',
-            'dsn' => 'ODBC_2006',
-            'username' => '',
-            'password' => ''
-        ],
-
-        'odbc_2008' => [
-            'driver' => 'odbc',
-            'database' => '',
-            'dsn' => 'ODBC_2008',
-            'username' => '',
-            'password' => ''
-        ],
-
-        'odbc_2009' => [
-            'driver' => 'odbc',
-            'database' => '',
-            'dsn' => 'ODBC_2009',
-            'username' => '',
-            'password' => ''
-        ],
-
-        'store_tps' => [
-            'driver' => 'odbc',
-            'database' => '',
-            'dsn' => 'STORE_TPS',
-            'username' => '',
-            'password' => ''
-        ],
-
     ],
 
     /*
