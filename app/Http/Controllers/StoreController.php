@@ -50,38 +50,14 @@ class StoreController extends Controller
         return view('pages.bip.bip_index',['businessUnits' => BusinessUnit::get()]);
     }
 
-    public function slsIndexView()
-    {
-        return view('pages.sls.sls_index',['businessUnits' => BusinessUnit::get()]);
-    }
-
-    public function getStoreInformation(Request $request, $barcode)
+    public function getStoreInformation($barcode)
     { 
        
         $tps = new TpsConnection('odbc_2001');
         return $tps->getItemBySKU($barcode);
     }
 
-    public function getStoreCodes($store_name)
-    {
-        $store = new TpsConnection('store_tps');
-        return $store->getStoreByID($store_name);
-    }
-
-    public function fetchStoreData()
-    {
-        $tps = new TpsConnection('store_tps');
-        $filtered_tps = array();
-        foreach($tps->getStorelist() as $tps_data)
-        {
-            if(strlen($tps_data->store)  == 4)
-            {
-                $filtered_tps[] = $tps_data;
-            }
-        }
-        return $filtered_tps;
-
-    }
+    
 
 
 }
