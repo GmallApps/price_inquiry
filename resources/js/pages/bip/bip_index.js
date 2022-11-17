@@ -10,9 +10,7 @@ void new class BipIndex{
     }
 
     initialization = () => { 
-       // this.bipForm = document.querySelector('#kt_form')
-        this.currentCode = document.querySelector('#store_code')
-        
+       
     }
     eventHandler = () => { 
       
@@ -28,6 +26,7 @@ void new class BipIndex{
         })
 
     }
+
 
     convertData = (upcData) => {
         this.upcDataLength = upcData.length
@@ -59,7 +58,8 @@ void new class BipIndex{
     }
 
     getItemBySku = async(barcode) => { 
-        const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})
+        //const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})
+        const {data:result} = await axios.get(`/api/get/item/${barcode}`)
         this.data = result 
         if(result == ''){
             $('#short_descr').html('Not Found!')
