@@ -18,26 +18,37 @@
     padding-left:15% !important;
 }
 
+.box {
+  box-shadow:
+  0 2.8px 2.2px rgba(0, 0, 0, 0.034),
+  0 6.7px 5.3px rgba(0, 0, 0, 0.048),
+  0 12.5px 10px rgba(0, 0, 0, 0.06),
+  0 22.3px 17.9px rgba(0, 0, 0, 0.072),
+  0 41.8px 33.4px rgba(0, 0, 0, 0.086),
+  0 5px 80px rgba(0, 0, 0, 0.12);
+  border-radius:5px;
+}
+
 </style>
 
 @section('content')
 
-<div class="container" >
+<div class="container">
     
-
-        <div class="card card-custom gutter-b" style="background-color:#94d952;">
+        <br/>
+        <div class="card card-custom gutter-b" style="background-color:#84be4d;">
+            <br/>
             <div class="card-body pb-0" >
                 <div class="form-group row" >
                     <div class="col-md-4 justify-content-between d-flex flex-column">
-                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-17 ">
-                            <br/>
+                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-17 box" style="background-color:#94d952;">
                             <div class="text-center mb-18">
-                                <img width="95%" src="{{asset('/assets/images/gmarket2.png')}}" alt="" />
+                                <img width="80%" src="{{asset('/assets/images/cebu_white.png')}}" alt="" />
                             </div>
                             <div class="text-center  mb-18">
                                 <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 48pt;" id="price">--</h1>
                                 <h2 class="fs-2hx text-dark mb-3" style="font-weight: bold;" id="short_descr">Scan Barcode</h2>
-                                <h3 class="fs-2hx text-dark mb-3" id="actual_barcode"></h3>
+                                <h3 class="fs-2hx text-dark mb-3" id="actual_barcode">--</h3>
                             </div>
                             <div class="text-center  mb-18">
                                 <h3 class="fs-2hx text-dark mb-3"><b>Barcode</b></h3>
@@ -47,14 +58,100 @@
                         </div>
                     </div>
                     <div class="col-md-8">
-                        <br/>
-                        <video id="rewardsVid" width="100%" loop controls>
-                            <source src="{{asset('/assets/images/GmallGCARDPLUS.mp4')}}" type="video/mp4">
-                        </video>
+                        <div class="form-group row" >
+                            <div class="col-md-12 justify-content-between d-flex flex-column">
+                                <video id="rewardsVid" width="100%" loop controls class="box">
+                                    <source src="{{asset('/assets/images/GmallGCARDPLUS.mp4')}}" type="video/mp4">
+                                </video>
+                            </div>
+                        </div>
+                        <div class="form-group row" >
+                            <div class="col-md-12 justify-content-between d-flex flex-column">
+                                
+                                    <a class="d-block mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/allBranchLogo.png')}}">
+                                        <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/allBranchLogo.png')}})"></div>
+                                    </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+        <!-- <div class="card card-custom gutter-b" style="background-color:#84be4d;">
+            <br/>
+            <div class="card-body pb-0" >
+                <div class="form-group row">
+                        <div class="col-md-12 justify-content-between d-flex flex-column">
+                            <div class="mb-16">
+                                <div class="row g-10">
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/cebB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/cebB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/davB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/davB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/tagB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/tagB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/torB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/torB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/digB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/digB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="card-xl-stretch me-md-6 box">
+                                            <a class="d-block overlay mb-4" data-fslightbox="lightbox-hot-sales" href="{{asset('/assets/images/genB.jpg')}}">
+                                                <div class="overlay-wrapper bgi-no-repeat bgi-position-center bgi-size-cover card-rounded min-h-175px" style="background-image:url({{asset('/assets/images/genB.jpg')}})"></div>
+                                                <div class="overlay-layer bg-dark card-rounded bg-opacity-25">
+                                                    <i class="bi bi-eye-fill fs-2x text-white"></i>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     
 </div>
 
@@ -62,7 +159,6 @@
 
 @push('scripts')
     <script src="{{ asset('/js/pages/bip/bip_index.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    
 @endpush
 
