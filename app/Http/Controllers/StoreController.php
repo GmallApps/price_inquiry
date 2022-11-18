@@ -52,8 +52,8 @@ class StoreController extends Controller
 
     public function getStoreInformation($barcode)
     { 
-       
         $tps = new TpsConnection('odbc_2001');
+        if(empty($tps->getItemBySKU($barcode))) return $this->error("Invalid Code", 400);
         return $tps->getItemBySKU($barcode);
     }
 
