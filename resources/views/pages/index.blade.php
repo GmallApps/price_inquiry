@@ -18,7 +18,7 @@
       @endonce
       <!--end::Global CSS-->
    </head>
-   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading" style="background-color:#84be4d;">
+   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading" style="background-color:#94d952;">
       <!--begin::Main-->
       <!--begin::Header Mobile-->
       
