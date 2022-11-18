@@ -15,7 +15,6 @@ void new class BipIndex{
     eventHandler = () => { 
       
         document.querySelector('#upc_barcode').addEventListener('keydown',(e) => { 
-            console.log(e.which)
             let upcData = (e.target.value == null ? '' : e.target.value)
             if(e.which == 13){
                 this.upcData = upcData
@@ -27,46 +26,23 @@ void new class BipIndex{
 
     }
 
-
     convertData = (upcData) => {
         this.upcDataLength = upcData.length
         let addLeadingZeros = ''
-        switch(this.upcDataLength) {
-            case 7: {
-                addLeadingZeros=upcData.padStart(9, '0')
-               break;
-            }
-            case 8: {
-                addLeadingZeros=upcData.padStart(18, '0')
-               break;
-            }
-            case 12: {
-                addLeadingZeros=upcData.padStart(18, '0')
-                break;
-             }
-             case 13: {
-                addLeadingZeros=upcData.padStart(18, '0')
-                break;
-             }
-            default: {
-               //statements;
-               break;
-            }
-         }
-
+        if(this.upcDataLength<=14){
+            addLeadingZeros=upcData.padStart(18, '0')
+        }else{
+            console.log('upc exceeds 13digits')
+        }
+          
          return addLeadingZeros
     }
 
     getItemBySku = async(barcode) => { 
         //const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})
-        const {data:result} = await axios.get(`/api/get/item/${barcode}`)
-        this.data = result 
-        if(result == ''){
-            $('#short_descr').html('Not Found!')
-            $('#price').html('--')
-            $('#actual_barcode').html('--')
-            document.getElementById("upc_barcode").value = "";
-        }else{
+        try{
+            const {data:result} = await axios.get(`/api/get/item/${barcode}`)
+            this.data = result    
             for(const data of result)
             {   
                 console.log(data.short_descr)      
@@ -75,6 +51,13 @@ void new class BipIndex{
                 $('#actual_barcode').html(data.upc)
                 document.getElementById("upc_barcode").value = "";
             }
+            
+        }catch({response:err}){
+            showAlert('Warning!', 'Invalid Code', 'warning')
+            $('#short_descr').html('Not Found!')
+            $('#price').html('--')
+            $('#actual_barcode').html('--')
+            document.getElementById("upc_barcode").value = "";
         }
     }
 }
