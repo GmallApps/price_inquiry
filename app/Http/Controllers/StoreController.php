@@ -45,9 +45,9 @@ class StoreController extends Controller
         return $this->success('Success', null, 201);
     }
 
-    public function bipIndexView()
+    public function inquiryIndexView()
     {
-        return view('pages.bip.bip_index',['businessUnits' => BusinessUnit::get()]);
+        return view('pages.inquiry.inquiry_index',['businessUnits' => BusinessUnit::get()]);
     }
 
     public function getStoreInformation($barcode)
