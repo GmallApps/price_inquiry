@@ -53,7 +53,7 @@ void new class BipIndex{
             }
             
         }catch({response:err}){
-            showAlert('Warning!', 'Invalid Code', 'warning')
+            //showAlert('Warning!', 'Invalid Code', 'warning')
             $('#short_descr').html('Not Found!')
             $('#price').html('--')
             $('#actual_barcode').html('--')
