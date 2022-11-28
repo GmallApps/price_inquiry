@@ -60,7 +60,7 @@
                     <div class="col-md-8">
                         <div class="form-group row" >
                             <div class="col-md-12 justify-content-between d-flex flex-column">
-                                <video width="100%" loop muted autoplay="autoplay" class="box">
+                                <video width="100%" loop autoplay="autoplay" class="box">
                                     <source src="{{asset('/assets/images/GmallGCARDPLUS.mp4')}}" type="video/mp4">
                                 </video>
                             </div>
