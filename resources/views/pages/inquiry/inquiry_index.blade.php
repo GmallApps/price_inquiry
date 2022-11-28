@@ -46,7 +46,7 @@
                                 <img width="80%" src="{{asset('/assets/images/branchlogo.png')}}" alt="" />
                             </div>
                             <div class="text-center  mb-18">
-                                <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 48pt;" id="price">--</h1>
+                                <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 42pt;" id="price">--</h1>
                                 <h2 class="fs-2hx text-dark mb-3" style="font-weight: bold;" id="short_descr">Scan Barcode</h2>
                                 <h3 class="fs-2hx text-dark mb-3" id="actual_barcode">--</h3>
                             </div>
@@ -60,7 +60,7 @@
                     <div class="col-md-8">
                         <div class="form-group row" >
                             <div class="col-md-12 justify-content-between d-flex flex-column">
-                                <video id="rewardsVid" width="100%" loop controls class="box">
+                                <video width="100%" loop muted autoplay="autoplay" class="box">
                                     <source src="{{asset('/assets/images/GmallGCARDPLUS.mp4')}}" type="video/mp4">
                                 </video>
                             </div>
