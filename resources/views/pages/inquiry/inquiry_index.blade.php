@@ -49,12 +49,13 @@
                                 <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 42pt;" id="price">--</h1>
                                 <h2 class="fs-2hx text-dark mb-3" style="font-weight: bold;" id="short_descr">Scan Barcode</h2>
                                 <h3 class="fs-2hx text-dark mb-3" id="actual_barcode">--</h3>
+                                <h3 class="fs-3 fw-bold card btn-danger text-white p-2" style="display:none;" id="price_before"></h3>
                             </div>
                             <div class="text-center  mb-18">
                                 <h3 class="fs-2hx text-dark mb-3"><b>Barcode</b></h3>
-                                <input type="hidden" class="form-control" name="store" id="store" value="">
                                 <input type="text" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
                             </div>
+                            
                         </div>
                     </div>
                     <div class="col-md-8">
