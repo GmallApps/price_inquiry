@@ -55,6 +55,10 @@
                                 <h3 class="fs-2hx text-dark mb-3"><b>Barcode</b></h3>
                                 <input type="text" class="form-control" name="upc_barcode" id="upc_barcode" autofocus>
                             </div>
+                            <div class="text-center  mb-18">
+                                <h5 class="fs-2hx text-dark mb-3"><b>Current Date (For Testing)</b></h5>
+                                <input type="date" class="form-control" name="current_date" id="current_date">
+                            </div>
                             
                         </div>
                     </div>

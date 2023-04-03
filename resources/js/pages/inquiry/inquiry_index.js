@@ -7,10 +7,11 @@ void new class BipIndex{
     {
         this.initialization()
         this.eventHandler()
+        
     }
 
     initialization = () => { 
-       
+        
     }
     eventHandler = () => { 
       
@@ -19,7 +20,10 @@ void new class BipIndex{
             if(e.which == 13){
                 this.upcData = upcData
                 console.log(this.convertData(upcData))
-                this.getItemBySku(this.convertData(upcData))
+                const current_date = document.querySelector('#current_date').value;
+                console.log(`current date : ${current_date}`); 
+                this.getItemBySku(this.convertData(upcData),current_date);
+                 
             }
 
         })
@@ -37,16 +41,19 @@ void new class BipIndex{
           
          return addLeadingZeros
     }
-
-    getItemBySku = async(barcode) => { 
+    
+    getItemBySku = async(barcode,current_date) => { 
         try{
-            const {data:result} = await axios.get(`/api/get/item/${barcode}`)
+            
+            const {data:result} = await axios.get(`/api/get/item/${barcode}?current_date=${current_date}`)
+            console.log(current_date);
             this.data = result    
             for(const data of result)
             {   
                 console.log(data.short_descr)      
                 console.log(`start : ${data.start_date}`)  
                 console.log(`end : ${data.stop_date}`)  
+                
                 $('#short_descr').html(data.short_descr)
                 $('#price').html('P'+ numberWithCommas(parseFloat(data.price).toFixed(2)))
                 $('#actual_barcode').html(data.upc)

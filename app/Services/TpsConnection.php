@@ -10,7 +10,7 @@ class TpsConnection {
         $this->db = DB::connection($dsn);
     }
 
-    public function getItemBySKU($sku)
+    public function getItemBySKU($sku,$currentDate)
     {
         $data = $this->db->table('invmst')->select('sku','upc','short_descr','price','ven_no','vendor','buy_unit');
         
@@ -29,7 +29,7 @@ class TpsConnection {
             $end_timestamp = strtotime("December 28, 1800 +$endClarionDate days");
             $end_converted_date = date("Y-m-d", $end_timestamp);
 
-            $currentDate = date("Y-m-d");
+            //$currentDate = date("Y-m-d");
 
             if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
                 $compact = [
@@ -78,8 +78,8 @@ class TpsConnection {
                         'before' => $invmst[0]->price,
                         'vendor' => $invmst[0]->vendor,
                         'upc' => $invupc[0]->upc,
-                        'start_date' => $startClarionDate,
-                        'stop_date' => $endClarionDate
+                        'start_date' => $start_converted_date,
+                        'stop_date' => $end_converted_date
             
                     ];
               
