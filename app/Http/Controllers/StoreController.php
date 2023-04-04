@@ -50,11 +50,12 @@ class StoreController extends Controller
         return view('pages.inquiry.inquiry_index',['businessUnits' => BusinessUnit::get()]);
     }
 
-    public function getStoreInformation($barcode)
+    public function getStoreInformation(Request $request, $barcode)
     { 
-        $tps = new TpsConnection('odbc_2001');
-        if(empty($tps->getItemBySKU($barcode))) return $this->error("Invalid Code", 400);
-        return $tps->getItemBySKU($barcode);
+        $current_date = $request->input('current_date');
+        $tps = new TpsConnection('spm_tps');
+        if(empty($tps->getItemBySKU($barcode,$current_date))) return $this->error("Invalid Code", 400);
+        return $tps->getItemBySKU($barcode,$current_date);
     }
 
     

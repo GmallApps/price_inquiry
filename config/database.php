@@ -59,10 +59,10 @@ return [
 
 
 
-        'odbc_2001' => [
+        'spm_tps' => [
             'driver' => 'odbc',
             'database' => '',
-            'dsn' => 'ODBC_2001',
+            'dsn' => 'SPM_TPS',
             'username' => '',
             'password' => ''
         ],
