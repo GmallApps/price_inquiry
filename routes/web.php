@@ -16,7 +16,8 @@ use App\Http\Controllers\StoreController;
 
 
 Route::middleware('guest')->group(function(){
-    Route::view('/','pages.index')->name('login');
+    // Route::view('/','pages.index')->name('login');
+    Route::view('/login','pages.login')->name('login');
     Route::get('/',[StoreController::class,'inquiryIndexView'])->name('inquiry.index');
 });
 
