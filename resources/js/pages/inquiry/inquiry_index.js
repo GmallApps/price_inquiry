@@ -52,6 +52,13 @@ void new class BipIndex{
         //const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})
         const sale_price = document.getElementById("sale_price");
         const sale_term = document.getElementById("sale_term");
+        
+        $('#price').html('--')
+        $('#actual_barcode').html('--')
+        document.getElementById("upc_barcode").value = "";
+        sale_price.style.display = "none";
+        sale_term.style.display = "none";
+        
         try{
             const {data:result} = await axios.get(`/api/get/item/${barcode}?current_date=${current_date}`);
             
