@@ -28,6 +28,9 @@ class TpsConnection {
         
         // $currentDate = date("Y-m-d");
         if($promo_count != 0){
+
+            $compact = [];
+
             if($promo_count == 1){
                 
                 $start_converted_date = $this->convertClarion($promo_data[0]->start);
@@ -44,10 +47,10 @@ class TpsConnection {
                         'start_date' => $start_converted_date,
                         'stop_date' => $end_converted_date
                     ];
-                
                 }
 
             }else{
+                
                 $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price')->where('sku',$invupc[0]->sku)->orderByDesc('code')->get();
                 // foreach ($promo_data as $promo) {
 
@@ -92,8 +95,9 @@ class TpsConnection {
                                 'price' => $promo_data_ordered[0]->price,
                                 'before' => $invmst[0]->price,
                                 'upc' => $invupc[0]->upc,
-                                'start_date' => $start_converted_date
-                    
+                                'start_date' => $start_converted_date,
+                                'stop_date' => 'not valid'
+                                
                             ];
                     
                         }
@@ -103,13 +107,11 @@ class TpsConnection {
                 //}
             }
         }else{
+            $compact = [];
             $compact = [
                 'sku' => $invupc[0]->sku,
                 'short_descr' => $invmst[0]->short_descr,
-                'buy_unit' => $invmst[0]->buy_unit,
-                'ven_no' => $invmst[0]->ven_no,
                 'price' => $invmst[0]->price,
-                'vendor' => $invmst[0]->vendor,
                 'upc' => $invupc[0]->upc
             ];
         }
