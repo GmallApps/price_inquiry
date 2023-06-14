@@ -19,7 +19,7 @@ class TpsConnection {
         
         $invupc = $this->db->table('invupc')->select('sku','upc')->Where('upc',$sku)->get();
 
-        $promo_data = $this->db->table('invevt')->select('sku','start','stop','price')->where('sku',$invupc[0]->sku)->get();
+        $promo_data = $this->db->table('invevt')->select('sku','start','stop','price','pricetype')->where('sku',$invupc[0]->sku)->where('pricetype','RET')->get();
 
         $invmst = $data->where('sku',$invupc[0]->sku)->get();
 
@@ -62,17 +62,19 @@ class TpsConnection {
 
             }else{
                 
-                $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price')->where('sku',$invupc[0]->sku)->orderByDesc('code')->get();
+                $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price','pricetype')->where('sku',$invupc[0]->sku)->where('pricetype','RET')->orderByDesc('code')->get();
                 // foreach ($promo_data as $promo) {
                     Log::info('promo_data_ordered : ',$promo_data_ordered->toArray());
-                    // date_default_timezone_set("UTC");
-                    // dd(date_default_timezone_get());
+
+                    $price_type = $promo_data_ordered[0]->pricetype;
+                    
                     $start_converted_date = $this->convertClarion($promo_data_ordered[0]->start);
+
                     $stopDate = $promo_data_ordered[0]->stop;
-                    // $stopDateTime = new DateTime($stop_converted_date);
-                    // Log::info('dateTime : ',$stopDateTime);
-                    // dd($stopDateTime);
+                    
                     $isValidClarionDate=true;
+
+
                         try {
                             // $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
                             $isValidClarionDate = true;
