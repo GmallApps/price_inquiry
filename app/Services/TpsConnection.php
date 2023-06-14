@@ -72,54 +72,59 @@ class TpsConnection {
                     // $stopDateTime = new DateTime($stop_converted_date);
                     // Log::info('dateTime : ',$stopDateTime);
                     // dd($stopDateTime);
-
-                    try {
-                        $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
-                        $isValidClarionDate = true;
-                    } catch (\Exception $e) {
-                        $isValidClarionDate = false;
-                    }
-                    
-                    if ($isValidClarionDate) {
-
-                        $stop_converted_date = $this->convertClarion($stopDate);
-
-                        if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($stop_converted_date) ){
+                    $isValidClarionDate=true;
+                        try {
+                            // $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
+                            $isValidClarionDate = true;
+                            $str_stop_converted_date = strval($this->convertClarion($stopDate));
+                            if(intval(substr($str_stop_converted_date, 0, 1))>=1){
+                                $isValidClarionDate = true;
+                            }
+                        } catch (\Exception $e) {
+                            $isValidClarionDate = false;
+                            Log::error('Invalid Clarion date: ' . $e->getMessage());
                             
-                            $compact = [
-                                'sku' => $invupc[0]->sku,
-                                'short_descr' => $invmst[0]->short_descr,
-                                // 'price' => $promo->price,
-                                'price' => $promo_data_ordered[0]->price,
-                                'before' => $invmst[0]->price,
-                                'upc' => $invupc[0]->upc,
-                                'start_date' => $start_converted_date,
-                                'stop_date' => $stop_converted_date
-                    
-                            ];
-                    
                         }
+                        
+                            if ($isValidClarionDate) {
 
-                    } else {
-                        // The date is not a valid Clarion date
-                        $stop_converted_date = $this->convertClarion($stopDate);
+                                $stop_converted_date = $this->convertClarion($stopDate);
 
-                        if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($stop_converted_date)  ){
+                                if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($stop_converted_date) ){
+                                    
+                                    $compact = [
+                                        'sku' => $invupc[0]->sku,
+                                        'short_descr' => $invmst[0]->short_descr,
+                                        // 'price' => $promo->price,
+                                        'price' => $promo_data_ordered[0]->price,
+                                        'before' => $invmst[0]->price,
+                                        'upc' => $invupc[0]->upc,
+                                        'start_date' => $start_converted_date,
+                                        'stop_date' => $stop_converted_date
                             
-                            $compact = [
+                                    ];
+                            
+                                }
 
-                                'sku' => $invupc[0]->sku,
-                                'short_descr' => $invmst[0]->short_descr,
-                                'price' => $promo_data_ordered[0]->price,
-                                'before' => $invmst[0]->price,
-                                'upc' => $invupc[0]->upc,
-                                'start_date' => $start_converted_date,
-                                'stop_date' => $stop_converted_date
-                                
-                            ];
-                    
-                        }
-                    }
+                            } else {
+                                // The date is not a valid Clarion date
+
+                                if( strtotime($currentDate) >= strtotime($start_converted_date) ){
+                                    
+                                    $compact = [
+
+                                        'sku' => $invupc[0]->sku,
+                                        'short_descr' => $invmst[0]->short_descr,
+                                        'price' => $promo_data_ordered[0]->price,
+                                        'before' => $invmst[0]->price,
+                                        'upc' => $invupc[0]->upc,
+                                        'start_date' => $start_converted_date,
+                                        'stop_date' => $stopDate
+                                        
+                                    ];
+                            
+                                }
+                            }
                     
                     
                 //}
