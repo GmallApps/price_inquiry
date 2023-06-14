@@ -2,6 +2,7 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 
 class TpsConnection {
@@ -26,6 +27,13 @@ class TpsConnection {
 
         $promo_count = $promo_data->count();
         
+        $regular_price = [
+            'sku' => $invupc[0]->sku,
+            'short_descr' => $invmst[0]->short_descr,
+            'price' => $invmst[0]->price,
+            'upc' => $invupc[0]->upc
+        ];
+
         // $currentDate = date("Y-m-d");
         if($promo_count != 0){
 
@@ -47,16 +55,24 @@ class TpsConnection {
                         'start_date' => $start_converted_date,
                         'stop_date' => $end_converted_date
                     ];
+                }else{
+                    $compact = [];
+                    $compact = $regular_price;
                 }
 
             }else{
                 
                 $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price')->where('sku',$invupc[0]->sku)->orderByDesc('code')->get();
                 // foreach ($promo_data as $promo) {
-
+                    Log::info('promo_data_ordered : ',$promo_data_ordered->toArray());
+                    // date_default_timezone_set("UTC");
+                    // dd(date_default_timezone_get());
                     $start_converted_date = $this->convertClarion($promo_data_ordered[0]->start);
                     $stopDate = $promo_data_ordered[0]->stop;
-                    
+                    // $stopDateTime = new DateTime($stop_converted_date);
+                    // Log::info('dateTime : ',$stopDateTime);
+                    // dd($stopDateTime);
+
                     try {
                         $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
                         $isValidClarionDate = true;
@@ -68,7 +84,7 @@ class TpsConnection {
 
                         $stop_converted_date = $this->convertClarion($stopDate);
 
-                        if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
+                        if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($stop_converted_date) ){
                             
                             $compact = [
                                 'sku' => $invupc[0]->sku,
@@ -78,7 +94,7 @@ class TpsConnection {
                                 'before' => $invmst[0]->price,
                                 'upc' => $invupc[0]->upc,
                                 'start_date' => $start_converted_date,
-                                'stop_date' => $end_converted_date
+                                'stop_date' => $stop_converted_date
                     
                             ];
                     
@@ -86,7 +102,9 @@ class TpsConnection {
 
                     } else {
                         // The date is not a valid Clarion date
-                        if( strtotime($currentDate) >= strtotime($start_converted_date) ){
+                        $stop_converted_date = $this->convertClarion($stopDate);
+
+                        if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($stop_converted_date)  ){
                             
                             $compact = [
 
@@ -96,7 +114,7 @@ class TpsConnection {
                                 'before' => $invmst[0]->price,
                                 'upc' => $invupc[0]->upc,
                                 'start_date' => $start_converted_date,
-                                'stop_date' => 'not valid'
+                                'stop_date' => $stop_converted_date
                                 
                             ];
                     
@@ -106,14 +124,10 @@ class TpsConnection {
                     
                 //}
             }
-        }else{
-            $compact = [];
-            $compact = [
-                'sku' => $invupc[0]->sku,
-                'short_descr' => $invmst[0]->short_descr,
-                'price' => $invmst[0]->price,
-                'upc' => $invupc[0]->upc
-            ];
+        }
+
+        if (empty($compact)) {
+            $compact = $regular_price;
         }
         
           return array($compact);
@@ -131,12 +145,33 @@ class TpsConnection {
 
     public function convertClarion($clarionDate)
     {
-
+        // uses December 28, 1800
         $startClarionDate = strval($clarionDate);
         $start_timestamp = strtotime("December 28, 1800 +$startClarionDate days");
         $start_converted_date = date("Y-m-d", $start_timestamp);
 
         return $start_converted_date;
+
+    }
+    public function convertClarionForStop($clarionDate)
+    {
+        // uses January 1, 1900 reference date
+        $stopClarionDate = strval($clarionDate);
+        $stop_timestamp = ($stopClarionDate - 693593) * 86400;
+        $stop_converted_date = date("Y-m-d", $stop_timestamp);
+
+        return $stop_converted_date;
+
+    }
+
+    public function convertClarionForStop2($clarionDate)
+    {
+        // part2
+        $year = substr($clarionDate, 0, 2);
+    $month = str_pad(substr($clarionDate, 2, 2), 2, '0', STR_PAD_LEFT);
+    $day = str_pad(substr($clarionDate, 4, 2), 2, '0', STR_PAD_LEFT);
+    $fullYear = ($year < 50 ? '20' : '19').$year;
+    return $fullYear.'-'.$month.'-'.$day;
 
     }
 }
