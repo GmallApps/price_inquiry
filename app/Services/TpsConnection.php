@@ -2,6 +2,9 @@
 
 namespace App\Services;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Carbon\Carbon;
+
 class TpsConnection {
     protected  $db;
 
@@ -12,93 +15,106 @@ class TpsConnection {
 
     public function getItemBySKU($sku,$currentDate)
     {
-        $data = $this->db->table('invmst')->select('sku','upc','short_descr','price','ven_no','vendor','buy_unit');
+        $data = $this->db->table('invmst')->select('sku','upc','short_descr','price');
         
         $invupc = $this->db->table('invupc')->select('sku','upc')->Where('upc',$sku)->get();
-        $promo_data = $this->db->table('invevt')->select('sku','start','stop','price')->where('sku',$invupc[0]->sku)->get();
+
+        $promo_data = $this->db->table('invevt')->select('sku','start','stop','price','pricetype')->where('sku',$invupc[0]->sku)->where('pricetype','RET')->get();
+
         $invmst = $data->where('sku',$invupc[0]->sku)->get();
-        $invevt = [];
+
         $compact = [];
+
+        $promo_count = $promo_data->count();
         
-        if($promo_data->count() == 1){ // finished testing this condition : remarks : ok
-            $startClarionDate =  strval($promo_data[0]->start);
-            $start_timestamp = strtotime("December 28, 1800 +$startClarionDate days");
-            $start_converted_date = date("Y-m-d", $start_timestamp);
+        $regular_price = [
+            'sku' => $invupc[0]->sku,
+            'short_descr' => $invmst[0]->short_descr,
+            'price' => $invmst[0]->price,
+            'upc' => $invupc[0]->upc
+        ];
 
-            $endClarionDate = strval($promo_data[0]->stop);
-            $end_timestamp = strtotime("December 28, 1800 +$endClarionDate days");
-            $end_converted_date = date("Y-m-d", $end_timestamp);
+        $currentDateTime = Carbon::parse($currentDate);
 
-            //$currentDate = date("Y-m-d");
+        // $currentDate = date("Y-m-d");
+        if($promo_count != 0){
 
-            if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
-                $compact = [
-                    'sku' => $invupc[0]->sku,
-                    'short_descr' => $invmst[0]->short_descr,
-                    'buy_unit' => $invmst[0]->buy_unit,
-                    'ven_no' => $invmst[0]->ven_no,
-                    'price' => $promo_data[0]->price,
-                    'before' => $invmst[0]->price,
-                    'vendor' => $invmst[0]->vendor,
-                    'upc' => $invupc[0]->upc,
-                    'start_date' => $start_converted_date,
-                    'stop_date' => $end_converted_date
+            $compact = [];
 
-                ];
-          
-            }
-        }else{
-            foreach ($promo_data as $promo) {
-                // $invevt[] = [
-                //     'start' => $promo->start,
-                //     'stop' => $promo->stop,
-                //     'sku' => $promo->sku,
-                //     'price' => $promo->price,
-                // ];
-                $startDate = $promo->start;
-                $endDate = $promo->stop;
-            
-                $startClarionDate =  strval($startDate);
-                $start_timestamp = strtotime("December 28, 1800 +$startClarionDate days");
-                $start_converted_date = date("Y-m-d", $start_timestamp);
-            
-                $endClarionDate = strval($endDate);
-                $end_timestamp = strtotime("December 28, 1800 +$endClarionDate days");
-                $end_converted_date = date("Y-m-d", $end_timestamp);
-            
-                $currentDate = date("Y-m-d");
-            
-                if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
+            if($promo_count == 1){
+                
+                $start_converted_date = $this->convertClarion($promo_data[0]->start);
+
+                $end_converted_date = $this->convertClarion($promo_data[0]->stop);
+
+                $startConvertedDate = Carbon::parse($start_converted_date);
+
+                $endConvertedDate = Carbon::parse($end_converted_date);
+
+                Log::error('start_converted_date: ' . $start_converted_date);
+
+                $isValidClarionDate=true;
+               
+                Log::error('endConvertedDate: ' . $endConvertedDate);
+                if( $currentDateTime->gte($startConvertedDate) && $currentDateTime->lte($endConvertedDate) ){
                     $compact = [
                         'sku' => $invupc[0]->sku,
                         'short_descr' => $invmst[0]->short_descr,
-                        'buy_unit' => $invmst[0]->buy_unit,
-                        'ven_no' => $invmst[0]->ven_no,
-                        'price' => $promo->price,
+                        'price' => $promo_data[0]->price,
                         'before' => $invmst[0]->price,
-                        'vendor' => $invmst[0]->vendor,
                         'upc' => $invupc[0]->upc,
                         'start_date' => $start_converted_date,
                         'stop_date' => $end_converted_date
-            
                     ];
-              
+                }else{
+                    $compact = [];
+                    $compact = $regular_price;
                 }
+                
+
+            }else{
+                
+                $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price','pricetype')->where('sku',$invupc[0]->sku)->where('pricetype','RET')->orderByDesc('code')->get();
+                // foreach ($promo_data as $promo) {
+                    Log::info('promo_data_ordered : ',$promo_data_ordered->toArray());
+
+                    $price_type = $promo_data_ordered[0]->pricetype;
+                    
+                    $start_converted_date = $this->convertClarion($promo_data_ordered[0]->start);
+
+                    $stop_converted_date = $this->convertClarion($promo_data_ordered[0]->stop);
+
+                    $startConvertedDate = Carbon::parse($start_converted_date);
+
+                    $stopConvertedDate = Carbon::parse($stop_converted_date);
+
+                    if( $currentDateTime->gte($startConvertedDate) && $currentDateTime->lte($stopConvertedDate) ){
+                        
+                        $compact = [
+                            'sku' => $invupc[0]->sku,
+                            'short_descr' => $invmst[0]->short_descr,
+                            // 'price' => $promo->price,
+                            'price' => $promo_data_ordered[0]->price,
+                            'before' => $invmst[0]->price,
+                            'upc' => $invupc[0]->upc,
+                            'start_date' => $start_converted_date,
+                            'stop_date' => $stop_converted_date
+                
+                        ];
+                
+                    }
+
+                            
+                    
+                    
+                //}
             }
         }
-        if (empty($compact)) {
-            $compact = [
-                'sku' => $invupc[0]->sku,
-                'short_descr' => $invmst[0]->short_descr,
-                'buy_unit' => $invmst[0]->buy_unit,
-                'ven_no' => $invmst[0]->ven_no,
-                'price' => $invmst[0]->price,
-                'vendor' => $invmst[0]->vendor,
-                'upc' => $invupc[0]->upc,
-                //'start_date' => strval($invevt)
-            ];
-        }
 
+        if (empty($compact)) {
+            $compact = $regular_price;
+        }
+        
           return array($compact);
     }
 
@@ -111,4 +127,18 @@ class TpsConnection {
     {
         return $this->db->table('strmst')->select('store')->where('name', $store_name)->get()->toArray();
     }
+
+    public function convertClarion($clarionDate)
+    {
+        // uses December 28, 1800
+
+        $startClarionDate = strval($clarionDate);
+        $startDateTime = Carbon::create(1800, 12, 28)->addDays($startClarionDate);
+        $startConvertedDate = $startDateTime->format('Y-m-d');
+        Log::error('conversion: ' . $startConvertedDate);
+
+        return $startConvertedDate;
+
+    }
+    
 }
