@@ -43,21 +43,57 @@ class TpsConnection {
                 
                 $start_converted_date = $this->convertClarion($promo_data[0]->start);
 
-                $end_converted_date = $this->convertClarion($promo_data[0]->stop);
+                $end_date = $promo_data[0]->stop;
 
-                if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
-                    $compact = [
-                        'sku' => $invupc[0]->sku,
-                        'short_descr' => $invmst[0]->short_descr,
-                        'price' => $promo_data[0]->price,
-                        'before' => $invmst[0]->price,
-                        'upc' => $invupc[0]->upc,
-                        'start_date' => $start_converted_date,
-                        'stop_date' => $end_converted_date
-                    ];
+                $isValidClarionDate=true;
+
+                try {
+                    // $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
+                    $isValidClarionDate = true;
+                    $str_stop_converted_date = strval($this->convertClarion($end_date));
+                    if(intval(substr($str_stop_converted_date, 0, 1))>=1){
+                        $isValidClarionDate = true;
+                    }
+                } catch (\Exception $e) {
+                    $isValidClarionDate = false;
+                    Log::error('Invalid Clarion date: ' . $e->getMessage());
+                    
+                }
+                if ($isValidClarionDate) {
+                    $end_converted_date = $this->convertClarion($promo_data[0]->stop);
+                    if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
+                        $compact = [
+                            'sku' => $invupc[0]->sku,
+                            'short_descr' => $invmst[0]->short_descr,
+                            'price' => $promo_data[0]->price,
+                            'before' => $invmst[0]->price,
+                            'upc' => $invupc[0]->upc,
+                            'start_date' => $start_converted_date,
+                            'stop_date' => $end_converted_date
+                        ];
+                    }else{
+                        $compact = [];
+                        $compact = $regular_price;
+                    }
                 }else{
-                    $compact = [];
-                    $compact = $regular_price;
+                    if( strtotime($currentDate) >= strtotime($start_converted_date) ){
+                                    
+                        $compact = [
+
+                            'sku' => $invupc[0]->sku,
+                            'short_descr' => $invmst[0]->short_descr,
+                            'price' => $promo_data[0]->price,
+                            'before' => $invmst[0]->price,
+                            'upc' => $invupc[0]->upc,
+                            'start_date' => $start_converted_date,
+                            'stop_date' => $promo_data[0]->stop
+                            
+                        ];
+                
+                    }else{
+                        $compact = [];
+                        $compact = $regular_price;
+                    }
                 }
 
             }else{
