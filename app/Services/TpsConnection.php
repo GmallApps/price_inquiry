@@ -42,26 +42,34 @@ class TpsConnection {
             if($promo_count == 1){
                 
                 $start_converted_date = $this->convertClarion($promo_data[0]->start);
-
+                Log::error('start_converted_date: ' . $start_converted_date);
                 $end_date = $promo_data[0]->stop;
 
                 $isValidClarionDate=true;
+
+                $currentDateTime = Carbon::parse($currentDate);
+                $startConvertedDate = Carbon::parse($start_converted_date);
 
                 try {
                     // $date = Carbon::createFromFormat('Y-m-d|', $stopDate); // Use the Clarion date format here
                     $isValidClarionDate = true;
                     $str_stop_converted_date = strval($this->convertClarion($end_date));
+                    Log::error('str_stop_converted_date: ' . $str_stop_converted_date);
                     if(intval(substr($str_stop_converted_date, 0, 1))>=1){
                         $isValidClarionDate = true;
+                        Log::error('isValidClarionDate: ' . $isValidClarionDate);
                     }
                 } catch (\Exception $e) {
                     $isValidClarionDate = false;
                     Log::error('Invalid Clarion date: ' . $e->getMessage());
+                    Log::error('current date: ' . $currentDateTime);
                     
                 }
                 if ($isValidClarionDate) {
                     $end_converted_date = $this->convertClarion($promo_data[0]->stop);
-                    if( strtotime($currentDate) >= strtotime($start_converted_date) && strtotime($currentDate) <= strtotime($end_converted_date) ){
+                    $endConvertedDate = Carbon::parse($end_converted_date);
+                    Log::error('endConvertedDate: ' . $endConvertedDate);
+                    if( $currentDateTime->gte($startConvertedDate) && $currentDateTime->lte($endConvertedDate) ){
                         $compact = [
                             'sku' => $invupc[0]->sku,
                             'short_descr' => $invmst[0]->short_descr,
@@ -76,7 +84,8 @@ class TpsConnection {
                         $compact = $regular_price;
                     }
                 }else{
-                    if( strtotime($currentDate) >= strtotime($start_converted_date) ){
+                    // $end_converted_date = $this->convertClarion($promo_data[0]->stop);
+                    if( $currentDateTime->gte($startConvertedDate) ){
                                     
                         $compact = [
 
@@ -189,11 +198,17 @@ class TpsConnection {
     public function convertClarion($clarionDate)
     {
         // uses December 28, 1800
-        $startClarionDate = strval($clarionDate);
-        $start_timestamp = strtotime("December 28, 1800 +$startClarionDate days");
-        $start_converted_date = date("Y-m-d", $start_timestamp);
+        // $startClarionDate = strval($clarionDate);
+        // $start_timestamp = strtotime("December 28, 1800 +$startClarionDate days");
+        // $start_converted_date = date("Y-m-d", $start_timestamp);
 
-        return $start_converted_date;
+        // return $start_converted_date;
+        $startClarionDate = strval($clarionDate);
+        $startDateTime = Carbon::create(1800, 12, 28)->addDays($startClarionDate);
+        $startConvertedDate = $startDateTime->format('Y-m-d');
+        Log::error('conversion: ' . $startConvertedDate);
+
+        return $startConvertedDate;
 
     }
     public function convertClarionForStop($clarionDate)
