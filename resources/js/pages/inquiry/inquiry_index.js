@@ -19,14 +19,14 @@ void new class BipIndex{
             if(e.which == 13){
                 this.upcData = upcData
                 console.log(this.convertData(upcData));
-                const current_date = document.querySelector('#current_date').value;
-                console.log(`current date : ${current_date}`); 
+                // const current_date = document.querySelector('#current_date').value;
 
-                // const today = new Date();
-                // const year = today.getFullYear();
-                // const month = String(today.getMonth() + 1).padStart(2, '0');
-                // const day = String(today.getDate()).padStart(2, '0');
-                // const current_date = `${year}-${month}-${day}`;
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const current_date = `${year}-${month}-${day}`;
+                console.log(`current date : ${current_date}`); 
 
                 this.getItemBySku(this.convertData(upcData),current_date);
             }

@@ -17,6 +17,7 @@ mix.js('resources/js/app.js', 'public/js')
     ]);
 
 mix.js('resources/js/pages/inquiry/inquiry_index.js','public/js/pages/inquiry')
+    .js('resources/js/pages/login.js','public/js/pages')
 
 // mix.js('resources/js/pages/sls/sls_index.js','public/js/pages/sls')
 
