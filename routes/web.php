@@ -2,7 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
+use App\Http\Controllers\AdController;
 use App\Http\Controllers\AuthController;
+use App\Models\Ad;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,8 +31,16 @@ Route::middleware('guest')->group(function(){
     Route::post('/api/form/data',[StoreController::class,'formData']);
 
     Route::middleware('auth')->group(function(){
+
         Route::view('/dashboard','pages.ads.dashboard')->name('dashboardView');
+        // Route::get('/ad-list',[AdController::class,'adList']);
+        Route::get('/dashboard', function () {
+            $ads = Ad::all();
+            return view('pages.ads.dashboard',['ads' => $ads]);
+        });
+        // Route::get('/dashboard', 'AdController@index')->name('ads.index');
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
+
     });
 
 

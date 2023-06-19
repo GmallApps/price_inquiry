@@ -26,7 +26,7 @@ class RedirectIfAuthenticated
 
                 $user = Auth::user();
 
-                if($user->isAdmin()) return redirect(RouteServiceProvider::ADMIN_DASHBOARD);
+                // if($user->isAdmin()) return redirect(RouteServiceProvider::ADMIN_DASHBOARD);
             }
         }
 
