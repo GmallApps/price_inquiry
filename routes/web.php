@@ -34,11 +34,11 @@ Route::middleware('guest')->group(function(){
 
         Route::view('/dashboard','pages.ads.dashboard')->name('dashboardView');
         // Route::get('/ad-list',[AdController::class,'adList']);
+        Route::get('/ads',[AdController::class,'viewAds']);
         Route::get('/dashboard', function () {
             $ads = Ad::all();
             return view('pages.ads.dashboard',['ads' => $ads]);
         });
-        // Route::get('/dashboard', 'AdController@index')->name('ads.index');
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
     });

@@ -1,6 +1,10 @@
 @extends('admin.app',['title' => 'Ads'])
-
+@push('styles')
+<link href="{{asset('/css/globals/fileinput.min.css')}}" media="all" rel="stylesheet" type="text/css" />
+@endpush
 @section('content')
+
+
 
 <!--begin::Content-->
 <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
@@ -19,7 +23,9 @@
             <div class="d-flex align-items-center gap-2 gap-lg-3">
                
                 <!--begin::Primary button-->
-                <a href="../../demo1/dist/apps/ecommerce/catalog/add-product.html" class="btn btn-sm btn-primary">Create Ad</a>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#kt_modal_create_ad">
+                    Create Ad
+                </button>
                 <!--end::Primary button-->
             </div>
             <!--end::Actions-->
@@ -27,6 +33,7 @@
         <!--end::Container-->
     </div>
     <!--end::Toolbar-->
+    
     <!--begin::Post-->
     <div class="post d-flex flex-column-fluid" id="kt_post">
         <!--begin::Container-->
@@ -42,6 +49,7 @@
                         <!--begin::Card header-->
                         <div class="card-header pt-7">
                             <!--begin::Title-->
+                            <!--livewire:ad-lists /--> 
                             <h3 class="card-title align-items-start flex-column">
                                 <span class="card-label fw-bolder text-gray-800">Ad List</span>
                                 <!-- <span class="text-gray-400 mt-1 fw-bold fs-6">Avg. 57 orders per day</span> -->
@@ -70,8 +78,9 @@
                         </div>
                         <!--end::Card header-->
                         <!--begin::Card body-->
+                        
                         <div class="card-body pt-2">
-                            <table class="table align-middle table-row-dashed fs-6 gy-3" id="kt_table_widget_4_table">
+                            <table class="table align-middle table-row-dashed fs-6 gy-3" id="ad_table">
                                 <thead>
                                     <tr class="text-start text-gray-400 fw-bolder fs-7 text-uppercase gs-0">
                                         <th class="min-w-100px">Ad no.</th>
@@ -103,7 +112,7 @@
                                             <td class="text-end">
                                                 <div class="dropdown">
                                                     <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                        <!-- Dropdown link -->
+                                                       
                                                     </a>
 
                                                     <ul class="dropdown-menu">
@@ -133,12 +142,34 @@
     <!--end::Post-->
 </div>
 <!--end::Content-->
+<livewire:ad-lists />
 
 @endsection
 
 
 
+<!-- @push('scripts')
+
+@endpush -->
+
+@section('scripts')
+<script>
+    document.addEventListener('alert', function (event) {
+        var type = event.detail.type;
+        var message = event.detail.message;
+
+        // Show the alert using your preferred alert library
+        // Here's an example using Bootstrap's alert component
+        var alertHtml = '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
+            message +
+            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
+            '</div>';
+        document.querySelector('#alerts').innerHTML = alertHtml;
+    });
+</script>
+
+@endsection
+
 @push('scripts')
-<!-- <script src="{{ asset('/js/pages/dashboard/system_logs_action.js')}}"></script> -->
-<!-- <script src="{{ asset('/js/pages/ads/ads.js')}}"></script> -->
+<script src="{{asset('/js/globals/fileinput.min.js')}}"></script>
 @endpush
