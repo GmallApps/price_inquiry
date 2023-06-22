@@ -1,7 +1,5 @@
 @extends('admin.app',['title' => 'Ads'])
-@push('styles')
-<link href="{{asset('/css/globals/fileinput.min.css')}}" media="all" rel="stylesheet" type="text/css" />
-@endpush
+
 @section('content')
 
 
@@ -142,7 +140,7 @@
     <!--end::Post-->
 </div>
 <!--end::Content-->
-<livewire:ad-lists />
+@include('pages.modals.new_ad')
 
 @endsection
 
@@ -170,6 +168,3 @@
 
 @endsection
 
-@push('scripts')
-<script src="{{asset('/js/globals/fileinput.min.js')}}"></script>
-@endpush

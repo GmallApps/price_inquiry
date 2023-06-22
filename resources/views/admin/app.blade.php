@@ -272,13 +272,11 @@ License: For each use you must have a valid license purchased only from above li
 		
 		@livewireScripts
 		<!-- <script src="assets/vendor/livewire/livewire.js"></script> -->
-		<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  		<x-livewire-alert::scripts />
+		<!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  		<x-livewire-alert::scripts /> -->
 		@yield('scripts')
 
-		@once
-			@stack('scripts')
-		@endonce
+		
 	</body>
 	<!--end::Body-->
 </html>

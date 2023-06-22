@@ -49,7 +49,7 @@
                                 <i class="bi bi-pencil-fill fs-7"></i>
 
                                 <!--begin::Inputs-->
-                                <input type="file" name="ad_file" wire:model="ad_file" wire:change="upload" accept=".png, .jpg, .gif, .mp4" />
+                                <input type="file" name="ad_file" wire:model="ad_file" accept=".png, .jpg, .gif, .mp4" />
                                 <input type="hidden" name="avatar_remove" />
                                 <!--end::Inputs-->
                             </label>
