@@ -37,7 +37,7 @@ Route::middleware('guest')->group(function(){
         Route::get('/ads',[AdController::class,'viewAds']);
         Route::get('/dashboard', function () {
             $ads = Ad::all();
-            return view('pages.ads.dashboard',['ads' => $ads]);
+            return view('pages.ads.ad_table',['ads' => $ads]);
         });
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 

@@ -36,7 +36,7 @@ License: For each use you must have a valid license purchased only from above li
 		<script src="https://kit.fontawesome.com/133d03ba7a.js" crossorigin="anonymous"></script>
 		<!-- Alpine v3 -->
 		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-		@livewireStyles
+	
         @once
             @stack('styles')
         @endonce
@@ -251,30 +251,12 @@ License: For each use you must have a valid license purchased only from above li
 		
 		<!--end::Modals-->
 		<!--begin::Javascript-->
-		<script>var hostUrl = "assets/";</script>
-		<!--begin::Global Javascript Bundle(used by all pages)-->
-		<script src="assets/plugins/global/plugins.bundle.js"></script>
-		<script src="assets/js/scripts.bundle.js"></script>
-		<!--end::Global Javascript Bundle-->
-		<!--begin::Page Vendors Javascript(used by this page)-->
-		<script src="assets/plugins/custom/datatables/datatables.bundle.js"></script>
-		<script src="assets/plugins/custom/vis-timeline/vis-timeline.bundle.js"></script>
-		<!--end::Page Vendors Javascript-->
-		<!--begin::Page Custom Javascript(used by this page)-->
-		<script src="assets/js/widgets.bundle.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/widgets.js"></script>
-		<script src="assets/js/custom/apps/chat/chat.js"></script>
-		<script src="assets/js/custom/utilities/modals/upgrade-plan.js"></script>
-		<!-- <script src="{{asset('/css/globals/fileinput.min.js')}}"></script> -->
-		<!--end::Page Custom Javascript-->
+		<script src="{{mix('/js/app.js')}}" ></script>
+		<script src="{{ asset('/js/globals/plugins.bundle.js')}}" ></script>
+		<script src="{{ asset('/js/globals/prismjs.bundle.js')}}" ></script>
+		<script src="{{ asset('/js/globals/scripts.bundle.min.js')}}" ></script>
 		<!--end::Javascript-->
-		
-		@livewireScripts
-		<!-- <script src="assets/vendor/livewire/livewire.js"></script> -->
-		<!-- <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-  		<x-livewire-alert::scripts /> -->
-		@yield('scripts')
+	
 
 		
 	</body>

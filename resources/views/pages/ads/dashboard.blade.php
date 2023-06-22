@@ -146,25 +146,9 @@
 
 
 
-<!-- @push('scripts')
+@push('scripts')
 
-@endpush -->
+@endpush
 
-@section('scripts')
-<script>
-    document.addEventListener('alert', function (event) {
-        var type = event.detail.type;
-        var message = event.detail.message;
 
-        // Show the alert using your preferred alert library
-        // Here's an example using Bootstrap's alert component
-        var alertHtml = '<div class="alert alert-' + type + ' alert-dismissible fade show" role="alert">' +
-            message +
-            '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>' +
-            '</div>';
-        document.querySelector('#alerts').innerHTML = alertHtml;
-    });
-</script>
-
-@endsection
 
