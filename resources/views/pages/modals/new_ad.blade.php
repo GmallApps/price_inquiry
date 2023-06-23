@@ -1,6 +1,18 @@
+@push('styles')
+<link href="{{asset('/css/globals/fileinput.min.css')}}" media="all" rel="stylesheet" type="text/css" />
+<style>
+.file-upload-indicator,.btn-close , .fileinput-pause-button{
+    display: none !important;
+}
 
+.child_datatable > .datatable-pager
+{
+    display: none !important;
+}
+</style>
+@endpush
 <!--begin::Modal - Users Search-->
-<div class="modal fade" id="kt_modal_create_ad" tabindex="-1" aria-hidden="true" wire:key="kt_modal_create_ad" wire:ignore>
+<div class="modal fade" id="kt_modal_create_ad" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
@@ -8,7 +20,7 @@
             <!--begin::Modal header-->
             <div class="modal-header pb-0 border-0 justify-content-end">
                 <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-dismiss="modal">
                     <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
                     <span class="svg-icon svg-icon-1">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
@@ -30,77 +42,48 @@
                 </div>
                 <!--end::Content-->
                 
-                <!--begin::Search-->
-                <div id="kt_modal_users_search_handler" data-kt-search-keypress="true" data-kt-search-min-length="2" data-kt-search-enter="enter" data-kt-search-layout="inline">
-                    <!--begin::Form-->
-                    <form wire:submit.prevent="saveAd" class="w-100 position-relative mb-5 text-center" autocomplete="off">
-                        <!--begin::Image input-->
-                        <div class="image-input image-input-empty" data-kt-image-input="true" style="background-image: url(/assets/media/svg/avatars/blank.svg)">
-                            <!--begin::Image preview wrapper-->
-                            <div class="image-input-wrapper w-125px h-125px"></div>
-                            <!--end::Image preview wrapper-->
+                <form action="post" class="form" id="create_ad_form">
 
-                            <!--begin::Edit button-->
-                            <label class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="change"
-                                data-bs-toggle="tooltip"
-                                data-bs-dismiss="click"
-                                title="Change avatar">
-                                <i class="bi bi-pencil-fill fs-7"></i>
-
-                                <!--begin::Inputs-->
-                                <input type="file" name="ad_file" wire:model="ad_file" accept=".png, .jpg, .gif, .mp4" />
-                                <input type="hidden" name="avatar_remove" />
-                                <!--end::Inputs-->
-                            </label>
-                            <!--end::Edit button-->
-
-                            <!--begin::Cancel button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="cancel"
-                                data-bs-toggle="tooltip"
-                                data-bs-dismiss="click"
-                                title="Cancel avatar">
-                                <i class="bi bi-x fs-2"></i>
-                            </span>
-                            <!--end::Cancel button-->
-
-                            <!--begin::Remove button-->
-                            <span class="btn btn-icon btn-circle btn-color-muted btn-active-color-primary w-25px h-25px bg-body shadow"
-                                data-kt-image-input-action="remove"
-                                data-bs-toggle="tooltip"
-                                data-bs-dismiss="click"
-                                title="Remove avatar">
-                                <i class="bi bi-x fs-2"></i>
-                            </span>
-                            <!--end::Remove button-->
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12 text-right">Title</label>
+                        <div class="col-lg-8 col-md-9 col-sm-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="ad_title" id="ad_title" placeholder="Advertisement Title"/>
+                            </div>
+                            <div class="fv-plugins-message-container">
+                                <div id="title_error" class="fv-help-block"></div>
+                            </div>
                         </div>
-                        <!--end::Image input-->
-                        <!-- <input type="file" wire:model="ad_file" accept="image/gif,video/mp4"> -->
-                        <!--begin::Input-->
-                        <input type="text" class="form-control form-control-lg form-control-solid px-15 m-2" name="ad_title" wire:model="ad_title" placeholder="Ad Title" data-kt-search-element="input" />
-                        <!--end::Input-->
-                        <button type="submit" class="btn btn-primary m-2">
-                            Create and Enable Ad
-                        </button>
-                        @if (session()->has('message'))
-                            <h5 class="alert alert-success">{{ session('message') }}</h5>
-                        @endif
-                        <!--begin::Spinner-->
-                        <!-- <span class="position-absolute top-50 end-0 translate-middle-y lh-0 d-none me-5" data-kt-search-element="spinner">
-                            <span class="spinner-border h-15px w-15px align-middle text-muted"></span>
-                        </span> -->
-                        <!--end::Spinner-->
-                    </form>
-                    <div id="alerts"></div>
-                    <!--end::Form-->
-                </div>
-                <!--end::Search-->
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12 text-right">Upload</label>
+                        <div class="col-lg-8 col-md-12 col-sm-12">
+                            <div class="file-loading">
+                                <input name="ad_file" id="ad_file" type="file" data-show-preview="false">
+                            </div>
+                            <div class="fv-plugins-message-container">
+                                <div data-field="ad_file" data-validator="ad_file" id="attachment_error" class="fv-help-block"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    
+
+                </form>
             </div>
             <!--end::Modal body-->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light-primary font-weight-bold" id="createAdModal_cancel" data-dismiss="modal">Close</button>
+                <button type="button" id="ad_submit" class="btn btn-dark font-weight-bold">Submit</button>
+            </div>
         </div>
         <!--end::Modal content-->
     </div>
     <!--end::Modal dialog-->
 </div>
 <!--end::Modal - Users Search-->
+@push('scripts')
+<script src="{{asset('/js/globals/fileinput.min.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+@endpush

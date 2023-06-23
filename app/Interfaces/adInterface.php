@@ -2,10 +2,11 @@
 
 namespace App\Interfaces;
 
-interface adInterface
+interface AdInterface
 {
-    /**
-     * @method GET /ad-list
-     */
-    public function adList($meta,$status);
+    public function adList();
+
+    public function createAdvertisement($request);
+
+    public function checkTitle($adTitle);
 }

@@ -2,17 +2,9 @@
 
 namespace App\Providers;
 
-use App\Interfaces\AdminInterface;
-use App\Interfaces\ContractInterface;
-use App\Interfaces\AnnouncementInterface;
-use App\Interfaces\EmailInterface;
-use App\Interfaces\MallDirectoryInterface;
+use App\Interfaces\AdInterface;
 
-use App\Repositories\AdminRepository;
-use App\Repositories\ContractRepository;
-use App\Repositories\AnnouncementRepository;
-use App\Repositories\EmailRepository;
-use App\Repositories\MallDirectoryRepository;
+use App\Repositories\AdRepository;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -25,10 +17,6 @@ class RepositoryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->bind(AdminInterface::class, AdminRepository::class);
-        $this->app->bind(ContractInterface::class, ContractRepository::class);
-        $this->app->bind(AnnouncementInterface::class, AnnouncementRepository::class);
-        $this->app->bind(MallDirectoryInterface::class, MallDirectoryRepository::class);
-        $this->app->bind(EmailInterface::class, EmailRepository::class);
+        $this->app->bind(AdInterface::class, AdRepository::class);
     }
 }

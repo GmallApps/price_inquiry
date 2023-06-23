@@ -2,15 +2,34 @@
 
 namespace App\Http\Controllers;
 
-// use App\Interfaces\adInterface;
+use App\Interfaces\AdInterface;
+use App\Traits\ResponseApi;
 use Illuminate\Http\Request;
 use App\Models\Ad;
 
 class AdController extends Controller
 {
-    // public function adList(Request $request)
-    // {
-    //     return $this->adInterface->adList($request->input('pagination'),auth()->user()->$request->status);
-    // }
+    use ResponseApi;
+
+    protected $adInterface;
+
+    public function __construct(AdInterface $adInterface)
+    {
+        $this->adInterface = $adInterface;
+    }
+
+    public function adList()
+    {
+        return $this->adInterface->adList();
+    }
+
+    public function createAdvertisement(Request $request)
+    {
+        return $this->adInterface->createAdvertisement($request);
+    }
     
+    public function checkTitle($adTitle)
+    {
+        return $this->adInterface->checkTitle($adTitle);
+    }
 }
