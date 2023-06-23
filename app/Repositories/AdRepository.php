@@ -35,13 +35,15 @@ class AdRepository implements AdInterface
     public function createAdvertisement($request)
     {
         try{
-            $checkTitle = Ad::where('title', $request->ad_title)->get();
-            $countResult = $checkTitle->count();
+            // $checkTitle = Ad::where('title', $request->ad_title)->get();
+            // $countResult = $checkTitle->count();
+
+            
 
             $attachment = $request->ad_file;
             $size = $attachment->getSize();
-            if ($size == '' || $countResult > 0){
-                return $this->error('File exceeds 5mb or title already exist.',400);
+            if ($size == ''){
+                return $this->error('File exceeds 5mb.',400);
             }else if ($size < 5242880) {
                 Ad::where('status', 1)->update(['status' => 0]);
 
@@ -54,7 +56,9 @@ class AdRepository implements AdInterface
                 $extension = $attachment->getClientOriginalExtension();
                 $filename = $ad->id . '.' . $extension;
 
-                $path = Storage::put("ad_files/{$ad->id}.{$extension}", $attachment);
+                // $path = Storage::put("ad_files/{$ad->id}.{$extension}", $attachment); //customize folder name for multiple files upload
+                $filename = "{$ad->id}.{$extension}";
+                $path = Storage::putFileAs('ad_files', $request->file('ad_file'), $filename);
                 $extension = $attachment->getClientOriginalExtension();
                 Ad::find($ad->id)->update(['file' => "ad_files/{$ad->id}."."{$extension}"]);
                 Log::error('attachment: ' .  $attachment);
