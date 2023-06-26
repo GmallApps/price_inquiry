@@ -1,12 +1,19 @@
 void new class Ads{
     constructor(){
         console.log("test")
+
         this.uploadForm = document.querySelector('#create_ad_form')
-        this.titleInput = document.getElementById('ad_title');
+
+        this.titleInput = document.getElementById('ad_title')
+
         this.initDatatable()
+
         this.initFileInput()
+
         this.submitButton = document.querySelector('#ad_submit')
+
         this.PreviewDismissButton = document.querySelector('#previewModal_dismiss')
+
         this.eventHandler()
 
         console.log('starting..');
@@ -15,22 +22,34 @@ void new class Ads{
     eventHandler(){
 
         this.submitButton.addEventListener('click', (e) => {
-            console.log(this.titleInput.value);
+
+            console.log(this.titleInput.value)
+
             this.checkExistingTitle(this.titleInput.value)
         })
 
         this.PreviewDismissButton.addEventListener('click', (e) => {
+
             $('#previewInfo').modal('hide')
+
         })
 
-        // document.querySelectorAll(".viewInfo").forEach(async (el) =>
-        //         el.addEventListener("click", this.getAdInformation)
-        // );
-
         $('#advertisements').on('click', '.viewInfo', (e) => {
-            // e.preventDefault();
+
             const adId = $(e.currentTarget).data('id')
+
             this.previewAdvertisement(adId)
+
+        });
+
+        $('#advertisements').on('click', '.enableAd', (e) => {
+
+            console.log('enableAd clicked');
+
+            const adId = $(e.currentTarget).data('id')
+
+            this.enableAdvertisement(adId)
+            
         });
 
     }
@@ -70,7 +89,17 @@ void new class Ads{
                 }
             });
 
-    };
+    }
+
+    enableAdvertisement = async(id) => {
+
+        const { data: result } = await axios.get(
+            `/ad_enable/${id}`
+        )
+        console.log(result)
+        showAlert('Success', result.message,'success')
+        $('#advertisements').KTDatatable('reload')
+    }
 
     checkExistingTitle = async(adTitle) => {  
         console.log("checking...")
@@ -184,16 +213,16 @@ void new class Ads{
                     autoHide: false,
                     template: function(data) {
                         return `
-                        <a href="javascript:;" class="btn btn-sm btn-clean viewInfo btn-icon mr-2" data-id="${data.id}" title="View">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} viewInfo btn-icon m-2" data-id="${data.id}" title="View">
                             <i class="fa-solid fa-eye"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Enable">
+                        <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit">
+                        <a href="javascript:;" target="_blank" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} btn-icon m-2" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Delete">
+                        <a href="#" target="_blank" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} btn-icon m-2" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

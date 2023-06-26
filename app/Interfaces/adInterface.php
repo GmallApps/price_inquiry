@@ -11,4 +11,6 @@ interface AdInterface
     public function checkTitle($adTitle);
 
     public function adPreview($previewId);
+
+    public function adEnable($enableId);
 }

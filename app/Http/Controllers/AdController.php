@@ -37,4 +37,9 @@ class AdController extends Controller
     {
         return $this->adInterface->adPreview($previewId);
     }
+
+    public function adEnable($enableId)
+    {
+        return $this->adInterface->adEnable($enableId);
+    }
 }

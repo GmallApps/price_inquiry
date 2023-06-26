@@ -97,4 +97,14 @@ class AdRepository implements AdInterface
         return Ad::find($previewId);
     }
 
+    public function adEnable($enableId)
+    {
+        $test = [];
+        Ad::where('status', 1)->update(['status' => 0]);
+        Ad::find($enableId)->update(['status' => 1]);
+        
+        return $this->success('Advertisement enabled successfully!',$test, 200);
+    }
+
+
 }
