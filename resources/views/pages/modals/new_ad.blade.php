@@ -32,7 +32,7 @@
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <!--begin::Content-->
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Create an Advertisement</h1>
+                    <h1 class="mb-3" id="modal_title">Create an Advertisement</h1>
                     <div class="text-muted fw-bold fs-5">Upload either an MP4 or GIF file</div>
                 </div>
                 <!--end::Content-->

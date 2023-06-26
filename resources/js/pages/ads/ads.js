@@ -4,6 +4,8 @@ void new class Ads{
 
         this.uploadForm = document.querySelector('#create_ad_form')
 
+        this.modalTitle= document.querySelector('#modal_title')
+
         this.titleInput = document.getElementById('ad_title')
 
         this.initDatatable()
@@ -13,6 +15,8 @@ void new class Ads{
         this.submitButton = document.querySelector('#ad_submit')
 
         this.PreviewDismissButton = document.querySelector('#previewModal_dismiss')
+
+        this.AdDismissButton = document.querySelector('#createAdModal_cancel')
 
         this.eventHandler()
 
@@ -31,6 +35,12 @@ void new class Ads{
         this.PreviewDismissButton.addEventListener('click', (e) => {
 
             $('#previewInfo').modal('hide')
+
+        })
+
+        this.AdDismissButton.addEventListener('click', (e) => {
+
+            $('#kt_modal_create_ad').modal('hide')
 
         })
 
@@ -109,10 +119,17 @@ void new class Ads{
 
     updateAdvertisement = async(id) => {
 
-        const { data: result } = await axios.get(
-            `/ad_update/${id}`
-        )
-        
+        // const { data: result } = await axios.get(
+        //     `/ad_update/${id}`
+        // )
+
+        this.uploadForm.reset()
+
+        this.modalTitle.innerHTML = 'Update Advertisement'
+
+        this.submitButton.style.display = "none";
+
+        $('#kt_modal_create_ad').modal('show')
     }
 
 
