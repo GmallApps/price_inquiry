@@ -44,11 +44,17 @@ void new class Ads{
 
         $('#advertisements').on('click', '.enableAd', (e) => {
 
-            console.log('enableAd clicked');
-
             const adId = $(e.currentTarget).data('id')
 
             this.enableAdvertisement(adId)
+            
+        });
+
+        $('#advertisements').on('click', '.editInfo', (e) => {
+
+            const adId = $(e.currentTarget).data('id')
+
+            this.updateAdvertisement(adId)
             
         });
 
@@ -100,6 +106,15 @@ void new class Ads{
         showAlert('Success', result.message,'success')
         $('#advertisements').KTDatatable('reload')
     }
+
+    updateAdvertisement = async(id) => {
+
+        const { data: result } = await axios.get(
+            `/ad_update/${id}`
+        )
+        
+    }
+
 
     checkExistingTitle = async(adTitle) => {  
         console.log("checking...")
@@ -219,10 +234,10 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
-                        <a href="javascript:;" target="_blank" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} btn-icon m-2" title="Edit">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} btn-icon m-2" title="Delete">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

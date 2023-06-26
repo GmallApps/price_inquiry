@@ -12,7 +12,7 @@
 </style>
 @endpush
 <!--begin::Modal - Users Search-->
-<div class="modal fade" id="kt_modal_create_ad" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="kt_modal_edit_ad" tabindex="-1" aria-hidden="true">
     <!--begin::Modal dialog-->
     <div class="modal-dialog modal-dialog-centered mw-650px">
         <!--begin::Modal content-->
@@ -32,18 +32,18 @@
             <div class="modal-body scroll-y mx-5 mx-xl-18 pt-0 pb-15">
                 <!--begin::Content-->
                 <div class="text-center mb-13">
-                    <h1 class="mb-3">Create an Advertisement</h1>
+                    <h1 class="mb-3">Update an Advertisement</h1>
                     <div class="text-muted fw-bold fs-5">Upload either an MP4 or GIF file</div>
                 </div>
                 <!--end::Content-->
                 
-                <form action="post" class="form" id="create_ad_form">
+                <form action="post" class="form" id="edit_ad_form">
 
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Title</label>
                         <div class="col-lg-8 col-md-9 col-sm-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="ad_title" id="ad_title" placeholder="Advertisement Title"/>
+                                <input type="text" class="form-control" name="edit_ad_title" id="edit_ad_title" placeholder="Advertisement Title"/>
                             </div>
                             <div class="fv-plugins-message-container">
                                 <div id="title_error" class="fv-help-block"></div>
@@ -55,10 +55,10 @@
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Upload</label>
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <div class="file-loading">
-                                <input name="ad_file" id="ad_file" type="file" data-show-preview="false">
+                                <input name="edit_ad_file" id="edit_ad_file" type="file" data-show-preview="false">
                             </div>
                             <div class="fv-plugins-message-container">
-                                <div data-field="ad_file" data-validator="ad_file" id="attachment_error" class="fv-help-block"></div>
+                                <div data-field="edit_ad_file" data-validator="edit_ad_file" id="edit_attachment_error" class="fv-help-block"></div>
                             </div>
                         </div>
                     </div>
@@ -69,7 +69,7 @@
             </div>
             <!--end::Modal body-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" id="createAdModal_cancel" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold" id="editAdModal_cancel" data-dismiss="modal">Close</button>
                 <button type="button" id="ad_submit" class="btn btn-dark font-weight-bold">Submit</button>
             </div>
         </div>
