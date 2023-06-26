@@ -6,9 +6,10 @@ void new class Ads{
         this.initDatatable()
         this.initFileInput()
         this.submitButton = document.querySelector('#ad_submit')
+        this.PreviewDismissButton = document.querySelector('#previewModal_dismiss')
         this.eventHandler()
 
-        
+        console.log('starting..');
     }
 
     eventHandler(){
@@ -18,12 +19,58 @@ void new class Ads{
             this.checkExistingTitle(this.titleInput.value)
         })
 
-        // this.titleInput.addEventListener('keyup', (e) => {
-        //     console.log("existing title checking...")
-        //     this.checkExistingTitle()
-        // });
+        this.PreviewDismissButton.addEventListener('click', (e) => {
+            $('#previewInfo').modal('hide')
+        })
+
+        // document.querySelectorAll(".viewInfo").forEach(async (el) =>
+        //         el.addEventListener("click", this.getAdInformation)
+        // );
+
+        $('#advertisements').on('click', '.viewInfo', (e) => {
+            // e.preventDefault();
+            const adId = $(e.currentTarget).data('id')
+            this.previewAdvertisement(adId)
+        });
 
     }
+
+    previewAdvertisement = async(id) => {
+
+            const { data: result } = await axios.get(
+                `/ad_preview/${id}`
+            )
+
+            console.log(result.file)
+
+            const imagePath = `assets/ad_files/${result.file}`
+
+            // window.open(rsr, '_blank')
+            
+            fetch(imagePath)
+            .then(response => {
+                if (!response.ok) {
+                throw new Error('HTTP error, status = ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                $("#previewInfo").modal("show")
+                $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+            })
+            .catch(error => {
+                // Handle the error here
+                console.error(error);
+                if (error.message.includes('404')) {
+                     // Perform specific actions for a 404 error
+                    showAlert('Warning','No Preview Available for this File!','warning')
+                } else {
+                    $("#previewInfo").modal("show")
+                    $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+                }
+            });
+
+    };
 
     checkExistingTitle = async(adTitle) => {  
         console.log("checking...")
@@ -137,16 +184,16 @@ void new class Ads{
                     autoHide: false,
                     template: function(data) {
                         return `
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="View">
+                        <a href="javascript:;" class="btn btn-sm btn-clean viewInfo btn-icon mr-2" data-id="${data.id}" title="View">
                             <i class="fa-solid fa-eye"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="View">
+                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Enable">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="View">
+                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="View">
+                        <a href="#" target="_blank" class="btn btn-sm btn-clean btn-icon mr-2" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

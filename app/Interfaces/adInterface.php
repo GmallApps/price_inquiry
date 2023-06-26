@@ -9,4 +9,6 @@ interface AdInterface
     public function createAdvertisement($request);
 
     public function checkTitle($adTitle);
+
+    public function adPreview($previewId);
 }

@@ -32,4 +32,9 @@ class AdController extends Controller
     {
         return $this->adInterface->checkTitle($adTitle);
     }
+
+    public function adPreview($previewId)
+    {
+        return $this->adInterface->adPreview($previewId);
+    }
 }

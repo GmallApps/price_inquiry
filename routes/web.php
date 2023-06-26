@@ -35,6 +35,7 @@ Route::middleware('guest')->group(function(){
         // Route::view('/dashboard','pages.ads.dashboard')->name('dashboardView');
         // Route::get('/ad-list',[AdController::class,'adList']);
         Route::post('/create_ad',[AdController::class,'createAdvertisement']);
+        Route::get('/ad_preview/{id}',[AdController::class,'adPreview']);
         Route::get('/check_title/{adTitle}',[AdController::class,'checkTitle']);
         Route::get('/ad_list',[AdController::class,'adList']);
         Route::get('/ads',[AdController::class,'viewAds']);

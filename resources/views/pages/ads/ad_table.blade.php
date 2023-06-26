@@ -28,6 +28,7 @@
     <!--end::Card-->
 </div>
 @include('pages.modals.new_ad')
+@include('pages.modals.preview_ad')
 @endsection
 
 @push('scripts')

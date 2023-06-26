@@ -58,11 +58,16 @@ class AdRepository implements AdInterface
 
                 // $path = Storage::put("ad_files/{$ad->id}.{$extension}", $attachment); //customize folder name for multiple files upload
                 $filename = "{$ad->id}.{$extension}";
-                $path = Storage::putFileAs('ad_files', $request->file('ad_file'), $filename);
-                $extension = $attachment->getClientOriginalExtension();
-                Ad::find($ad->id)->update(['file' => "ad_files/{$ad->id}."."{$extension}"]);
-                Log::error('attachment: ' .  $attachment);
-                return $this->success('Advertisement created successfully!',$attachment, 200);
+                // $path = Storage::putFileAs('ad_files', $request->file('ad_file'), $filename);
+                if ($request->hasFile('ad_file')) {
+                    $image = $request->file('ad_file');
+                    $destination_path = public_path("/assets/ad_files/");
+                    $image->move($destination_path, $ad->id.".{$extension}");
+                    $extension = $attachment->getClientOriginalExtension();
+                    Ad::find($ad->id)->update(['file' => "{$ad->id}."."{$extension}"]);
+                    Log::error('attachment: ' .  $attachment);
+                    return $this->success('Advertisement created successfully!',$attachment, 200);
+                }
 
             }else{
                 return $this->error('File exceeds 5mb.',400);
@@ -85,6 +90,11 @@ class AdRepository implements AdInterface
         }else{
             return 1;
         }
+    }
+
+    public function adPreview($previewId)
+    {
+        return Ad::find($previewId);
     }
 
 }
