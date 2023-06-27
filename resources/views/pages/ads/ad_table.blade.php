@@ -14,7 +14,8 @@
                 <span class="text-muted pt-2 font-size-sm d-block">Ad List</span></h3>
             </div>
             <div class="card-toolbar">
-                <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#kt_modal_create_ad">
+                <!-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#kt_modal_create_ad"> -->
+                <button type="button" class="btn btn-dark" id="btn_create_modal">
                     Create Ad
                 </button>
             </div>

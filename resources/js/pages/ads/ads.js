@@ -14,6 +14,10 @@ void new class Ads{
 
         this.submitButton = document.querySelector('#ad_submit')
 
+        this.createButton = document.querySelector('#btn_create_modal')
+
+        this.updateButton = document.querySelector('#ad_update')
+
         this.PreviewDismissButton = document.querySelector('#previewModal_dismiss')
 
         this.AdDismissButton = document.querySelector('#createAdModal_cancel')
@@ -30,6 +34,20 @@ void new class Ads{
             console.log(this.titleInput.value)
 
             this.checkExistingTitle(this.titleInput.value)
+        })
+
+        this.createButton.addEventListener('click', (e) => {
+
+            this.uploadForm.reset()
+
+            this.modalTitle.innerHTML = 'Create an Advertisement'
+
+            this.updateButton.style.display = 'none';
+
+            this.submitButton.style.display = '';
+
+            $('#kt_modal_create_ad').modal('show')
+
         })
 
         this.PreviewDismissButton.addEventListener('click', (e) => {
@@ -127,7 +145,9 @@ void new class Ads{
 
         this.modalTitle.innerHTML = 'Update Advertisement'
 
-        this.submitButton.style.display = "none";
+        this.submitButton.style.display = 'none';
+
+        this.updateButton.style.display = '';
 
         $('#kt_modal_create_ad').modal('show')
     }
@@ -153,16 +173,25 @@ void new class Ads{
     }
 
     insertAttachmentAjax = async() =>{
+
         console.log("2")
+
         this.formData = new FormData(this.uploadForm)
+
         try{ console.log("3")
+
             const response = await axios.post(`/create_ad`, this.formData)
+
             const data = response.data
 
             $('#createAdModal_cancel').click()
+
             this.uploadForm.reset()
+
             $('#kt_modal_create_ad').modal('hide')
+
             showAlert('Success', data.message,'success')
+            
             $('#advertisements').KTDatatable('reload')
         }catch({response:err}){
             showAlert('Error', err.message,'error')

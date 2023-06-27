@@ -71,6 +71,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-light-primary font-weight-bold" id="createAdModal_cancel" data-dismiss="modal">Close</button>
                 <button type="button" id="ad_submit" class="btn btn-dark font-weight-bold">Submit</button>
+                <button type="button" id="ad_update" class="btn btn-dark font-weight-bold">Update</button>
             </div>
         </div>
         <!--end::Modal content-->
