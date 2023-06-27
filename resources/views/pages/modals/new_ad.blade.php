@@ -43,6 +43,8 @@
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Title</label>
                         <div class="col-lg-8 col-md-9 col-sm-12">
                             <div class="input-group">
+                                <input type="hidden" class="form-control" name="advertisement_id" id="advertisement_id"/>
+                                <input type="hidden" class="form-control" name="ad_file_version" id="ad_file_version"/>
                                 <input type="text" class="form-control" name="ad_title" id="ad_title" placeholder="Advertisement Title"/>
                             </div>
                             <div class="fv-plugins-message-container">

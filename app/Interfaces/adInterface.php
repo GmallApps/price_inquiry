@@ -8,9 +8,12 @@ interface AdInterface
 
     public function createAdvertisement($request);
 
+    public function updateAdvertisement($request);
+
     public function checkTitle($adTitle);
 
     public function adPreview($previewId);
 
     public function adEnable($enableId);
+    
 }

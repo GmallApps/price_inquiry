@@ -1,12 +1,17 @@
 void new class Ads{
     constructor(){
-        console.log("test")
 
         this.uploadForm = document.querySelector('#create_ad_form')
 
         this.modalTitle= document.querySelector('#modal_title')
 
+        this.adHiddenId= document.querySelector('#advertisement_id')
+
+        this.adHiddenFile= document.querySelector('#ad_file_version')
+
         this.titleInput = document.getElementById('ad_title')
+
+        this.fileInput = document.getElementById('ad_file')
 
         this.initDatatable()
 
@@ -23,17 +28,24 @@ void new class Ads{
         this.AdDismissButton = document.querySelector('#createAdModal_cancel')
 
         this.eventHandler()
-
-        console.log('starting..');
     }
 
     eventHandler(){
 
         this.submitButton.addEventListener('click', (e) => {
+            
+            const buttonAction = 'create'
 
-            console.log(this.titleInput.value)
+            this.checkExistingTitle(this.titleInput.value, buttonAction)
+        })
 
-            this.checkExistingTitle(this.titleInput.value)
+        this.updateButton.addEventListener('click', (e) => {
+            
+            const buttonAction = 'update'
+
+            console.log(`version: ${this.adHiddenFile.value}`)
+
+            this.checkExistingTitle(this.titleInput.value, buttonAction)
         })
 
         this.createButton.addEventListener('click', (e) => {
@@ -82,6 +94,8 @@ void new class Ads{
 
             const adId = $(e.currentTarget).data('id')
 
+            this.adHiddenId.value = adId
+
             this.updateAdvertisement(adId)
             
         });
@@ -93,8 +107,6 @@ void new class Ads{
             const { data: result } = await axios.get(
                 `/ad_preview/${id}`
             )
-
-            console.log(result.file)
 
             const imagePath = `assets/ad_files/${result.file}`
 
@@ -137,31 +149,41 @@ void new class Ads{
 
     updateAdvertisement = async(id) => {
 
-        // const { data: result } = await axios.get(
-        //     `/ad_update/${id}`
-        // )
+        try{
 
-        this.uploadForm.reset()
+            this.uploadForm.reset()
 
-        this.modalTitle.innerHTML = 'Update Advertisement'
+            this.modalTitle.innerHTML = 'Update Advertisement'
 
-        this.submitButton.style.display = 'none';
+            this.submitButton.style.display = 'none';
 
-        this.updateButton.style.display = '';
+            this.updateButton.style.display = '';
 
-        $('#kt_modal_create_ad').modal('show')
+            const { data: result } = await axios.get(
+                `/ad_preview/${id}`
+            )
+
+            this.titleInput.value = result.title;
+
+            $('#kt_modal_create_ad').modal('show')
+            
+        }catch({response:err}){
+
+            showAlert('Error', err.message,'error')
+
+        }
     }
 
 
-    checkExistingTitle = async(adTitle) => {  
-        console.log("checking...")
+    checkExistingTitle = async(adTitle, buttonAction) => {  
+       
         try{
             const {data:result} = await axios.get(`/check_title/${adTitle}`)
-            console.log("proceeding...")
-            // this.data = result   
-            console.log(result);
-            if (result == 0){ console.log('suldsd');
+            
+            if (result == 0 && buttonAction == 'create'){ 
                 this.insertAttachmentAjax()
+            }else if (result == 0 && buttonAction == 'update'){
+                this.updateAdAjax()
             }else{
                 $('#title_error').html('Title Already Exist!')
             }
@@ -198,7 +220,35 @@ void new class Ads{
         }
     }
 
+    updateAdAjax = async() =>{
+
+        this.formData = new FormData(this.uploadForm)
+
+        try{ 
+
+            const response = await axios.post(`/update_ad`, this.formData)
+
+            const data = response.data
+
+            $('#createAdModal_cancel').click()
+
+            this.uploadForm.reset()
+
+            $('#kt_modal_create_ad').modal('hide')
+
+            showAlert('Success', data.message,'success')
+            
+            $('#advertisements').KTDatatable('reload')
+
+        }catch({response:err}){
+
+            showAlert('Error', err.message,'error')
+
+        }
+    }
+
     initFileInput = () => {
+
         $("#ad_file").fileinput({
             theme: "explorer",
             uploadUrl: "#",
@@ -211,8 +261,10 @@ void new class Ads{
             removeFromPreviewOnError: true,
             overwriteInitial: false,
         }).on('change',() => {
+            this.adHiddenFile.value = 'new'
             $('#attachment_error').html('')
         })
+
     }
     
     initDatatable = () => {
@@ -280,7 +332,7 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" title="Edit">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" data-id="${data.id}" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" title="Delete">

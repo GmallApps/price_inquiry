@@ -27,6 +27,11 @@ class AdController extends Controller
     {
         return $this->adInterface->createAdvertisement($request);
     }
+
+    public function updateAdvertisement(Request $request)
+    {
+        return $this->adInterface->updateAdvertisement($request);
+    }
     
     public function checkTitle($adTitle)
     {
@@ -42,4 +47,5 @@ class AdController extends Controller
     {
         return $this->adInterface->adEnable($enableId);
     }
+    
 }
