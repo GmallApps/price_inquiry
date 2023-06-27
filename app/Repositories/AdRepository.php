@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
+// use Illuminate\Support\Facades\Validator;
 
 class AdRepository implements AdInterface
 {
@@ -38,12 +39,16 @@ class AdRepository implements AdInterface
             // $checkTitle = Ad::where('title', $request->ad_title)->get();
             // $countResult = $checkTitle->count();
 
+            // $validator = Validator::make($request->all(), [
+            //     'file' => 'max:5120', //5MB 
+            // ]);
             
-
+            
             $attachment = $request->ad_file;
+            Log::error('attachment: ' .  $attachment);
             $size = $attachment->getSize();
             if ($size == ''){
-                return $this->error('File exceeds 5mb.',400);
+                return $this->error('File exceeds 5mbssss.',400);
             }else if ($size < 5242880) {
                 Ad::where('status', 1)->update(['status' => 0]);
 
