@@ -32,7 +32,7 @@
             </div>
             <!--end::Modal body-->
             <div class="modal-footer">
-                <button type="button" class="btn btn-light-primary font-weight-bold" id="previewModal_dismiss" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-light-primary font-weight-bold " id="previewModal_dismiss" data-dismiss="modal">Close</button>
             </div>
         </div>
         <!--end::Modal content-->

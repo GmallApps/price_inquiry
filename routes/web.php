@@ -36,6 +36,7 @@ Route::middleware('guest')->group(function(){
         Route::post('/update_ad',[AdController::class,'updateAdvertisement']);
         Route::get('/ad_preview/{id}',[AdController::class,'adPreview']);
         Route::get('/ad_enable/{id}',[AdController::class,'adEnable']);
+        Route::get('/ad_delete/{id}',[AdController::class,'adDelete']);
         Route::get('/check_title/{adTitle}',[AdController::class,'checkTitle']);
         Route::get('/ad_list',[AdController::class,'adList']);
         Route::get('/ads',[AdController::class,'viewAds']);

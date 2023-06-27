@@ -30,6 +30,7 @@
 </div>
 @include('pages.modals.new_ad')
 @include('pages.modals.preview_ad')
+@include('pages.modals.delete_ad')
 @endsection
 
 @push('scripts')

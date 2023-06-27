@@ -48,4 +48,8 @@ class AdController extends Controller
         return $this->adInterface->adEnable($enableId);
     }
     
+    public function adDelete($deleteId)
+    {
+        return $this->adInterface->adDelete($deleteId);
+    }
 }

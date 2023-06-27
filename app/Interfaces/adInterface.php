@@ -15,5 +15,7 @@ interface AdInterface
     public function adPreview($previewId);
 
     public function adEnable($enableId);
+
+    public function adDelete($deleteId);
     
 }

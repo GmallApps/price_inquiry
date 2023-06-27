@@ -156,5 +156,12 @@ class AdRepository implements AdInterface
         return $this->success('Advertisement enabled successfully!',$test, 200);
     }
 
+    public function adDelete($deleteId)
+    {
+        $ad = Ad::find($deleteId); // find the post with an id of 1
+        $ad->delete();
+        
+        return $this->success('Advertisement successfully deleted!',[], 200);
+    }
 
 }

@@ -7,6 +7,8 @@ void new class Ads{
 
         this.adHiddenId= document.querySelector('#advertisement_id')
 
+        this.adDeleteId= document.querySelector('#delete_ad_id')
+
         this.adHiddenFile= document.querySelector('#ad_file_version')
 
         this.titleInput = document.getElementById('ad_title')
@@ -23,7 +25,11 @@ void new class Ads{
 
         this.updateButton = document.querySelector('#ad_update')
 
+        this.deleteProceedButton = document.querySelector('#ad_proceed_delete')
+
         this.PreviewDismissButton = document.querySelector('#previewModal_dismiss')
+
+        this.DeleteDismissButton = document.querySelector('#deleteModal_dismiss')
 
         this.AdDismissButton = document.querySelector('#createAdModal_cancel')
 
@@ -48,6 +54,14 @@ void new class Ads{
             this.checkExistingTitle(this.titleInput.value, buttonAction)
         })
 
+        this.deleteProceedButton.addEventListener('click', (e) => {
+
+            $('#kt_modal_delete_ad').modal('hide')
+
+            this.deleteAdvertisement(this.adDeleteId.value)
+            
+        })
+
         this.createButton.addEventListener('click', (e) => {
 
             this.uploadForm.reset()
@@ -65,6 +79,12 @@ void new class Ads{
         this.PreviewDismissButton.addEventListener('click', (e) => {
 
             $('#previewInfo').modal('hide')
+
+        })
+
+        this.DeleteDismissButton.addEventListener('click', (e) => {
+
+            $('#kt_modal_delete_ad').modal('hide')
 
         })
 
@@ -97,6 +117,18 @@ void new class Ads{
             this.adHiddenId.value = adId
 
             this.updateAdvertisement(adId)
+            
+        });
+
+        $('#advertisements').on('click', '.deleteInfo', (e) => {
+
+            const adId = $(e.currentTarget).data('id')
+
+            // console.log(adId)
+
+            $('#kt_modal_delete_ad').modal('show')
+
+            this.adDeleteId.value = adId
             
         });
 
@@ -140,10 +172,26 @@ void new class Ads{
     enableAdvertisement = async(id) => {
 
         const { data: result } = await axios.get(
+
             `/ad_enable/${id}`
+
         )
-        console.log(result)
+        
         showAlert('Success', result.message,'success')
+
+        $('#advertisements').KTDatatable('reload')
+    }
+
+    deleteAdvertisement = async(id) => {
+
+        const { data: result } = await axios.get(
+
+            `/ad_delete/${id}`
+
+        )
+        
+        showAlert('Success', result.message,'success')
+
         $('#advertisements').KTDatatable('reload')
     }
 
@@ -335,7 +383,7 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" data-id="${data.id}" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" title="Delete">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" data-id="${data.id}" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },
