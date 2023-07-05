@@ -323,6 +323,39 @@ void new class Ads{
         }
     }
 
+    getFileDimensions = (file, callback) => {
+        if (file.type === 'image/gif' || file.type === 'image/jpeg' || file.type === 'image/png') {
+        const img = new Image();
+    
+        img.onload = function() {
+            const dimensions = {
+            width: img.width,
+            height: img.height
+            };
+    
+            callback(dimensions);
+        };
+    
+        img.src = URL.createObjectURL(file);
+        } else if (file.type === 'video/mp4') {
+        const video = document.createElement('video');
+    
+        video.addEventListener('loadedmetadata', function() {
+            const dimensions = {
+            width: this.videoWidth,
+            height: this.videoHeight
+            };
+    
+            callback(dimensions);
+        });
+    
+        video.src = URL.createObjectURL(file);
+        } else {
+        // Unsupported file type
+            callback(null);
+        }
+    }
+
     initFileInput = () => {
 
         $("#ad_file").fileinput({
@@ -339,6 +372,42 @@ void new class Ads{
         }).on('change',() => {
             this.adHiddenFile.value = 'new'
             $('#attachment_error').html('')
+
+            const inputFile = document.getElementById('ad_file').files[0];
+
+            this.getFileDimensions(inputFile, function(dimensions) {
+
+                console.log('Width: ' + dimensions.width + 'px')
+
+                console.log('Height: ' + dimensions.height + 'px')
+
+                if (dimensions) {
+
+                    if (dimensions.width >= dimensions.height){
+
+                        // submitButton.removeAttribute("disabled")
+    
+                        $('#attachment_error').html('')
+                        
+                    }else {
+    
+                        // submitButton.setAttribute("disabled", "true")
+    
+                        $('#attachment_error').html('File does not follow the standard dimension, a file with landscape orientation is recommended.')
+    
+                    }
+
+                } else {
+
+                    $('#attachment_error').html('Unsupported file type.')
+
+                }
+
+                
+
+            })
+
+            
         })
 
     }
