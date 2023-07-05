@@ -169,4 +169,14 @@ class AdRepository implements AdInterface
         return $this->success('Advertisement successfully deleted!',[], 200);
     }
 
+    public function inquiryAd()
+    {
+        $compact = [];
+        $ad = Ad::where('status',1)->get();
+        $compact = [
+            'file' => $ad[0]->file
+        ];
+        return $compact;
+    }
+
 }

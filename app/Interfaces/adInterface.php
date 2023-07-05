@@ -17,5 +17,7 @@ interface AdInterface
     public function adEnable($enableId);
 
     public function adDelete($deleteId);
+
+    public function inquiryAd();
     
 }

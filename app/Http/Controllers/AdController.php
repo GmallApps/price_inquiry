@@ -52,4 +52,9 @@ class AdController extends Controller
     {
         return $this->adInterface->adDelete($deleteId);
     }
+
+    public function inquiryAd()
+    {
+        return $this->adInterface->inquiryAd();
+    }
 }

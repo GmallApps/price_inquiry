@@ -11,6 +11,7 @@ void new class BipIndex{
 
     initialization = () => { 
        this.InquiryBgColor()
+       this.InquiryAd()
     }
     eventHandler = () => { 
       
@@ -48,17 +49,71 @@ void new class BipIndex{
     }
 
     InquiryBgColor = () => {
+
         axios.get(`/bg_color/`)
+
         .then((response) => {
+
             let data  = response.data
+
         console.log(data.code);
-        $('.bg_gmall').css('background-color', data.code);
+
+        $('.bg_gmall').css('background-color', data.code)
+
         })
         .catch((err) =>{
+
             console.log(err)
+
         })
     }
 
+    InquiryAd = () => {
+
+        axios.get(`/inquiry_ad/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const ad_file = data.file
+
+            const imagePath = `assets/ad_files/${ad_file}`
+
+            const split_file = ad_file.split('.')
+
+            const file_ext = split_file[1]
+
+            console.log(`add file : ${ad_file}`)
+
+            console.log(file_ext)
+
+            switch (file_ext) {
+            case 'mp4':
+                    $('#ad_media').html(`<video width="100%" loop autoplay="autoplay" class="box">
+                        <source src="${imagePath}" type="video/mp4">
+                    </video>`)
+                break;
+            case 'jpg':
+                
+                break;
+            
+            case 'gif':
+                $('#ad_media').html(`<img width="100%" height="550" src="${imagePath}" alt="advertisement" />`)
+                break;
+            default:
+               
+                break;
+            }
+
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
 
     getItemBySku = async(barcode,current_date) => {  
         //const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})

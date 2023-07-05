@@ -43,9 +43,9 @@
                 <div class="form-group row" >
                     <div class="col-md-4 justify-content-between d-flex flex-column">
                         <!-- <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box" style="background-color:#94d952;"> -->
-                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box">
+                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box " style="background-color:#ffffff">
                             <div class="text-center mb-18">
-                                <img width="80%" src="{{asset('/assets/images/branchlogo.png')}}" alt="" />
+                                <img width="80%" src="{{asset('/assets/images/gmall_davao.png')}}" alt="" />
                             </div>
                             <div class="text-center  mb-3">
                                 <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 35pt;" id="price">--</h1>
@@ -67,12 +67,12 @@
                     <div class="col-md-8">
                         <div class="form-group row" >
                             <div class="col-md-12 justify-content-between d-flex flex-column">
-                                
+                                <div id="ad_media"></div>
                                 <!-- <img width="100%" height="550" src="{{asset('/assets/images/ramadan.gif')}}" alt="RAMADAN" /> -->
 
-                                <video width="100%" loop autoplay="autoplay" class="box">
-                                    <source src="{{asset('/assets/images/GmallGCARDPLUS.mp4')}}" type="video/mp4">
-                                </video>
+                                <!-- <video width="100%" loop autoplay="autoplay" class="box">
+                                    <source src="{{asset('/assets/ad_files/1.mp4')}}" type="video/mp4">
+                                </video> -->
 
                             </div>
                         </div>

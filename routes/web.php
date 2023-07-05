@@ -26,6 +26,7 @@ Route::middleware('guest')->group(function(){
     Route::get('/',[StoreController::class,'inquiryIndexView'])->name('inquiry.index');
     Route::post('/login',[AuthController::class,'login'])->name('login')->middleware('throttle:3,1');
     Route::get('/bg_color',[ColorController::class,'bgColor']);
+    Route::get('/inquiry_ad',[AdController::class,'inquiryAd']);
 });
 
     Route::get('/api/fetch/tpsStore',[StoreController::class,'fetchStoreData']);
