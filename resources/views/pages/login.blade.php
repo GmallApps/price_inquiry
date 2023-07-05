@@ -33,7 +33,7 @@
 			<!--begin::Login-->
 			<div class="login login-1 login-signin-on d-flex flex-column flex-lg-row flex-column-fluid bg-white" id="kt_login">
 				<!--begin::Aside-->
-				<div class="login-aside d-flex flex-column flex-row-auto" style="background-color: #84BE4D;">
+				<div class="login-aside d-flex flex-column flex-row-auto bg_gmall">
 					<!--begin::Aside Top-->
 					<div class="d-flex flex-column-auto flex-column ">
 						<!--begin::Aside header-->

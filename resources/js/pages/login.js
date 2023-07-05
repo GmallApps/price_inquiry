@@ -187,6 +187,19 @@ var KTLogin = function() {
     };
 }();
 
+var PriceInquiryBgColor = function() {
+    axios.get(`/bg_color/`)
+    .then((response) => {
+        let data  = response.data
+       console.log(data.code);
+       $('.bg_gmall').css('background-color', data.code);
+    })
+    .catch((err) =>{
+        console.log(err)
+    })
+}();
+
 jQuery(document).ready(function() {
     KTLogin.init();
+    PriceInquiryBgColor.init();
 });

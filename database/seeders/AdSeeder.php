@@ -23,7 +23,7 @@ class AdSeeder extends Seeder
             [
                 'title' => 'Ramadan',
                 'file' => 'Ramadan.gif',
-                'status' => '1'
+                'status' => '0'
             ]
            
         ];

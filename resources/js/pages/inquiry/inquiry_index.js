@@ -10,7 +10,7 @@ void new class BipIndex{
     }
 
     initialization = () => { 
-       
+       this.InquiryBgColor()
     }
     eventHandler = () => { 
       
@@ -45,6 +45,18 @@ void new class BipIndex{
         }
           
          return addLeadingZeros
+    }
+
+    InquiryBgColor = () => {
+        axios.get(`/bg_color/`)
+        .then((response) => {
+            let data  = response.data
+        console.log(data.code);
+        $('.bg_gmall').css('background-color', data.code);
+        })
+        .catch((err) =>{
+            console.log(err)
+        })
     }
 
 

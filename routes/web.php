@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\ColorController;
 use App\Http\Controllers\AuthController;
 use App\Models\Ad;
+use App\Models\Color;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +25,7 @@ Route::middleware('guest')->group(function(){
     Route::view('/login','pages.login')->name('login');
     Route::get('/',[StoreController::class,'inquiryIndexView'])->name('inquiry.index');
     Route::post('/login',[AuthController::class,'login'])->name('login')->middleware('throttle:3,1');
+    Route::get('/bg_color',[ColorController::class,'bgColor']);
 });
 
     Route::get('/api/fetch/tpsStore',[StoreController::class,'fetchStoreData']);
@@ -44,6 +47,13 @@ Route::middleware('guest')->group(function(){
             $ads = Ad::all();
             return view('pages.ads.ad_table',['ads' => $ads]);
         });
+        Route::get('/color_list',[ColorController::class,'colorList']);
+        Route::get('/check_color_codes/{colorCode}',[ColorController::class,'checkColor']);
+        Route::post('/add_color',[ColorController::class,'addColor']);
+        Route::get('/activate_color/{id}',[ColorController::class,'activateColor']);
+        Route::get('/bgcolor_delete/{id}',[ColorController::class,'bgColorDelete']);
+        Route::view('/theme_color','pages.theme_color.theme_color')->name('themeColor');
+
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
     });

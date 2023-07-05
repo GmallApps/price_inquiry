@@ -21,10 +21,10 @@
    <body id="kt_body" class="header-fixed header-mobile-fixed page-loading" style="background-color:#FBFFF7;">
       <!--begin::Main-->
       <!--begin::Header Mobile-->
-      <div id="kt_header_mobile" class="header-mobile bg-primary header-mobile-fixed">
+      <div id="kt_header_mobile" class="header-mobile header-mobile-fixed bg_gmall">
          <!--begin::Logo-->
-         <a href="/admin/dashboard">
-         <img alt="Logo" src="{{asset('/assets/images/GaisanoMalls-White.png')}}" class="max-h-30px" />
+         <a href="/dashboard">
+         <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-30px" />
          {{-- Logo for Mobile View --}}
          </a>
          <!--end::Logo-->
@@ -58,13 +58,13 @@
                <!--begin::Header-->
                <div id="kt_header" class="header flex-column header-fixed">
                   <!--begin::Top-->
-                  <div class="header-top" style="background-color:#94d952;">
+                  <div class="header-top bg_gmall">
                      <!--begin::Container-->
                      <div class="container" >
                         <!--begin::Left-->
                         <div class="d-none d-lg-flex align-items-center mr-3">
                            <!--begin::Logo-->
-                           <a href="/admin/dashboard" class="mr-20">
+                           <a href="/dashboard" class="mr-20">
                             <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-50px" />
 
                            {{-- Logo For Desktop view --}}
@@ -94,6 +94,37 @@
                      <!--end::Container-->
                   </div>
                   <!--end::Top-->
+                  <!--begin::Bottom-->
+                  <div class="header-bottom">
+                     
+                     <div class="container">
+                       
+                        <div class="header-menu-wrapper header-menu-wrapper-left" id="kt_header_menu_wrapper">
+                        
+                           <div id="kt_header_menu" class="header-menu header-menu-left header-menu-mobile header-menu-layout-default">
+                             
+                              <ul class="menu-nav">
+                                 <li class="menu-item menu-item-submenu menu-item-rel">
+                                    <a href="/dashboard" class="menu-link">
+                                    <span class="menu-text">Advertisement</span>
+                                    <span class="menu-desc">Manage Advertisements</span>
+                                    </a>
+                                 </li>
+                                 <li class="menu-item menu-item-submenu menu-item-rel">
+                                    <a href="/theme_color" class="menu-link">
+                                    <span class="menu-text">Theme</span>
+                                    <span class="menu-desc">App Theme Color</span>
+                                    </a>
+                                 </li>
+                              </ul>
+                              
+                           </div>
+                          
+                        </div>
+                        
+                     </div>
+                     
+                  </div>
                   
                </div>
                <!--end::Header-->

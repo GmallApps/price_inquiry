@@ -36,12 +36,14 @@
 <div class="container">
     
         <br/><br/><br/>
-        <div class="card card-custom gutter-b mt-5" style="background-color:#84be4d;">
+        <!-- <div class="card card-custom gutter-b mt-5" style="background-color:#84be4d;"> -->
+        <div class="card card-custom gutter-b mt-5 bg_gmall">
             <br/><br/>
             <div class="card-body pb-0" >
                 <div class="form-group row" >
                     <div class="col-md-4 justify-content-between d-flex flex-column">
-                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box" style="background-color:#94d952;">
+                        <!-- <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box" style="background-color:#94d952;"> -->
+                        <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box">
                             <div class="text-center mb-18">
                                 <img width="80%" src="{{asset('/assets/images/branchlogo.png')}}" alt="" />
                             </div>

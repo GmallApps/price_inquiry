@@ -19,6 +19,8 @@ mix.js('resources/js/app.js', 'public/js')
 mix.js('resources/js/pages/inquiry/inquiry_index.js','public/js/pages/inquiry')
     .js('resources/js/pages/login.js','public/js/pages')
     .js('resources/js/pages/ads/ads.js','public/js/pages/ads')
+    .js('resources/js/pages/theme_color/theme_color.js','public/js/pages/theme_color')
+    .js('resources/js/pages/inquiry_theme/inquiry_theme_color.js','public/js/pages/inquiry_theme_color')
     // .js('resources/js/livewire-alert.js','public/js/pages')
 
 // mix.js('resources/js/pages/sls/sls_index.js','public/js/pages/sls')

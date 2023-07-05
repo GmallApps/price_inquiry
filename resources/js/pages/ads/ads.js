@@ -34,7 +34,15 @@ void new class Ads{
         this.AdDismissButton = document.querySelector('#createAdModal_cancel')
 
         this.eventHandler()
+
+        this.initialization()
     }
+
+    initialization = () => { 
+
+        this.InquiryBgColor()
+        
+     }
 
     eventHandler(){
 
@@ -132,6 +140,26 @@ void new class Ads{
             
         });
 
+    }
+
+    InquiryBgColor = () => {
+
+        axios.get(`/bg_color/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+        console.log(data.code)
+
+        $('.bg_gmall').css('background-color', data.code)
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+
+        })
     }
 
     previewAdvertisement = async(id) => {
