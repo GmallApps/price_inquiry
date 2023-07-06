@@ -17,12 +17,16 @@ class AdSeeder extends Seeder
         $ads = [
             [
                 'title' => 'Christmas',
-                'file' => 'christmas.mp4',
+                'ad_type' => 'video_gif',
+                'file' => '1.mp4',
+                'path' => 'assets/ad_files/',
                 'status' => '1'
             ],
             [
                 'title' => 'Ramadan',
-                'file' => 'Ramadan.gif',
+                'ad_type' => 'slider',
+                'file' => '2.gif',
+                'path' => 'assets/ad_files/',
                 'status' => '0'
             ]
            

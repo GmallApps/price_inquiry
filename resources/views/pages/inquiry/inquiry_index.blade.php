@@ -37,7 +37,7 @@
     
         <br/><br/><br/>
         <!-- <div class="card card-custom gutter-b mt-5" style="background-color:#84be4d;"> -->
-        <div class="card card-custom gutter-b mt-5 bg_gmall">
+        <!-- <div class="card card-custom gutter-b mt-5 bg_gmall"> -->
             <br/><br/>
             <div class="card-body pb-0" >
                 <div class="form-group row" >
@@ -80,7 +80,7 @@
                 </div>
                 
             </div>
-        </div>
+        <!-- </div> -->
         
 </div>
 

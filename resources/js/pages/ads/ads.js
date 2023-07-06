@@ -33,6 +33,10 @@ void new class Ads{
 
         this.AdDismissButton = document.querySelector('#createAdModal_cancel')
 
+        this.radioVideo = document.querySelector('#video_gif')
+
+        this.radioSlider = document.querySelector('#slider')
+
         this.eventHandler()
 
         this.initialization()
@@ -80,6 +84,8 @@ void new class Ads{
 
             this.submitButton.style.display = '';
 
+            // $('#video_gif').click()
+
             $('#kt_modal_create_ad').modal('show')
 
         })
@@ -99,6 +105,18 @@ void new class Ads{
         this.AdDismissButton.addEventListener('click', (e) => {
 
             $('#kt_modal_create_ad').modal('hide')
+
+        })
+
+        this.radioVideo.addEventListener('change', (e) => {
+
+            console.log(`video value : ${this.radioVideo.value}`)
+
+        })
+
+        this.radioSlider.addEventListener('change', (e) => {
+
+            console.log(`slider value : ${this.radioSlider.value}`)
 
         })
 
@@ -139,6 +157,7 @@ void new class Ads{
             this.adDeleteId.value = adId
             
         });
+        
 
     }
 
@@ -370,43 +389,41 @@ void new class Ads{
             removeFromPreviewOnError: true,
             overwriteInitial: false,
         }).on('change',() => {
+
             this.adHiddenFile.value = 'new'
+
             $('#attachment_error').html('')
 
-            const inputFile = document.getElementById('ad_file').files[0];
+            const inputFiles = document.getElementById('ad_file').files;
+        
+            for (let i = 0; i < inputFiles.length; i++) {
 
-            this.getFileDimensions(inputFile, function(dimensions) {
+                const file = inputFiles[i]
 
-                console.log('Width: ' + dimensions.width + 'px')
+                const fileSize = file.size
 
-                console.log('Height: ' + dimensions.height + 'px')
+                console.log('File Size: ' + fileSize + ' bytes')
 
-                if (dimensions) {
+                this.getFileDimensions(file, function(dimensions) {
 
-                    if (dimensions.width >= dimensions.height){
+                    if (dimensions) {
 
-                        // submitButton.removeAttribute("disabled")
-    
-                        $('#attachment_error').html('')
-                        
-                    }else {
-    
-                        // submitButton.setAttribute("disabled", "true")
-    
-                        $('#attachment_error').html('File does not follow the standard dimension, a file with landscape orientation is recommended.')
-    
+                        if (dimensions.width >= dimensions.height && fileSize <= 10485760 ) {
+                            // submitButton.removeAttribute("disabled");
+                            $('#attachment_error').html('')
+                        } else if (dimensions.width < dimensions.height || fileSize > 10485760 ){
+                            // submitButton.setAttribute("disabled", "true");
+                            $('#attachment_error').html('Check your file orientation or size.')
+                        }
+
+                    } else {
+
+                        $('#attachment_error').html('Unsupported file type.')
+
                     }
-
-                } else {
-
-                    $('#attachment_error').html('Unsupported file type.')
-
-                }
-
+                })
                 
-
-            })
-
+            }
             
         })
 

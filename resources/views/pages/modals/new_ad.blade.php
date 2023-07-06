@@ -38,6 +38,23 @@
                 <!--end::Content-->
                 
                 <form action="post" class="form" id="create_ad_form">
+                    <div class="form-group row">
+                        <label class="col-form-label col-lg-3 col-sm-12 text-right">Ad type</label>
+                        <div class="col-lg-8 col-md-9 col-sm-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ad_type" id="video_gif" value="video_gif" checked>
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                    Video/GIF
+                                </label>
+                                </div>
+                                <div class="form-check">
+                                <input class="form-check-input" type="radio" name="ad_type" id="slider" value="slider">
+                                <label class="form-check-label" for="flexRadioDefault2">
+                                    Slider/Carousel
+                                </label>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Title</label>
@@ -57,7 +74,7 @@
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Upload</label>
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <div class="file-loading">
-                                <input name="ad_file" id="ad_file" type="file" data-show-preview="false">
+                                <input name="ad_file[]" id="ad_file" type="file" multiple data-show-preview="false">
                             </div>
                             <div class="fv-plugins-message-container">
                                 <div data-field="ad_file" data-validator="ad_file" id="attachment_error" class="fv-help-block"></div>

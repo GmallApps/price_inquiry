@@ -23,65 +23,109 @@ class AdRepository implements AdInterface
     {
         // $adlist = Ad::all();
         $adlist = Ad::orderByDesc('id')->get();
+
         return $adlist;
+
         $count = count($adlist->get());
 
         $data = $adlist->skip($request->start)
                         ->take($request->length)
                         ->get();
         $totalRecords =  $totalDisplay = $count;
+        
         return ['recordsTotal' => $totalRecords, 'recordsFiltered' => $totalDisplay,'data' =>$data];
     }
 
     public function createAdvertisement($request)
     {
         try{
-            // $checkTitle = Ad::where('title', $request->ad_title)->get();
-            // $countResult = $checkTitle->count();
-
-            // $validator = Validator::make($request->all(), [
-            //     'file' => 'max:5120', //5MB 
-            // ]);
             
-            
-            $attachment = $request->ad_file;
-            Log::error('attachment: ' .  $attachment);
-            $size = $attachment->getSize();
-            if ($size == ''){
-                return $this->error('File exceeds 5mbssss.',400);
-            }else if ($size < 5242880) {
                 Ad::where('status', 1)->update(['status' => 0]);
 
-                $ad = new Ad;
-                $ad->title = $request->ad_title;
-                $ad->file = 'Default';
-                $ad->status = 1;
-                $ad->save();
-
-                $extension = $attachment->getClientOriginalExtension();
-                $filename = $ad->id . '.' . $extension;
-
-                // $path = Storage::put("ad_files/{$ad->id}.{$extension}", $attachment); //customize folder name for multiple files upload
-                $filename = "{$ad->id}.{$extension}";
-                // $path = Storage::putFileAs('ad_files', $request->file('ad_file'), $filename);
                 if ($request->hasFile('ad_file')) {
-                    $image = $request->file('ad_file');
-                    $destination_path = public_path("/assets/ad_files/");
-                    $image->move($destination_path, $ad->id.".{$extension}");
-                    $extension = $attachment->getClientOriginalExtension();
-                    Ad::find($ad->id)->update(['file' => "{$ad->id}."."{$extension}"]);
-                    Log::error('attachment: ' .  $attachment);
-                    return $this->success('Advertisement created successfully!',$attachment, 200);
+
+                    if ($request->ad_type == 'video_gif'){
+
+                        $ad = new Ad;
+
+                        $ad->title = $request->ad_title;
+
+                        $ad->ad_type = $request->ad_type;
+
+                        $ad->file = 'Default';
+
+                        $ad->path = 'assets/ad_files/';
+
+                        $ad->status = 1;
+
+                        $ad->save();
+
+                        foreach($request->file('ad_file') as $attached_file)
+                        {
+                            
+                            $image = $attached_file;
+
+                            $destination_path = public_path("/assets/ad_files/");
+
+                            $extension = $attached_file->getClientOriginalExtension();
+
+                            $image->move($destination_path, $ad->id.".{$extension}");
+
+                            Log::error('attachment: ' .  $attached_file);
+
+                            Ad::find($ad->id)->update(['file' => $ad->id.".{$extension}" ]);
+
+                            return $this->success('Advertisement created successfully!',$attached_file, 200);
+
+                        }
+                       
+                    }else{
+
+                        $ad = new Ad;
+
+                        $ad->title = $request->ad_title;
+
+                        $ad->ad_type = $request->ad_type;
+
+                        $ad->file = 'Default';
+
+                        $ad->path = 'assets/slider_files/';
+
+                        $ad->status = 1;
+
+                        $ad->save();
+
+                        $image;
+
+                        $attached_files = []; 
+
+                        $destination_path = public_path("/assets/slider_files/$ad->id");
+
+                        foreach($request->file('ad_file') as $attached_file)
+                        {
+                            $image = $attached_file;
+
+                            $the_file = $image->getClientOriginalName();
+
+                            $image->move($destination_path, $the_file);
+                            
+                            array_push($attached_files, $the_file);
+                        }
+                        
+                        Ad::find($ad->id)->update(['file' => $attached_files ]);
+
+                        return $this->success('Advertisement created successfully!',$attached_files, 200);
+
+                    }
+                    
                 }
-
-            }else{
-                return $this->error('File exceeds 5mb.',400);
-            }
-
             
         }catch(Exception $e){
+
             DB::rollBack();
+
             return $this->error($e->getMessage(),$e->getCode());
+
         }
     }
 
