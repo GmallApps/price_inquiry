@@ -218,7 +218,9 @@ class AdRepository implements AdInterface
         $compact = [];
         $ad = Ad::where('status',1)->get();
         $compact = [
-            'file' => $ad[0]->file
+            'id' => $ad[0]->id,
+            'file' => $ad[0]->file,
+            'ad_type' => $ad[0]->ad_type
         ];
         return $compact;
     }

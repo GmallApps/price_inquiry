@@ -13,6 +13,7 @@
       <link rel="stylesheet" href="{{ asset('/css/globals/style.bundle.min.css')}}" async>
 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   
       @once
       @stack('styles')
       @endonce

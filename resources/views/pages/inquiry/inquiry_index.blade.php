@@ -69,7 +69,7 @@
                             <div class="col-md-12 justify-content-between d-flex flex-column">
                                 <div id="ad_media"></div>
                                 <!-- <img width="100%" height="550" src="{{asset('/assets/images/ramadan.gif')}}" alt="RAMADAN" /> -->
-
+                            
                                 <!-- <video width="100%" loop autoplay="autoplay" class="box">
                                     <source src="{{asset('/assets/ad_files/1.mp4')}}" type="video/mp4">
                                 </video> -->
@@ -88,6 +88,7 @@
 
 @push('scripts')
     <script src="{{ asset('/js/pages/inquiry/inquiry_index.js')}}"></script>
-    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 @endpush
 

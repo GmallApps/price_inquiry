@@ -10,8 +10,8 @@ void new class BipIndex{
     }
 
     initialization = () => { 
-       this.InquiryBgColor()
-       this.InquiryAd()
+        this.InquiryBgColor()
+        this.InquiryAd()
     }
     eventHandler = () => { 
       
@@ -78,6 +78,8 @@ void new class BipIndex{
 
             const ad_file = data.file
 
+            const ad_id = data.id
+
             const imagePath = `assets/ad_files/${ad_file}`
 
             const split_file = ad_file.split('.')
@@ -89,20 +91,69 @@ void new class BipIndex{
             console.log(file_ext)
 
             switch (file_ext) {
+
             case 'mp4':
+
                     $('#ad_media').html(`<video width="100%" loop autoplay="autoplay" class="box">
                         <source src="${imagePath}" type="video/mp4">
                     </video>`)
+
                 break;
-            case 'jpg':
-                
-                break;
-            
+
             case 'gif':
+
                 $('#ad_media').html(`<img width="100%" height="550" src="${imagePath}" alt="advertisement" />`)
+
                 break;
+
             default:
-               
+
+                const sliderImagePath = `assets/slider_files/${ad_id}/`
+
+                const adArray = JSON.parse(ad_file)
+
+                let carouselHtml = `
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+                `;
+
+                // Generate the carousel indicators dynamically
+                for (let i = 0; i < adArray.length; i++) { console.log(adArray[i]);
+                carouselHtml += `
+                    <li data-target="#myCarousel" data-slide-to="${i}"${i === 0 ? ' class="active"' : ''}></li>
+                `;
+                }
+
+                carouselHtml += `
+                </ol>
+                <div class="carousel-inner">
+                `;
+
+                // Generate the carousel slides dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                carouselHtml += `
+                    <div class="item${i === 0 ? ' active' : ''}">
+                    <img src="${sliderImagePath+adArray[i]}" alt="Slide ${i + 1}" style="width:100%;">
+                    </div>
+                `;
+                }
+
+                carouselHtml += `
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    
+                    <span class="sr-only">Next</span>
+                </a>
+                </div>
+                `;
+
+                $('#ad_media').html(carouselHtml);
+                
+
                 break;
             }
 
