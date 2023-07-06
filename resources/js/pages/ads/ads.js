@@ -260,6 +260,16 @@ void new class Ads{
 
             this.titleInput.value = result.title;
 
+            if ( result.ad_type == 'slider') {
+
+                this.radioSlider.checked = true
+
+            }else {
+
+                this.radioVideo.checked = true
+
+            }
+
             $('#kt_modal_create_ad').modal('show')
             
         }catch({response:err}){
