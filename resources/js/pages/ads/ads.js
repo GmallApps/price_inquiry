@@ -480,6 +480,11 @@ void new class Ads{
                     template:(data)=> `<span>${data.title}</span>`
                 },
                 {
+                    field:'ad_type',
+                    title:'Ad Type',
+                    template:(data)=> `<span>${data.ad_type}</span>`
+                },
+                {
                     field:'created_at',
                     title:'Date Created',
                     template:(data)=> `<span>${humanDate(data.created_at)}</span>`

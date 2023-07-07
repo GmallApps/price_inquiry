@@ -1,4 +1,4 @@
-@extends('admin.index',['title' => 'Ads'])
+@extends('admin.index',['title' => 'BGColor'])
 
 
 @push('styles')

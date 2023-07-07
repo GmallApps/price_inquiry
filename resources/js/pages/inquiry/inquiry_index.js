@@ -1,12 +1,14 @@
 const { default: axios } = require("axios")
 const { compact } = require("lodash")
 
+
+
 void new class BipIndex{
 
     constructor()
     {
-        this.initialization()
         this.eventHandler()
+        this.initialization()
     }
 
     initialization = () => { 
@@ -69,6 +71,8 @@ void new class BipIndex{
     }
 
     InquiryAd = () => {
+
+        console.log('inquiryAd')
 
         axios.get(`/inquiry_ad/`)
 

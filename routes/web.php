@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdController;
 use App\Http\Controllers\ColorController;
+use App\Http\Controllers\LogoController;
 use App\Http\Controllers\AuthController;
 use App\Models\Ad;
 use App\Models\Color;
@@ -54,6 +55,11 @@ Route::middleware('guest')->group(function(){
         Route::get('/activate_color/{id}',[ColorController::class,'activateColor']);
         Route::get('/bgcolor_delete/{id}',[ColorController::class,'bgColorDelete']);
         Route::view('/theme_color','pages.theme_color.theme_color')->name('themeColor');
+
+        Route::get('/logo_list',[LogoController::class,'logoList']);
+        Route::get('/check_name/{logoName}',[LogoController::class,'checkName']);
+        Route::post('/create_logo',[LogoController::class,'createLogo']);
+        Route::view('/logo_wpi','pages.logo_wpi.logo_wpi')->name('logoWPI');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 

@@ -112,8 +112,14 @@
                                  </li>
                                  <li class="menu-item menu-item-submenu menu-item-rel">
                                     <a href="/theme_color" class="menu-link">
-                                    <span class="menu-text">Theme</span>
-                                    <span class="menu-desc">App Theme Color</span>
+                                    <span class="menu-text">Background Color</span>
+                                    <span class="menu-desc">Manage Background Color</span>
+                                    </a>
+                                 </li>
+                                 <li class="menu-item menu-item-submenu menu-item-rel">
+                                    <a href="/logo_wpi" class="menu-link">
+                                    <span class="menu-text">Logo</span>
+                                    <span class="menu-desc">Manage WPI Logo</span>
                                     </a>
                                  </li>
                               </ul>
@@ -204,9 +210,7 @@
       </div>
       <!--end::Scrolltop-->
       <!--begin::Global Theme Bundle(used by all pages)-->
-      <script>
-         const bir_pdf = "{{ asset('/assets/BIR_2307.pdf')}}"
-      </script>
+      
       <script src="{{mix('/js/app.js')}}" ></script>
       <script src="{{ asset('/js/globals/plugins.bundle.js')}}" ></script>
       <script src="{{ asset('/js/globals/prismjs.bundle.js')}}" ></script>
