@@ -14,6 +14,7 @@ void new class BipIndex{
     initialization = () => { 
         this.InquiryBgColor()
         this.InquiryAd()
+        this.InquiryLogo()
     }
     eventHandler = () => { 
       
@@ -161,6 +162,30 @@ void new class BipIndex{
                 break;
             }
 
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
+
+    InquiryLogo = () => {
+
+        console.log('inquiryLogo')
+
+        axios.get(`/inquiry_logo/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const logo_id = data.id
+
+            const imagePath = `assets/logo_files/customer/${logo_id}.png`
+
+            $('#customer_logo').html(`<img width="80%" src="${imagePath}" alt="logo" />`)
 
         })
         .catch((err) =>{

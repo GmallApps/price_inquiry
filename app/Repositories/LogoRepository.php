@@ -105,4 +105,15 @@ class LogoRepository implements LogoInterface
         return $this->success('Logo successfully deleted!',[], 200);
     }
 
+    public function inquiryLogo()
+    {
+        $compact = [];
+        $logo = Logo::where('status',1)->get();
+        $compact = [
+            'id' => $logo[0]->id,
+            'name' => $logo[0]->name
+        ];
+        return $compact;
+    }
+
 }

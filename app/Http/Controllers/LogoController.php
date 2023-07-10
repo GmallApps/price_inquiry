@@ -42,4 +42,9 @@ class LogoController extends Controller
     {
         return $this->logoInterface->logoDelete($id);
     }
+
+    public function inquiryLogo()
+    {
+        return $this->logoInterface->inquiryLogo();
+    }
 }

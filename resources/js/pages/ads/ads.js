@@ -45,6 +45,8 @@ void new class Ads{
     initialization = () => { 
 
         this.InquiryBgColor()
+
+        this.InquiryLogo()
         
      }
 
@@ -178,6 +180,33 @@ void new class Ads{
 
             console.log(err)
 
+        })
+    }
+
+    InquiryLogo = () => {
+
+        console.log('inquiryLogo')
+
+        axios.get(`/inquiry_logo/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const logo_id = data.id
+
+            const imagePath = `assets/logo_files/admin/${logo_id}.png`
+
+            $('#admin_logo').html(`<img class="max-h-50px" src="${imagePath}" alt="logo" />`)
+
+            $('#admin_logo_mobile').html(`<img class="max-h-30px" src="${imagePath}" alt="logo" />`)
+
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
         })
     }
 

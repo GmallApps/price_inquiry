@@ -24,7 +24,8 @@
       <div id="kt_header_mobile" class="header-mobile header-mobile-fixed bg_gmall">
          <!--begin::Logo-->
          <a href="/dashboard">
-         <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-30px" />
+         <!-- <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-30px" /> -->
+         <div id="admin_logo_mobile"></div>
          {{-- Logo for Mobile View --}}
          </a>
          <!--end::Logo-->
@@ -65,7 +66,8 @@
                         <div class="d-none d-lg-flex align-items-center mr-3">
                            <!--begin::Logo-->
                            <a href="/dashboard" class="mr-20">
-                            <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-50px" />
+                              <div id="admin_logo"></div>
+                            <!-- <img alt="Logo" src="{{asset('/assets/images/branchlogo.png')}}" class="max-h-50px" /> -->
 
                            {{-- Logo For Desktop view --}}
                            </a>
