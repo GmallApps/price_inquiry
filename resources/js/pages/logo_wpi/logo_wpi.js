@@ -3,6 +3,8 @@ void new class LogoWPI{
 
         this.initDatatable()
 
+        this.initialization()
+
         this.addLogoForm = document.querySelector('#add_logo_form')
 
         this.submitLogoButton = document.querySelector('#logo_submit')
@@ -30,8 +32,6 @@ void new class LogoWPI{
         this.eventHandler()
 
         this.initFileInput()
-
-        this.initialization()
 
     }
 
@@ -478,6 +478,22 @@ void new class LogoWPI{
                     field:'name',
                     title:'Logo Name',
                     template:(data)=> `<span>${data.name}</span>`
+                },
+                {
+                    field: 'Customer',
+                    title: 'Customer',
+                    sortable: false,
+                    width: 100,
+                    overflow: 'visible',
+                    autoHide: false,
+                    template: function(data) {
+                        return `<img class="max-w-60px" src="assets/logo_files/customer/${data.id}.png" alt="logo" />`
+                    },
+                },
+                {
+                    field:'Admin',
+                    title:'Admin',
+                    template:(data)=> `<img class="bg_gmall p-2 max-w-70px" src="assets/logo_files/admin/${data.id}.png" alt="logo" />`
                 },
                 {
                     field:'created_at',
