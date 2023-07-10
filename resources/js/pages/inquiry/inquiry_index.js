@@ -1,16 +1,19 @@
 const { default: axios } = require("axios")
 const { compact } = require("lodash")
 
+
+
 void new class BipIndex{
 
     constructor()
     {
-        this.initialization()
         this.eventHandler()
+        this.initialization()
     }
 
     initialization = () => { 
-       
+        this.InquiryBgColor()
+        this.InquiryAd()
     }
     eventHandler = () => { 
       
@@ -19,14 +22,14 @@ void new class BipIndex{
             if(e.which == 13){
                 this.upcData = upcData
                 console.log(this.convertData(upcData));
-                const current_date = document.querySelector('#current_date').value;
-                console.log(`current date : ${current_date}`); 
+                // const current_date = document.querySelector('#current_date').value;
 
-                // const today = new Date();
-                // const year = today.getFullYear();
-                // const month = String(today.getMonth() + 1).padStart(2, '0');
-                // const day = String(today.getDate()).padStart(2, '0');
-                // const current_date = `${year}-${month}-${day}`;
+                const today = new Date();
+                const year = today.getFullYear();
+                const month = String(today.getMonth() + 1).padStart(2, '0');
+                const day = String(today.getDate()).padStart(2, '0');
+                const current_date = `${year}-${month}-${day}`;
+                console.log(`current date : ${current_date}`); 
 
                 this.getItemBySku(this.convertData(upcData),current_date);
             }
@@ -47,6 +50,125 @@ void new class BipIndex{
          return addLeadingZeros
     }
 
+    InquiryBgColor = () => {
+
+        axios.get(`/bg_color/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+        console.log(data.code);
+
+        $('.bg_gmall').css('background-color', data.code)
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+
+        })
+    }
+
+    InquiryAd = () => {
+
+        console.log('inquiryAd')
+
+        axios.get(`/inquiry_ad/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const ad_file = data.file
+
+            const ad_id = data.id
+
+            const imagePath = `assets/ad_files/${ad_file}`
+
+            const split_file = ad_file.split('.')
+
+            const file_ext = split_file[1]
+
+            console.log(`add file : ${ad_file}`)
+
+            console.log(file_ext)
+
+            switch (file_ext) {
+
+            case 'mp4':
+
+                    $('#ad_media').html(`<video width="100%" loop autoplay="autoplay" class="box">
+                        <source src="${imagePath}" type="video/mp4">
+                    </video>`)
+
+                break;
+
+            case 'gif':
+
+                $('#ad_media').html(`<img width="100%" height="550" src="${imagePath}" alt="advertisement" />`)
+
+                break;
+
+            default:
+
+                const sliderImagePath = `assets/slider_files/${ad_id}/`
+
+                const adArray = JSON.parse(ad_file)
+
+                let carouselHtml = `
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
+                <ol class="carousel-indicators">
+                `;
+
+                // Generate the carousel indicators dynamically
+                for (let i = 0; i < adArray.length; i++) { console.log(adArray[i]);
+                carouselHtml += `
+                    <li data-target="#myCarousel" data-slide-to="${i}"${i === 0 ? ' class="active"' : ''}></li>
+                `;
+                }
+
+                carouselHtml += `
+                </ol>
+                <div class="carousel-inner">
+                `;
+
+                // Generate the carousel slides dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                carouselHtml += `
+                    <div class="item${i === 0 ? ' active' : ''}">
+                    <img src="${sliderImagePath+adArray[i]}" alt="Slide ${i + 1}" style="width:100%;">
+                    </div>
+                `;
+                }
+
+                carouselHtml += `
+                </div>
+                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                    
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                    
+                    <span class="sr-only">Next</span>
+                </a>
+                </div>
+                `;
+
+                $('#ad_media').html(carouselHtml);
+                
+
+                break;
+            }
+
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
 
     getItemBySku = async(barcode,current_date) => {  
         //const {data:result} = await axios.get(`/api/get/item/${barcode}`,{params:{code:this.currentCode.value}})

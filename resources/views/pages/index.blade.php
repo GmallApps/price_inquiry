@@ -13,12 +13,14 @@
       <link rel="stylesheet" href="{{ asset('/css/globals/style.bundle.min.css')}}" async>
 
       <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+   
       @once
       @stack('styles')
       @endonce
       <!--end::Global CSS-->
    </head>
-   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading" style="background-color:#94d952;">
+   <!-- <body id="kt_body" class="header-fixed header-mobile-fixed page-loading bg_gmall" style="background-color:#94d952;"> -->
+   <body id="kt_body" class="header-fixed header-mobile-fixed page-loading bg_gmall">
       <!--begin::Main-->
       <!--begin::Header Mobile-->
       
@@ -71,7 +73,7 @@
       <!--script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.5/dist/JsBarcode.all.min.js"></script-->
       {{-- <script src="{{ asset('/js/globals/js_barcode.min.js')}}" ></script> --}}
       <!--end::Global Theme Bundle-->
-
+      
       
 
       @once

@@ -9,7 +9,10 @@ class Ad extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'image',
+        'title',
+        'ad_type',
+        'file',
+        'path',
         'status'
     ];
 }
