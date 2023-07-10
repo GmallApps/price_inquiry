@@ -32,4 +32,14 @@ class LogoController extends Controller
     {
         return $this->logoInterface->createLogo($request);
     }
+
+    public function activateLogo($id)
+    {
+        return $this->logoInterface->activateLogo($id);
+    }
+
+    public function logoDelete($id)
+    {
+        return $this->logoInterface->logoDelete($id);
+    }
 }

@@ -59,6 +59,8 @@ Route::middleware('guest')->group(function(){
         Route::get('/logo_list',[LogoController::class,'logoList']);
         Route::get('/check_name/{logoName}',[LogoController::class,'checkName']);
         Route::post('/create_logo',[LogoController::class,'createLogo']);
+        Route::get('/activate_logo/{id}',[LogoController::class,'activateLogo']);
+        Route::get('/logo_delete/{id}',[LogoController::class,'logoDelete']);
         Route::view('/logo_wpi','pages.logo_wpi.logo_wpi')->name('logoWPI');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');

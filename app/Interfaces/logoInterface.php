@@ -9,4 +9,8 @@ interface LogoInterface
     public function checkName($checkName);
 
     public function createLogo($request);
+
+    public function activateLogo($id);
+
+    public function logoDelete($id);
 }

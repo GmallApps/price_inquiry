@@ -1,8 +1,6 @@
 void new class LogoWPI{
     constructor(){
 
-        this.initialization()
-
         this.initDatatable()
 
         this.addLogoForm = document.querySelector('#add_logo_form')
@@ -32,6 +30,8 @@ void new class LogoWPI{
         this.eventHandler()
 
         this.initFileInput()
+
+        this.initialization()
 
     }
 
@@ -66,13 +66,43 @@ void new class LogoWPI{
 
         })
 
+        $('#logos').on('click', '.activateLogo', (e) => {
+
+            const logoId = $(e.currentTarget).data('id')
+    
+            this.activateInquiryLogo(logoId)
+            
+        })
+
+        $('#logos').on('click', '.deleteLogo', (e) => {
+
+            const logoId = $(e.currentTarget).data('id')
+
+            $('#modal_delete_logo').modal('show')
+
+            this.logoDeleteId.value = logoId
+            
+        })
+
+        this.logoDeleteProceedButton.addEventListener('click', (e) => {
+
+            $('#modal_delete_logo').modal('hide')
+
+            this.logoDeleteProceed(this.logoDeleteId.value)
+            
+        })
+
+        this.logoDeleteDismissButton.addEventListener('click', (e) => {
+
+            $('#modal_delete_logo').modal('hide')
+
+        })
+
     }
 
     initialization = () => { 
 
         this.InquiryBgColor()
-
-        console.log('nganu');
 
      }
 
@@ -199,6 +229,34 @@ void new class LogoWPI{
         })
     }
 
+    activateInquiryLogo = async(id) => {
+
+        const { data: result } = await axios.get(
+
+            `/activate_logo/${id}`
+
+        )
+        
+        showAlert('Success', result.message,'success')
+
+        $('#logos').KTDatatable('reload')
+
+        this.initialization()
+    }
+
+    logoDeleteProceed = async(id) => { 
+
+        const { data: result } = await axios.get(
+
+            `/logo_delete/${id}`
+
+        )
+        
+        showAlert('Success', result.message,'success')
+
+        $('#logos').KTDatatable('reload')
+    }
+
     checkExistingName = async(logoName, buttonAction) => {  
        
         try{
@@ -281,19 +339,6 @@ void new class LogoWPI{
         // Unsupported file type
             callback(null);
         }
-    }
-
-    logoDeleteProceed = async(id) => {
-
-        const { data: result } = await axios.get(
-
-            `/bgcolor_delete/${id}`
-
-        )
-        
-        showAlert('Success', result.message,'success')
-
-        $('#logos').KTDatatable('reload')
     }
 
     activateThemeColor = async(id) => {
@@ -427,7 +472,7 @@ void new class LogoWPI{
                         <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success' : 'btn-danger activateLogo'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger deleteLogo'} btn-icon m-2" data-id="${data.id}" title="Delete">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger deleteLogo'} btn-icon m-2" data-id="${data.id}" title="Delete Logo">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

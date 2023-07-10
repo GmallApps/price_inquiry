@@ -88,4 +88,21 @@ class LogoRepository implements LogoInterface
         }
     }
 
+    public function activateLogo($id)
+    {
+        $test = [];
+        Logo::where('status', 1)->update(['status' => 0]);
+        Logo::find($id)->update(['status' => 1]);
+        
+        return $this->success('Logo activated successfully!',$test, 200);
+    }
+
+    public function logoDelete($id)
+    {
+        $logo = Logo::find($id); // find the post with an id of 1
+        $logo->delete();
+        
+        return $this->success('Logo successfully deleted!',[], 200);
+    }
+
 }
