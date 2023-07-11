@@ -15,6 +15,8 @@ void new class Ads{
 
         this.fileInput = document.getElementById('ad_file')
 
+        this.adType = document.querySelector('[name="ad_type"]')
+
         this.initDatatable()
 
         this.initFileInput()
@@ -47,6 +49,8 @@ void new class Ads{
         this.InquiryBgColor()
 
         this.InquiryLogo()
+
+        // console.log(this.adType.value);
         
      }
 
@@ -112,13 +116,13 @@ void new class Ads{
 
         this.radioVideo.addEventListener('change', (e) => {
 
-            console.log(`video value : ${this.radioVideo.value}`)
+            this.fileInput.removeAttribute('multiple')
 
         })
 
         this.radioSlider.addEventListener('change', (e) => {
 
-            console.log(`slider value : ${this.radioSlider.value}`)
+            this.fileInput.setAttribute('multiple', 'multiple')
 
         })
 
@@ -229,7 +233,7 @@ void new class Ads{
             })
             .then(data => {
                 $("#previewInfo").modal("show")
-                $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+                $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
             })
             .catch(error => {
                 // Handle the error here
@@ -239,7 +243,7 @@ void new class Ads{
                     showAlert('Warning','No Preview Available for this File!','warning')
                 } else {
                     $("#previewInfo").modal("show")
-                    $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+                    $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
                 }
             });
 
@@ -303,7 +307,7 @@ void new class Ads{
             
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }
@@ -350,7 +354,8 @@ void new class Ads{
             
             $('#advertisements').KTDatatable('reload')
         }catch({response:err}){
-            showAlert('Error', err.message,'error')
+            console.log(err);
+            showAlert('Error', err.data.message,'error')
         }
     }
 
@@ -376,7 +381,7 @@ void new class Ads{
 
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }
@@ -416,13 +421,15 @@ void new class Ads{
 
     initFileInput = () => {
 
+        //const allowed_ext_input = ['jpg', 'png', 'jpeg','pdf', 'docs', 'docx', 'txt','xls','xlsx','csv','gif','mp4','zip']
+
         $("#ad_file").fileinput({
             theme: "explorer",
             uploadUrl: "#",
             deleteUrl: '#',
             enableResumableUpload: true,
             // maxFileCount: 5,
-            allowedFileExtensions: ['jpg', 'png', 'jpeg','pdf', 'docs', 'docx', 'txt','xls','xlsx','csv','gif','mp4','zip'],
+            allowedFileExtensions: ['mp4', 'gif','jpg'],
             theme: 'fas',
             showUpload:false,
             removeFromPreviewOnError: true,
@@ -433,36 +440,36 @@ void new class Ads{
 
             $('#attachment_error').html('')
 
-            const inputFiles = document.getElementById('ad_file').files;
-        
-            for (let i = 0; i < inputFiles.length; i++) {
+                const inputFiles = document.getElementById('ad_file').files;
+            
+                for (let i = 0; i < inputFiles.length; i++) {
 
-                const file = inputFiles[i]
+                    const file = inputFiles[i]
 
-                const fileSize = file.size
+                    const fileSize = file.size
 
-                console.log('File Size: ' + fileSize + ' bytes')
+                    console.log('File Size: ' + fileSize + ' bytes')
 
-                this.getFileDimensions(file, function(dimensions) {
+                    this.getFileDimensions(file, function(dimensions) {
 
-                    if (dimensions) {
+                        if (dimensions) {
 
-                        if (dimensions.width >= dimensions.height && fileSize <= 10485760 ) {
-                            // submitButton.removeAttribute("disabled");
-                            $('#attachment_error').html('')
-                        } else if (dimensions.width < dimensions.height || fileSize > 10485760 ){
-                            // submitButton.setAttribute("disabled", "true");
-                            $('#attachment_error').html('Check your file orientation or size.')
+                            if (dimensions.width >= dimensions.height && fileSize <= 10485760 ) {
+                                // submitButton.removeAttribute("disabled");
+                                $('#attachment_error').html('')
+                            } else if (dimensions.width < dimensions.height || fileSize > 10485760 ){
+                                // submitButton.setAttribute("disabled", "true");
+                                $('#attachment_error').html('Check your file orientation or size.')
+                            }
+
+                        } else {
+
+                            $('#attachment_error').html('Unsupported file type.')
+
                         }
-
-                    } else {
-
-                        $('#attachment_error').html('Unsupported file type.')
-
-                    }
-                })
-                
-            }
+                    })
+                    
+                }
             
         })
 
@@ -541,7 +548,7 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" data-id="${data.id}" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" data-id="${data.id}" title="Delete">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger deleteInfo'}  btn-icon m-2" data-id="${data.id}" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

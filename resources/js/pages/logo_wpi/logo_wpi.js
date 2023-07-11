@@ -3,8 +3,6 @@ void new class LogoWPI{
 
         this.initDatatable()
 
-        this.initialization()
-
         this.addLogoForm = document.querySelector('#add_logo_form')
 
         this.submitLogoButton = document.querySelector('#logo_submit')
@@ -32,6 +30,8 @@ void new class LogoWPI{
         this.eventHandler()
 
         this.initFileInput()
+
+        this.initialization()
 
     }
 
@@ -325,13 +325,15 @@ void new class LogoWPI{
 
             showAlert('Success', data.message,'success')
             
+            this.InquiryLogo()
+            
             $('#logos').KTDatatable('reload')
         }catch({response:err}){
             console.log(err.message);
             if (err.message === 'no_file') {
                 showAlert('Please complete file attachment!', err.message,'error')
             }else{
-                showAlert('Error', err.message,'error')
+                showAlert('Error', err.data.message,'error')
             }
             
         }
@@ -407,7 +409,7 @@ void new class LogoWPI{
             
             $('#logos').KTDatatable('reload')
         }catch({response:err}){
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
         }
     }
 
@@ -433,7 +435,7 @@ void new class LogoWPI{
 
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }

@@ -200,7 +200,7 @@ void new class ThemeColor{
             
             $('#colors').KTDatatable('reload')
         }catch({response:err}){
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
         }
     }
 
@@ -226,7 +226,7 @@ void new class ThemeColor{
 
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }
