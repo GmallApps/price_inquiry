@@ -56,7 +56,7 @@ class LogoRepository implements LogoInterface
 
                 $admin_extension = $admin_logo->getClientOriginalExtension();
 
-                if ($admin_extension == 'png' && $customer_extension == 'png'){
+                if (strcasecmp($admin_extension,'png') == 0 && strcasecmp($customer_extension,'png') == 0){
                     Logo::where('status', 1)->update(['status' => 0]);
 
                     $logo = new Logo;
