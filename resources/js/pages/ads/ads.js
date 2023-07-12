@@ -220,11 +220,21 @@ void new class Ads{
                 `/ad_preview/${id}`
             )
 
-            const imagePath = `assets/ad_files/${result.file}`
+            const ad_file = result.file
 
-            // window.open(rsr, '_blank')
+            const ad_type = result.ad_type
+
+            // console.log(`id is : ${id} & ad_type is : ${ad_type}`);
+
+            // const imagePath = ''
+
+            // if (ad_type == 'slider'){
+            //     imagePath = `assets/slider_files/${id}`
+            // }else{
+            //     imagePath = `assets/ad_files/`
+            // }
             
-            fetch(imagePath)
+            fetch(ad_type == 'slider' ? `assets/slider_files/${id}` : `assets/ad_files/`)
             .then(response => {
                 if (!response.ok) {
                 throw new Error('HTTP error, status = ' + response.status);
@@ -233,7 +243,12 @@ void new class Ads{
             })
             .then(data => {
                 $("#previewInfo").modal("show")
-                $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
+
+                this.previewMedia(id,ad_file,ad_type)
+
+                
+
+                // $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
             })
             .catch(error => {
                 // Handle the error here
@@ -242,11 +257,130 @@ void new class Ads{
                      // Perform specific actions for a 404 error
                     showAlert('Warning','No Preview Available for this File!','warning')
                 } else {
+                    console.log('show file');
                     $("#previewInfo").modal("show")
-                    $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
+                    console.log(`id is : ${id} & ad_type is : ${ad_type} & ad_file : ${ad_file}`);
+                    this.previewMedia(id,ad_file,ad_type)
+
+                   
+                    // $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
                 }
             });
 
+    }
+
+    previewMedia = (ad_id,ad_file,ad_type) => {
+
+        $('#adPreview').html('')
+
+        // console.log(`id is : ${id} & ad_type is : ${ad_type} & ad_file : ${ad_file}`);
+
+        const imagePath = ad_type == 'slider' ? `assets/slider_files/${ad_id}` : `assets/ad_files/${ad_file}`
+
+        const split_file = ad_file.split('.')
+
+        const file_ext = split_file[1]
+
+        console.log(`file_ext is : ${file_ext}`);
+
+        switch (file_ext) {
+
+            case 'mp4':
+
+                    $('#adPreview').html(`<video width="100%" loop autoplay="autoplay" class="box">
+                        <source src="${imagePath}" type="video/mp4">
+                    </video>`)
+
+                break;
+
+            case 'gif':
+
+                $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="advertisement" />`)
+
+                break;
+
+            default:
+
+                const sliderImagePath = `assets/slider_files/${ad_id}/`;
+                const adArray = JSON.parse(ad_file);
+
+                const carouselDiv = document.createElement('div');
+                carouselDiv.id = "myCarousel";
+                carouselDiv.classList.add("carousel", "slide");
+                carouselDiv.setAttribute("data-ride", "carousel");
+                carouselDiv.setAttribute("data-interval", "3000");
+
+                const olElement = document.createElement('ol');
+                olElement.classList.add("carousel-indicators");
+
+                // Generate the carousel indicators dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                    const liElement = document.createElement('li');
+                    liElement.setAttribute("data-target", "#myCarousel");
+                    liElement.setAttribute("data-slide-to", i);
+                    if (i === 0) {
+                        liElement.classList.add("active");
+                    }
+                    olElement.appendChild(liElement);
+                }
+                carouselDiv.appendChild(olElement);
+
+                const innerDiv = document.createElement('div');
+                innerDiv.classList.add("carousel-inner");
+
+                // Generate the carousel slides dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add("carousel-item");
+                    if (i === 0) {
+                        itemDiv.classList.add("active");
+                    }
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `${sliderImagePath + adArray[i]}`;
+                    imgElement.alt = `Slide ${i + 1}`;
+                    imgElement.style.width = "100%";
+
+                    itemDiv.appendChild(imgElement);
+                    innerDiv.appendChild(itemDiv);
+                }
+
+                carouselDiv.appendChild(innerDiv);
+
+                const leftControlLink = document.createElement('a');
+                leftControlLink.classList.add("carousel-control-prev");
+                leftControlLink.href = "#myCarousel";
+                leftControlLink.setAttribute("role", "button");
+                leftControlLink.setAttribute("data-slide", "prev");
+
+                const leftControlSpan = document.createElement('span');
+                leftControlSpan.classList.add("carousel-control-prev-icon");
+                leftControlSpan.setAttribute("aria-hidden", "true");
+
+                leftControlLink.appendChild(leftControlSpan);
+                carouselDiv.appendChild(leftControlLink);
+
+                const rightControlLink = document.createElement('a');
+                rightControlLink.classList.add("carousel-control-next");
+                rightControlLink.href = "#myCarousel";
+                rightControlLink.setAttribute("role", "button");
+                rightControlLink.setAttribute("data-slide", "next");
+
+                const rightControlSpan = document.createElement('span');
+                rightControlSpan.classList.add("carousel-control-next-icon");
+                rightControlSpan.setAttribute("aria-hidden", "true");
+
+                rightControlLink.appendChild(rightControlSpan);
+                carouselDiv.appendChild(rightControlLink);
+
+                document.getElementById('adPreview').appendChild(carouselDiv);
+
+                // Auto-slide every 3 seconds
+                // const carousel = new bootstrap.Carousel(document.getElementById('myCarousel'), {
+                //     interval: 3000
+                // });
+                break;
+            }
     }
 
     enableAdvertisement = async(id) => {
@@ -542,7 +676,7 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} viewInfo btn-icon m-2" data-id="${data.id}" title="View">
                             <i class="fa-solid fa-eye"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
+                        <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? '' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" data-id="${data.id}" title="Edit">

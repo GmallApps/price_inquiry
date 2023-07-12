@@ -3,6 +3,8 @@
 
 @push('styles')
 <!-- <link rel="stylesheet" href="{{asset('/css/globals/datatables.bundle.css')}}"> -->
+
+</style>
 @endpush
     @section('content')
     <div class="container">
@@ -37,4 +39,5 @@
 <!-- <script src="{{asset('/js/globals/datatables.bundle.js')}}" ></script>
 <script src="{{ asset('/js/pages/tenant/tenant.js')}}"></script> -->
 <script src="{{mix('/js/pages/ads/ads.js')}}"></script>
+
 @endpush
