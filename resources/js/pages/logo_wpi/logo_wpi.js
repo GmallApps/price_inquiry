@@ -1,6 +1,8 @@
 void new class LogoWPI{
     constructor(){
 
+        this.initialization()
+
         this.initDatatable()
 
         this.addLogoForm = document.querySelector('#add_logo_form')
@@ -30,8 +32,6 @@ void new class LogoWPI{
         this.eventHandler()
 
         this.initFileInput()
-
-        this.initialization()
 
     }
 
@@ -270,7 +270,7 @@ void new class LogoWPI{
 
         $('#logos').KTDatatable('reload')
 
-        this.initialization()
+        this.InquiryLogo()
     }
 
     logoDeleteProceed = async(id) => { 
@@ -307,7 +307,7 @@ void new class LogoWPI{
 
     insertLogoAttachmentAjax = async() =>{
 
-        console.log("2")
+        console.log("insertLogoAttachmentAjax")
 
         this.formData = new FormData(this.addLogoForm)
 
@@ -324,10 +324,11 @@ void new class LogoWPI{
             $('#kt_modal_add_logo').modal('hide')
 
             showAlert('Success', data.message,'success')
-            
+
             this.InquiryLogo()
             
             $('#logos').KTDatatable('reload')
+            
         }catch({response:err}){
             console.log(err.message);
             if (err.message === 'no_file') {
@@ -372,75 +373,33 @@ void new class LogoWPI{
         }
     }
 
-    activateThemeColor = async(id) => {
+    // insertLogo = async() =>{
 
-        const { data: result } = await axios.get(
+    //     this.formData = new FormData(this.addLogoForm)
 
-            `/activate_color/${id}`
+    //     try{ 
 
-        )
-        
-        showAlert('Success', result.message,'success')
+    //         const response = await axios.post(`/add_color`, this.formData)
 
-        $('#logos').KTDatatable('reload')
+    //         const data = response.data
 
-        this.initialization()
-    }
+    //         $('#newLogoModal_cancel').click()
 
-    insertLogo = async() =>{
+    //         this.addLogoForm.reset()
 
-        this.formData = new FormData(this.addLogoForm)
+    //         this.initialization()
 
-        try{ 
+    //         $('#kt_modal_add_logo').modal('hide')
 
-            const response = await axios.post(`/add_color`, this.formData)
-
-            const data = response.data
-
-            $('#newLogoModal_cancel').click()
-
-            this.addLogoForm.reset()
-
-            this.initialization()
-
-            $('#kt_modal_add_logo').modal('hide')
-
-            showAlert('Success', data.message,'success')
+    //         showAlert('Success', data.message,'success')
             
-            $('#logos').KTDatatable('reload')
-        }catch({response:err}){
-            showAlert('Error', err.data.message,'error')
-        }
-    }
+    //         $('#logos').KTDatatable('reload')
 
-    updateLogoAjax = async() =>{
+    //     }catch({response:err}){
+    //         showAlert('Error', err.data.message,'error')
+    //     }
+    // }
 
-        this.formData = new FormData(this.uploadForm)
-
-        try{ 
-
-            const response = await axios.post(`/update_ad`, this.formData)
-
-            const data = response.data
-
-            $('#createAdModal_cancel').click()
-
-            this.uploadForm.reset()
-
-            $('#kt_modal_create_ad').modal('hide')
-
-            showAlert('Success', data.message,'success')
-            
-            $('#advertisements').KTDatatable('reload')
-
-        }catch({response:err}){
-
-            showAlert('Error', err.data.message,'error')
-
-        }
-    }
-
-    
     initDatatable = () => {
         
         this.dataTable = $('#logos').KTDatatable({
@@ -495,7 +454,7 @@ void new class LogoWPI{
                 {
                     field:'Admin',
                     title:'Admin',
-                    template:(data)=> `<img class="bg_gmall p-2 max-w-70px" src="assets/logo_files/admin/${data.id}.png" alt="logo" />`
+                    template:(data)=> `<img class="rounded bg-dark p-2 max-w-70px" src="assets/logo_files/admin/${data.id}.png" alt="logo" />`
                 },
                 {
                     field:'created_at',

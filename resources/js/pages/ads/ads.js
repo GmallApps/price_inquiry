@@ -56,6 +56,8 @@ void new class Ads{
 
     eventHandler(){
 
+        console.log('inside');
+
         this.submitButton.addEventListener('click', (e) => {
             
             const buttonAction = 'create'
