@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\StoreMigration;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Models\Store;
+use App\Models\Ipaddress;
 use App\Models\StoreCode;
 use App\Models\BusinessUnit;
 use App\Services\TpsConnection;
@@ -45,10 +46,20 @@ class StoreController extends Controller
         return $this->success('Success', null, 201);
     }
 
-    public function inquiryIndexView()
+    public function inquiryIndexView(Request $request)
     {
+        $ipAddress = $request->ip();
+        $ip_add = Ipaddress::where('ipaddress',$ipAddress)->get();
+        $result_count = $ip_add->count();
+
+        if ($result_count == 1){
+            return view('pages.inquiry.inquiry_index');
+        }else{
+            return view('pages.not_found.not_found');
+        }
+        
         // return view('pages.inquiry.inquiry_index',['businessUnits' => BusinessUnit::get()]);
-        return view('pages.inquiry.inquiry_index');
+        
     }
 
     public function getStoreInformation(Request $request, $barcode)
@@ -62,7 +73,7 @@ class StoreController extends Controller
     public function getIpAddress(Request $request)
     { 
         $ipAddress = $request->ip();
-        return "Your IP address is: " . $ipAddress;
+        return $ipAddress;
     }
 
     
