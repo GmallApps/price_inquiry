@@ -1,6 +1,8 @@
 void new class Ads{
     constructor(){
 
+        this.initialization()
+
         this.uploadForm = document.querySelector('#create_ad_form')
 
         this.modalTitle= document.querySelector('#modal_title')
@@ -41,7 +43,6 @@ void new class Ads{
 
         this.eventHandler()
 
-        this.initialization()
     }
 
     initialization = () => { 

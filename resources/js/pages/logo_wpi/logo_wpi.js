@@ -454,7 +454,7 @@ void new class LogoWPI{
                 {
                     field:'Admin',
                     title:'Admin',
-                    template:(data)=> `<img class="rounded bg-dark p-2 max-w-70px" src="assets/logo_files/admin/${data.id}.png" alt="logo" />`
+                    template:(data)=> `<img class="rounded bg-dark p-3 max-w-70px" src="assets/logo_files/admin/${data.id}.png" alt="logo" />`
                 },
                 {
                     field:'created_at',
