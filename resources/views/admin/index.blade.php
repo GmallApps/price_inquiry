@@ -124,6 +124,12 @@
                                     <span class="menu-desc">Manage WPI Logo</span>
                                     </a>
                                  </li>
+                                 <li class="menu-item menu-item-submenu menu-item-rel">
+                                    <a href="/terminal" class="menu-link">
+                                    <span class="menu-text">Terminal</span>
+                                    <span class="menu-desc">Manage Terminal</span>
+                                    </a>
+                                 </li>
                               </ul>
                               
                            </div>

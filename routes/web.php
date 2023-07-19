@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\IpaddressController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\LogoController;
 use App\Http\Controllers\AuthController;
@@ -64,6 +65,9 @@ Route::middleware('guest')->group(function(){
         Route::get('/activate_logo/{id}',[LogoController::class,'activateLogo']);
         Route::get('/logo_delete/{id}',[LogoController::class,'logoDelete']);
         Route::view('/logo_wpi','pages.logo_wpi.logo_wpi')->name('logoWPI');
+
+        Route::get('/terminal_list',[IpaddressController::class,'ipaddressList']);
+        Route::view('/terminal','pages.terminal.terminal')->name('ipTerminal');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 
