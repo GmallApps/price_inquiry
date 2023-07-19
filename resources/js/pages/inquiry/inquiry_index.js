@@ -15,6 +15,7 @@ void new class BipIndex{
         this.InquiryBgColor()
         this.InquiryAd()
         this.InquiryLogo()
+        this.getIpAddress()
     }
     eventHandler = () => { 
       
@@ -220,6 +221,23 @@ void new class BipIndex{
             const imagePath = `assets/logo_files/customer/${logo_id}.png`
 
             $('#customer_logo').html(`<img width="80%" src="${imagePath}" alt="logo" />`)
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
+
+    getIpAddress = () => {
+        axios.get(`/get_ipaddress/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            console.log(data);
 
         })
         .catch((err) =>{

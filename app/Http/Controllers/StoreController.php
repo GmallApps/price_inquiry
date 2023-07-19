@@ -47,7 +47,8 @@ class StoreController extends Controller
 
     public function inquiryIndexView()
     {
-        return view('pages.inquiry.inquiry_index',['businessUnits' => BusinessUnit::get()]);
+        // return view('pages.inquiry.inquiry_index',['businessUnits' => BusinessUnit::get()]);
+        return view('pages.inquiry.inquiry_index');
     }
 
     public function getStoreInformation(Request $request, $barcode)
@@ -56,6 +57,12 @@ class StoreController extends Controller
         $tps = new TpsConnection('spm_tps');
         if(empty($tps->getItemBySKU($barcode,$current_date))) return $this->error("Invalid Code", 400);
         return $tps->getItemBySKU($barcode,$current_date);
+    }
+
+    public function getIpAddress(Request $request)
+    { 
+        $ipAddress = $request->ip();
+        return "Your IP address is: " . $ipAddress;
     }
 
     
