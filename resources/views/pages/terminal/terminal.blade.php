@@ -28,6 +28,7 @@
         </div>
         <!--end::Card-->
     </div>
+    @include('pages.modals.new_terminal')
 
 @endsection
 
