@@ -67,6 +67,8 @@ Route::middleware('guest')->group(function(){
         Route::view('/logo_wpi','pages.logo_wpi.logo_wpi')->name('logoWPI');
 
         Route::get('/terminal_list',[IpaddressController::class,'ipaddressList']);
+        Route::get('/check_ip/{ipAddress}',[IpaddressController::class,'checkTerminal']);
+        Route::post('/create_terminal',[IpaddressController::class,'createTerminal']);
         Route::view('/terminal','pages.terminal.terminal')->name('ipTerminal');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');

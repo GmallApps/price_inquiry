@@ -1,9 +1,21 @@
 void new class Terminal{
     constructor(){
 
-        this.addTerminalForm = document.querySelector('#add_terminal_form')
+        this.addTerminalButton = document.querySelector('#btn_add_terminal_modal')
 
         this.addTerminalButton = document.querySelector('#btn_add_terminal_modal')
+
+        this.createSubmitButton = document.querySelector('#terminal_submit')
+
+        this.updateSubmitButton = document.querySelector('#terminal_update')
+
+        this.terminalDismissButton = document.querySelector('#createTerminalModal_cancel')
+
+        this.addTerminalForm = document.querySelector('#create_terminal_form')
+        
+        this.modalTitle= document.querySelector('#modal_title')
+
+        this.ipInput = document.getElementById('ip_address')
 
         this.initDatatable()
 
@@ -13,6 +25,33 @@ void new class Terminal{
     }
 
     eventHandler(){
+
+        this.addTerminalButton.addEventListener('click', (e) => {
+
+            this.addTerminalForm.reset()
+
+            this.modalTitle.innerHTML = 'Add a Terminal'
+
+            this.updateSubmitButton.style.display = 'none'
+
+            this.createSubmitButton.style.display = ''
+
+            $('#kt_modal_create_terminal').modal('show')
+
+        })
+
+        this.terminalDismissButton.addEventListener('click', (e) => {
+
+            $('#kt_modal_create_terminal').modal('hide')
+
+        })
+
+        this.createSubmitButton.addEventListener('click', (e) => {
+            
+            const buttonAction = 'create'
+
+            this.checkExistingIp(this.ipInput.value, buttonAction)
+        })
 
     }
 
@@ -69,6 +108,51 @@ void new class Terminal{
             console.log(err)
             
         })
+    }
+
+    checkExistingIp = async(ipAddress, buttonAction) => {  
+       
+        try{
+            const {data:result} = await axios.get(`/check_ip/${ipAddress}`)
+            
+            if (result == 0 && buttonAction == 'create'){ 
+                this.insertIpAjax()
+            }else if (result == 0 && buttonAction == 'update'){
+                // this.updateIpAjax()
+            }else{
+                $('#title_error').html('IP Address Already Exist!')
+            }
+            
+            
+        }catch({response:err}){
+            
+        }
+    }
+
+    insertIpAjax = async() =>{
+
+        this.formData = new FormData(this.addTerminalForm)
+
+        try{
+
+            const response = await axios.post(`/create_terminal`, this.formData)
+
+            const data = response.data
+
+            $('#createTerminalModal_cancel').click()
+
+            this.addTerminalForm.reset()
+
+            $('#kt_modal_create_terminal').modal('hide')
+
+            showAlert('Success', data.message,'success')
+            
+            $('#terminals').KTDatatable('reload')
+
+        }catch({response:err}){
+            console.log(err);
+            showAlert('Error', err.data.message,'error')
+        }
     }
     
     initDatatable = () => {

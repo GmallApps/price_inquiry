@@ -30,4 +30,6 @@ class IpaddressRepository implements IpaddressInterface
         return ['recordsTotal' => $totalRecords, 'recordsFiltered' => $totalDisplay,'data' =>$data];
     }
 
+    
+
 }
