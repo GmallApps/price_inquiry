@@ -14,6 +14,8 @@ void new class BipIndex{
     initialization = () => { 
         this.InquiryBgColor()
         this.InquiryAd()
+        this.InquiryLogo()
+        this.getIpAddress()
     }
     eventHandler = () => { 
       
@@ -106,61 +108,136 @@ void new class BipIndex{
 
             case 'gif':
 
-                $('#ad_media').html(`<img width="100%" height="550" src="${imagePath}" alt="advertisement" />`)
+                $('#ad_media').html(`<img width="100%" src="${imagePath}" alt="advertisement" />`)
 
                 break;
 
             default:
 
-                const sliderImagePath = `assets/slider_files/${ad_id}/`
+            const sliderImagePath = `assets/slider_files/${ad_id}/`;
+            const adArray = JSON.parse(ad_file);
 
-                const adArray = JSON.parse(ad_file)
+            const carouselDiv = document.createElement('div');
+            carouselDiv.id = "myCarousel";
+            carouselDiv.classList.add("carousel", "slide");
+            carouselDiv.setAttribute("data-ride", "carousel");
+            carouselDiv.setAttribute("data-interval", "3000");
 
-                let carouselHtml = `
-                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="3000">
-                <ol class="carousel-indicators">
-                `;
+            const olElement = document.createElement('ol');
+            olElement.classList.add("carousel-indicators");
 
-                // Generate the carousel indicators dynamically
-                for (let i = 0; i < adArray.length; i++) { console.log(adArray[i]);
-                carouselHtml += `
-                    <li data-target="#myCarousel" data-slide-to="${i}"${i === 0 ? ' class="active"' : ''}></li>
-                `;
+            // Generate the carousel indicators dynamically
+            for (let i = 0; i < adArray.length; i++) {
+                const liElement = document.createElement('li');
+                liElement.setAttribute("data-target", "#myCarousel");
+                liElement.setAttribute("data-slide-to", i);
+                if (i === 0) {
+                    liElement.classList.add("active");
+                }
+                olElement.appendChild(liElement);
+            }
+            carouselDiv.appendChild(olElement);
+
+            const innerDiv = document.createElement('div');
+            innerDiv.classList.add("carousel-inner");
+
+            // Generate the carousel slides dynamically
+            for (let i = 0; i < adArray.length; i++) {
+                const itemDiv = document.createElement('div');
+                itemDiv.classList.add("carousel-item");
+                if (i === 0) {
+                    itemDiv.classList.add("active");
                 }
 
-                carouselHtml += `
-                </ol>
-                <div class="carousel-inner">
-                `;
+                const imgElement = document.createElement('img');
+                imgElement.src = `${sliderImagePath + adArray[i]}`;
+                imgElement.alt = `Slide ${i + 1}`;
+                imgElement.style.width = "100%";
 
-                // Generate the carousel slides dynamically
-                for (let i = 0; i < adArray.length; i++) {
-                carouselHtml += `
-                    <div class="item${i === 0 ? ' active' : ''}">
-                    <img src="${sliderImagePath+adArray[i]}" alt="Slide ${i + 1}" style="width:100%;">
-                    </div>
-                `;
-                }
+                itemDiv.appendChild(imgElement);
+                innerDiv.appendChild(itemDiv);
+            }
 
-                carouselHtml += `
-                </div>
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                    
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                    
-                    <span class="sr-only">Next</span>
-                </a>
-                </div>
-                `;
+            carouselDiv.appendChild(innerDiv);
 
-                $('#ad_media').html(carouselHtml);
-                
+            const leftControlLink = document.createElement('a');
+            leftControlLink.classList.add("carousel-control-prev");
+            leftControlLink.href = "#myCarousel";
+            leftControlLink.setAttribute("role", "button");
+            leftControlLink.setAttribute("data-slide", "prev");
+
+            const leftControlSpan = document.createElement('span');
+            leftControlSpan.classList.add("carousel-control-prev-icon");
+            leftControlSpan.setAttribute("aria-hidden", "true");
+
+            leftControlLink.appendChild(leftControlSpan);
+            carouselDiv.appendChild(leftControlLink);
+
+            const rightControlLink = document.createElement('a');
+            rightControlLink.classList.add("carousel-control-next");
+            rightControlLink.href = "#myCarousel";
+            rightControlLink.setAttribute("role", "button");
+            rightControlLink.setAttribute("data-slide", "next");
+
+            const rightControlSpan = document.createElement('span');
+            rightControlSpan.classList.add("carousel-control-next-icon");
+            rightControlSpan.setAttribute("aria-hidden", "true");
+
+            rightControlLink.appendChild(rightControlSpan);
+            carouselDiv.appendChild(rightControlLink);
+
+            document.getElementById('ad_media').appendChild(carouselDiv);
+
+            const carousel = new bootstrap.Carousel(document.getElementById('myCarousel'), {
+                interval: 3000
+            });
+
+            carousel.cycle();
 
                 break;
             }
 
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
+
+    InquiryLogo = () => {
+
+        console.log('inquiryLogo')
+
+        axios.get(`/inquiry_logo/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const logo_id = data.id
+
+            const imagePath = `assets/logo_files/customer/${logo_id}.png`
+
+            $('#customer_logo').html(`<img width="80%" src="${imagePath}" alt="logo" />`)
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
+
+    getIpAddress = () => {
+        axios.get(`/get_ipaddress/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            console.log(data);
 
         })
         .catch((err) =>{

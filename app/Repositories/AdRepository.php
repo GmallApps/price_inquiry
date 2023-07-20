@@ -39,85 +39,114 @@ class AdRepository implements AdInterface
     public function createAdvertisement($request)
     {
         try{
-            
-                Ad::where('status', 1)->update(['status' => 0]);
 
                 if ($request->hasFile('ad_file')) {
 
                     if ($request->ad_type == 'video_gif'){
 
-                        $ad = new Ad;
-
-                        $ad->title = $request->ad_title;
-
-                        $ad->ad_type = $request->ad_type;
-
-                        $ad->file = 'Default';
-
-                        $ad->path = 'assets/ad_files/';
-
-                        $ad->status = 1;
-
-                        $ad->save();
-
                         foreach($request->file('ad_file') as $attached_file)
                         {
-                            
-                            $image = $attached_file;
 
-                            $destination_path = public_path("/assets/ad_files/");
+                            $image = $attached_file;
 
                             $extension = $attached_file->getClientOriginalExtension();
 
-                            $image->move($destination_path, $ad->id.".{$extension}");
+                            if ($extension == 'mp4' || $extension == 'gif') {
 
-                            Log::error('attachment: ' .  $attached_file);
+                                Ad::where('status', 1)->update(['status' => 0]);
 
-                            Ad::find($ad->id)->update(['file' => $ad->id.".{$extension}" ]);
+                                $ad = new Ad;
 
-                            return $this->success('Advertisement created successfully!',$attached_file, 200);
+                                $ad->title = $request->ad_title;
+
+                                $ad->ad_type = $request->ad_type;
+
+                                $ad->file = 'Default';
+
+                                $ad->path = 'assets/ad_files/';
+
+                                $ad->status = 1;
+
+                                $ad->save();
+
+                                $destination_path = public_path("/assets/ad_files/");
+
+                                $image->move($destination_path, $ad->id.".{$extension}");
+
+                                Log::error('attachment: ' .  $attached_file);
+
+                                Ad::find($ad->id)->update(['file' => $ad->id.".{$extension}" ]);
+
+                                return $this->success('Advertisement created successfully!',$attached_file, 200);
+
+                            }else{
+                                return $this->error('Incorrect file format', 400);
+                            }
+
+                            break;
 
                         }
                        
                     }else{
 
-                        $ad = new Ad;
-
-                        $ad->title = $request->ad_title;
-
-                        $ad->ad_type = $request->ad_type;
-
-                        $ad->file = 'Default';
-
-                        $ad->path = 'assets/slider_files/';
-
-                        $ad->status = 1;
-
-                        $ad->save();
-
-                        $image;
-
-                        $attached_files = []; 
-
-                        $destination_path = public_path("/assets/slider_files/$ad->id");
+                        $count_error = 0;
 
                         foreach($request->file('ad_file') as $attached_file)
                         {
-                            $image = $attached_file;
+                            $extension = $attached_file->getClientOriginalExtension();
+                            if ($extension != 'jpg'){
+                                $count_error = 1;
+                            }
+                        }
 
-                            $the_file = $image->getClientOriginalName();
+                        if($count_error == 0){
+                            Ad::where('status', 1)->update(['status' => 0]);
 
-                            $image->move($destination_path, $the_file);
+                            $ad = new Ad;
+
+                            $ad->title = $request->ad_title;
+
+                            $ad->ad_type = $request->ad_type;
+
+                            $ad->file = 'Default';
+
+                            $ad->path = 'assets/slider_files/';
+
+                            $ad->status = 1;
+
+                            $ad->save();
+
+                            $image;
+
+                            $attached_files = []; 
+
+                            $destination_path = public_path("/assets/slider_files/$ad->id");
+
+                            foreach($request->file('ad_file') as $attached_file)
+                            {
+                                $image = $attached_file;
+
+                                $the_file = $image->getClientOriginalName();
+
+                                $image->move($destination_path, $the_file);
+                                
+                                array_push($attached_files, $the_file);
+                            }
                             
-                            array_push($attached_files, $the_file);
+                            Ad::find($ad->id)->update(['file' => $attached_files ]);
+
+                            return $this->success('Advertisement created successfully!',$attached_files, 200);
+                        }else{
+
+                            return $this->error('Incorrect file format', 400);
+
                         }
                         
-                        Ad::find($ad->id)->update(['file' => $attached_files ]);
-
-                        return $this->success('Advertisement created successfully!',$attached_files, 200);
 
                     }
                     
+                }else{
+                    return $this->error('No attached file!', 400);
                 }
             
         }catch(Exception $e){
@@ -144,17 +173,7 @@ class AdRepository implements AdInterface
                     // start edit code
                     if ($file_version == 'new'){
                         
-                        $ad = Ad::where('id', $request->advertisement_id)->first();
-
-                        $ad->title = $request->ad_title;
-
-                        $ad->ad_type = $request->ad_type;
-
-                        $ad->file = 'Default';
-
-                        $ad->path = 'assets/ad_files/';
-
-                        $ad->save();
+                        
     
                         foreach($request->file('ad_file') as $attached_file)
                         {
@@ -164,14 +183,34 @@ class AdRepository implements AdInterface
                             $destination_path = public_path("/assets/ad_files/");
     
                             $extension = $attached_file->getClientOriginalExtension();
+
+                            if ($extension == 'mp4' || $extension == 'gif') {
+                                
+                                $ad = Ad::where('id', $request->advertisement_id)->first();
+
+                                $ad->title = $request->ad_title;
+
+                                $ad->ad_type = $request->ad_type;
+
+                                $ad->file = 'Default';
+
+                                $ad->path = 'assets/ad_files/';
+
+                                $ad->save();
+
+                                $image->move($destination_path, $ad->id.".{$extension}");
     
-                            $image->move($destination_path, $ad->id.".{$extension}");
-    
-                            Log::error('attachment: ' .  $attached_file);
-    
-                            Ad::find($ad->id)->update(['file' => $ad->id.".{$extension}" ]);
-    
-                            return $this->success('Advertisement successfully updated!',$attached_file, 200);
+                                Log::error('attachment: ' .  $attached_file);
+        
+                                Ad::find($ad->id)->update(['file' => $ad->id.".{$extension}" ]);
+        
+                                return $this->success('Advertisement successfully updated!',$attached_file, 200);
+                            
+                            }else{
+                                
+                                return $this->error('Incorrect file format', 400);
+
+                            }
     
                         }
                         
@@ -186,49 +225,68 @@ class AdRepository implements AdInterface
                    
                 }else{
 
-                    // start edit code
-                    if ($file_version == 'new'){
-                        
-                        $ad = Ad::where('id', $request->advertisement_id)->first();
+                    $count_error = 0;
 
-                        $ad->title = $request->ad_title;
-
-                        $ad->ad_type = $request->ad_type;
-
-                        $ad->file = 'Default';
-
-                        $ad->path = 'assets/slider_files/';
-
-                        $ad->save();
-    
-                        $attached_files = []; 
-        
-                        $destination_path = public_path("/assets/slider_files/$ad->id");
-        
-                        foreach($request->file('ad_file') as $attached_file)
-                        {
-                            $image = $attached_file;
-        
-                            $the_file = $image->getClientOriginalName();
-        
-                            $image->move($destination_path, $the_file);
-                            
-                            array_push($attached_files, $the_file);
+                    foreach($request->file('ad_file') as $attached_file)
+                    {
+                        $extension = $attached_file->getClientOriginalExtension();
+                        if ($extension != 'jpg'){
+                            $count_error = 1;
                         }
-                        
-                        Ad::find($ad->id)->update(['file' => $attached_files ]);
+                    }
+
+                    if($count_error == 0){
+
+                        // start edit code
+                        if ($file_version == 'new'){
+                            
+                            $ad = Ad::where('id', $request->advertisement_id)->first();
+
+                            $ad->title = $request->ad_title;
+
+                            $ad->ad_type = $request->ad_type;
+
+                            $ad->file = 'Default';
+
+                            $ad->path = 'assets/slider_files/';
+
+                            $ad->save();
         
-                        return $this->success('Advertisement successfully updated!',$attached_files, 200);
-                        
+                            $attached_files = []; 
+            
+                            $destination_path = public_path("/assets/slider_files/$ad->id");
+            
+                            foreach($request->file('ad_file') as $attached_file)
+                            {
+                                $image = $attached_file;
+            
+                                $the_file = $image->getClientOriginalName();
+            
+                                $image->move($destination_path, $the_file);
+                                
+                                array_push($attached_files, $the_file);
+                            }
+                            
+                            Ad::find($ad->id)->update(['file' => $attached_files ]);
+            
+                            return $this->success('Advertisement successfully updated!',$attached_files, 200);
+                            
+                        }else{
+
+                            $revised_field = 'title';
+                            
+                        }
+                        // end edit code
                     }else{
 
-                        $revised_field = 'title';
-                        
+                        return $this->error('Incorrect file format', 400);
+
                     }
-                    // end edit code
-                    
                 }
+            }else{
+                $revised_field = 'title';
             }
+
             if ($revised_field == 'title') {
 
                 $attachment = [];

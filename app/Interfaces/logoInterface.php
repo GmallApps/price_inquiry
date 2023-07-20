@@ -13,4 +13,6 @@ interface LogoInterface
     public function activateLogo($id);
 
     public function logoDelete($id);
+
+    public function inquiryLogo();
 }

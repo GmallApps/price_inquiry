@@ -38,7 +38,8 @@
 					<div class="d-flex flex-column-auto flex-column ">
 						<!--begin::Aside header-->
 						<a href="#" class="text-center m-10">
-							<img width="70%" src="{{asset('/assets/images/branchlogo.png')}}" alt="Logo" />
+							<div id="login_logo"></div>
+							<!-- <img class="max-h-100px" src="{{asset('/assets/images/branchlogo.png')}}" alt="Logo" /> -->
 						</a>
 						<!--end::Aside header-->
 						<!--begin::Aside title-->

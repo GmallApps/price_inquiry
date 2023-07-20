@@ -45,7 +45,8 @@
                         <!-- <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box" style="background-color:#94d952;"> -->
                         <div class="card-body pb-0 ps-lg-6 mb-16 mt-md-0 mt-5 box " style="background-color:#ffffff">
                             <div class="text-center mb-18">
-                                <img width="80%" src="{{asset('/assets/images/gmall_davao.png')}}" alt="" />
+                                <!-- <img width="80%" src="{{asset('/assets/images/gmall_davao.png')}}" alt="" /> -->
+                                <div id="customer_logo"></div>
                             </div>
                             <div class="text-center  mb-3">
                                 <h1 class="fs-2hx text-dark mb-3" style="font-weight: bold;font-size: 35pt;" id="price">--</h1>
@@ -88,7 +89,7 @@
 
 @push('scripts')
     <script src="{{ asset('/js/pages/inquiry/inquiry_index.js')}}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 @endpush
 

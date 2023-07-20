@@ -48,34 +48,44 @@ class LogoRepository implements LogoInterface
 
             if ($request->hasFile('customer_logo_file') && $request->hasFile('admin_logo_file')) {
 
-                Logo::where('status', 1)->update(['status' => 0]);
-
-                $logo = new Logo;
-
-                $logo->name = $request->logo_name;
-
-                $logo->status = 1;
-
-                $logo->save();
-                    
                 $customer_logo = $request->file('customer_logo_file');
 
                 $admin_logo = $request->file('admin_logo_file');
 
-                $customer_destination_path = public_path("/assets/logo_files/customer/");
+                $customer_extension = $customer_logo->getClientOriginalExtension();
 
-                $admin_destination_path = public_path("/assets/logo_files/admin/");
+                $admin_extension = $admin_logo->getClientOriginalExtension();
 
-                $customer_logo->move($customer_destination_path, $logo->id.".png");
+                if (strcasecmp($admin_extension,'png') == 0 && strcasecmp($customer_extension,'png') == 0){
+                    Logo::where('status', 1)->update(['status' => 0]);
 
-                $admin_logo->move($admin_destination_path, $logo->id.".png");
+                    $logo = new Logo;
 
-                Log::error('attachment: ' .  $customer_logo);
+                    $logo->name = $request->logo_name;
 
-                return $this->success('Logo added successfully!',$customer_logo, 200);
+                    $logo->status = 1;
+
+                    $logo->save();
+
+                    $customer_destination_path = public_path("/assets/logo_files/customer/");
+
+                    $admin_destination_path = public_path("/assets/logo_files/admin/");
+
+                    $customer_logo->move($customer_destination_path, $logo->id.".png");
+
+                    $admin_logo->move($admin_destination_path, $logo->id.".png");
+
+                    Log::error('attachment: ' .  $customer_logo);
+
+                    return $this->success('Logo added successfully!',$customer_logo, 200);
+                }else{
+                    return $this->error('Only PNG files are allowed', 400);
+                }
+
+                
                 
             }else{
-                return $this->error('no_file', 400);
+                return $this->error('Please make sure all files are attached', 400);
                 // return response()->json(['message' => 'Logo upload failed!'], 400);
             }
             
@@ -103,6 +113,17 @@ class LogoRepository implements LogoInterface
         $logo->delete();
         
         return $this->success('Logo successfully deleted!',[], 200);
+    }
+
+    public function inquiryLogo()
+    {
+        $compact = [];
+        $logo = Logo::where('status',1)->get();
+        $compact = [
+            'id' => $logo[0]->id,
+            'name' => $logo[0]->name
+        ];
+        return $compact;
     }
 
 }

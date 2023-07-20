@@ -33,7 +33,7 @@
                 <!--begin::Content-->
                 <div class="text-center mb-13">
                     <h1 class="mb-3" id="modal_title">Create an Advertisement</h1>
-                    <div class="text-muted fw-bold fs-5">Upload either an MP4 or GIF file</div>
+                    <div class="text-muted fw-bold fs-5">Upload either an MP4 or GIF file for Video or GIF and JPG file for Slider</div>
                 </div>
                 <!--end::Content-->
                 
@@ -60,6 +60,7 @@
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Title</label>
                         <div class="col-lg-8 col-md-9 col-sm-12">
                             <div class="input-group">
+                                <input type="hidden" class="form-control" name="hidden_ad_type" id="hidden_ad_type" value="video"/>
                                 <input type="hidden" class="form-control" name="advertisement_id" id="advertisement_id"/>
                                 <input type="hidden" class="form-control" name="ad_file_version" id="ad_file_version"/>
                                 <input type="text" class="form-control" name="ad_title" id="ad_title" placeholder="Advertisement Title"/>
@@ -73,8 +74,9 @@
                     <div class="form-group row">
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Upload</label>
                         <div class="col-lg-8 col-md-12 col-sm-12">
-                            <div class="file-loading">
-                                <input name="ad_file[]" id="ad_file" type="file" multiple data-show-preview="false">
+                            <div class="file-loading" id="ad_upload_file">
+                                <input name="ad_file[]" id="ad_file" type="file" data-show-preview="false">
+                                <!-- <input name="ad_file[]" id="ad_file" type="file" multiple data-show-preview="false"> -->
                             </div>
                             <div class="fv-plugins-message-container">
                                 <div data-field="ad_file" data-validator="ad_file" id="attachment_error" class="fv-help-block"></div>

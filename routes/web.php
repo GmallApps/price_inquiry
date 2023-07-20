@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\AdController;
+use App\Http\Controllers\IpaddressController;
 use App\Http\Controllers\ColorController;
 use App\Http\Controllers\LogoController;
 use App\Http\Controllers\AuthController;
@@ -28,6 +29,8 @@ Route::middleware('guest')->group(function(){
     Route::post('/login',[AuthController::class,'login'])->name('login')->middleware('throttle:3,1');
     Route::get('/bg_color',[ColorController::class,'bgColor']);
     Route::get('/inquiry_ad',[AdController::class,'inquiryAd']);
+    Route::get('/inquiry_logo',[LogoController::class,'inquiryLogo']);
+    Route::get('/get_ipaddress',[StoreController::class,'getIpAddress']);
 });
 
     Route::get('/api/fetch/tpsStore',[StoreController::class,'fetchStoreData']);
@@ -62,6 +65,9 @@ Route::middleware('guest')->group(function(){
         Route::get('/activate_logo/{id}',[LogoController::class,'activateLogo']);
         Route::get('/logo_delete/{id}',[LogoController::class,'logoDelete']);
         Route::view('/logo_wpi','pages.logo_wpi.logo_wpi')->name('logoWPI');
+
+        Route::get('/terminal_list',[IpaddressController::class,'ipaddressList']);
+        Route::view('/terminal','pages.terminal.terminal')->name('ipTerminal');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');
 

@@ -199,7 +199,24 @@ var PriceInquiryBgColor = function() {
     })
 }();
 
+var PriceInquiryLogo = function() {
+    axios.get(`/inquiry_logo/`)
+    .then((response) => {
+        let data  = response.data
+
+        const logo_id = data.id
+
+        const imagePath = `assets/logo_files/admin/${logo_id}.png`
+
+        $('#login_logo').html(`<img class="max-w-250px" src="${imagePath}" alt="Logo" />`)
+    })
+    .catch((err) =>{
+        console.log(err)
+    })
+}();
+
 jQuery(document).ready(function() {
     KTLogin.init();
     PriceInquiryBgColor.init();
+    PriceInquiryLogo.init();
 });

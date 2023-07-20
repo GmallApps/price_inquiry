@@ -12,7 +12,7 @@ class ColorController extends Controller
 {
     use ResponseApi;
 
-    protected $adInterface;
+    protected $colorInterface;
 
     public function __construct(ColorInterface $colorInterface)
     {

@@ -1,6 +1,8 @@
 void new class Ads{
     constructor(){
 
+        this.initialization()
+
         this.uploadForm = document.querySelector('#create_ad_form')
 
         this.modalTitle= document.querySelector('#modal_title')
@@ -14,6 +16,8 @@ void new class Ads{
         this.titleInput = document.getElementById('ad_title')
 
         this.fileInput = document.getElementById('ad_file')
+
+        this.adType = document.querySelector('[name="ad_type"]')
 
         this.initDatatable()
 
@@ -39,16 +43,21 @@ void new class Ads{
 
         this.eventHandler()
 
-        this.initialization()
     }
 
     initialization = () => { 
 
         this.InquiryBgColor()
+
+        this.InquiryLogo()
+
+        // console.log(this.adType.value);
         
      }
 
     eventHandler(){
+
+        console.log('inside');
 
         this.submitButton.addEventListener('click', (e) => {
             
@@ -110,13 +119,13 @@ void new class Ads{
 
         this.radioVideo.addEventListener('change', (e) => {
 
-            console.log(`video value : ${this.radioVideo.value}`)
+            this.fileInput.removeAttribute('multiple')
 
         })
 
         this.radioSlider.addEventListener('change', (e) => {
 
-            console.log(`slider value : ${this.radioSlider.value}`)
+            this.fileInput.setAttribute('multiple', 'multiple')
 
         })
 
@@ -181,17 +190,54 @@ void new class Ads{
         })
     }
 
+    InquiryLogo = () => {
+
+        console.log('inquiryLogo')
+
+        axios.get(`/inquiry_logo/`)
+
+        .then((response) => {
+
+            let data  = response.data
+
+            const logo_id = data.id
+
+            const imagePath = `assets/logo_files/admin/${logo_id}.png`
+
+            $('#admin_logo').html(`<img class="max-h-50px" src="${imagePath}" alt="logo" />`)
+
+            $('#admin_logo_mobile').html(`<img class="max-h-30px" src="${imagePath}" alt="logo" />`)
+
+
+        })
+        .catch((err) =>{
+
+            console.log(err)
+            
+        })
+    }
+
     previewAdvertisement = async(id) => {
 
             const { data: result } = await axios.get(
                 `/ad_preview/${id}`
             )
 
-            const imagePath = `assets/ad_files/${result.file}`
+            const ad_file = result.file
 
-            // window.open(rsr, '_blank')
+            const ad_type = result.ad_type
+
+            // console.log(`id is : ${id} & ad_type is : ${ad_type}`);
+
+            // const imagePath = ''
+
+            // if (ad_type == 'slider'){
+            //     imagePath = `assets/slider_files/${id}`
+            // }else{
+            //     imagePath = `assets/ad_files/`
+            // }
             
-            fetch(imagePath)
+            fetch(ad_type == 'slider' ? `assets/slider_files/${id}` : `assets/ad_files/`)
             .then(response => {
                 if (!response.ok) {
                 throw new Error('HTTP error, status = ' + response.status);
@@ -200,7 +246,12 @@ void new class Ads{
             })
             .then(data => {
                 $("#previewInfo").modal("show")
-                $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+
+                this.previewMedia(id,ad_file,ad_type)
+
+                
+
+                // $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
             })
             .catch(error => {
                 // Handle the error here
@@ -209,11 +260,130 @@ void new class Ads{
                      // Perform specific actions for a 404 error
                     showAlert('Warning','No Preview Available for this File!','warning')
                 } else {
+                    console.log('show file');
                     $("#previewInfo").modal("show")
-                    $('#adPreview').html(`<img width="100%" height="550" src="${imagePath}" alt="Advertisement" />`)
+                    console.log(`id is : ${id} & ad_type is : ${ad_type} & ad_file : ${ad_file}`);
+                    this.previewMedia(id,ad_file,ad_type)
+
+                   
+                    // $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="Advertisement" />`)
                 }
             });
 
+    }
+
+    previewMedia = (ad_id,ad_file,ad_type) => {
+
+        $('#adPreview').html('')
+
+        // console.log(`id is : ${id} & ad_type is : ${ad_type} & ad_file : ${ad_file}`);
+
+        const imagePath = ad_type == 'slider' ? `assets/slider_files/${ad_id}` : `assets/ad_files/${ad_file}`
+
+        const split_file = ad_file.split('.')
+
+        const file_ext = split_file[1]
+
+        console.log(`file_ext is : ${file_ext}`);
+
+        switch (file_ext) {
+
+            case 'mp4':
+
+                    $('#adPreview').html(`<video width="100%" loop autoplay="autoplay" class="box">
+                        <source src="${imagePath}" type="video/mp4">
+                    </video>`)
+
+                break;
+
+            case 'gif':
+
+                $('#adPreview').html(`<img width="100%" src="${imagePath}" alt="advertisement" />`)
+
+                break;
+
+            default:
+
+                const sliderImagePath = `assets/slider_files/${ad_id}/`;
+                const adArray = JSON.parse(ad_file);
+
+                const carouselDiv = document.createElement('div');
+                carouselDiv.id = "myCarousel";
+                carouselDiv.classList.add("carousel", "slide");
+                carouselDiv.setAttribute("data-ride", "carousel");
+                carouselDiv.setAttribute("data-interval", "3000");
+
+                const olElement = document.createElement('ol');
+                olElement.classList.add("carousel-indicators");
+
+                // Generate the carousel indicators dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                    const liElement = document.createElement('li');
+                    liElement.setAttribute("data-target", "#myCarousel");
+                    liElement.setAttribute("data-slide-to", i);
+                    if (i === 0) {
+                        liElement.classList.add("active");
+                    }
+                    olElement.appendChild(liElement);
+                }
+                carouselDiv.appendChild(olElement);
+
+                const innerDiv = document.createElement('div');
+                innerDiv.classList.add("carousel-inner");
+
+                // Generate the carousel slides dynamically
+                for (let i = 0; i < adArray.length; i++) {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.classList.add("carousel-item");
+                    if (i === 0) {
+                        itemDiv.classList.add("active");
+                    }
+
+                    const imgElement = document.createElement('img');
+                    imgElement.src = `${sliderImagePath + adArray[i]}`;
+                    imgElement.alt = `Slide ${i + 1}`;
+                    imgElement.style.width = "100%";
+
+                    itemDiv.appendChild(imgElement);
+                    innerDiv.appendChild(itemDiv);
+                }
+
+                carouselDiv.appendChild(innerDiv);
+
+                const leftControlLink = document.createElement('a');
+                leftControlLink.classList.add("carousel-control-prev");
+                leftControlLink.href = "#myCarousel";
+                leftControlLink.setAttribute("role", "button");
+                leftControlLink.setAttribute("data-slide", "prev");
+
+                const leftControlSpan = document.createElement('span');
+                leftControlSpan.classList.add("carousel-control-prev-icon");
+                leftControlSpan.setAttribute("aria-hidden", "true");
+
+                leftControlLink.appendChild(leftControlSpan);
+                carouselDiv.appendChild(leftControlLink);
+
+                const rightControlLink = document.createElement('a');
+                rightControlLink.classList.add("carousel-control-next");
+                rightControlLink.href = "#myCarousel";
+                rightControlLink.setAttribute("role", "button");
+                rightControlLink.setAttribute("data-slide", "next");
+
+                const rightControlSpan = document.createElement('span');
+                rightControlSpan.classList.add("carousel-control-next-icon");
+                rightControlSpan.setAttribute("aria-hidden", "true");
+
+                rightControlLink.appendChild(rightControlSpan);
+                carouselDiv.appendChild(rightControlLink);
+
+                document.getElementById('adPreview').appendChild(carouselDiv);
+
+                // Auto-slide every 3 seconds
+                // const carousel = new bootstrap.Carousel(document.getElementById('myCarousel'), {
+                //     interval: 3000
+                // });
+                break;
+            }
     }
 
     enableAdvertisement = async(id) => {
@@ -274,7 +444,7 @@ void new class Ads{
             
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }
@@ -321,7 +491,8 @@ void new class Ads{
             
             $('#advertisements').KTDatatable('reload')
         }catch({response:err}){
-            showAlert('Error', err.message,'error')
+            console.log(err);
+            showAlert('Error', err.data.message,'error')
         }
     }
 
@@ -347,7 +518,7 @@ void new class Ads{
 
         }catch({response:err}){
 
-            showAlert('Error', err.message,'error')
+            showAlert('Error', err.data.message,'error')
 
         }
     }
@@ -387,13 +558,15 @@ void new class Ads{
 
     initFileInput = () => {
 
+        //const allowed_ext_input = ['jpg', 'png', 'jpeg','pdf', 'docs', 'docx', 'txt','xls','xlsx','csv','gif','mp4','zip']
+
         $("#ad_file").fileinput({
             theme: "explorer",
             uploadUrl: "#",
             deleteUrl: '#',
             enableResumableUpload: true,
             // maxFileCount: 5,
-            allowedFileExtensions: ['jpg', 'png', 'jpeg','pdf', 'docs', 'docx', 'txt','xls','xlsx','csv','gif','mp4','zip'],
+            allowedFileExtensions: ['mp4', 'gif','jpg'],
             theme: 'fas',
             showUpload:false,
             removeFromPreviewOnError: true,
@@ -404,36 +577,36 @@ void new class Ads{
 
             $('#attachment_error').html('')
 
-            const inputFiles = document.getElementById('ad_file').files;
-        
-            for (let i = 0; i < inputFiles.length; i++) {
+                const inputFiles = document.getElementById('ad_file').files;
+            
+                for (let i = 0; i < inputFiles.length; i++) {
 
-                const file = inputFiles[i]
+                    const file = inputFiles[i]
 
-                const fileSize = file.size
+                    const fileSize = file.size
 
-                console.log('File Size: ' + fileSize + ' bytes')
+                    console.log('File Size: ' + fileSize + ' bytes')
 
-                this.getFileDimensions(file, function(dimensions) {
+                    this.getFileDimensions(file, function(dimensions) {
 
-                    if (dimensions) {
+                        if (dimensions) {
 
-                        if (dimensions.width >= dimensions.height && fileSize <= 10485760 ) {
-                            // submitButton.removeAttribute("disabled");
-                            $('#attachment_error').html('')
-                        } else if (dimensions.width < dimensions.height || fileSize > 10485760 ){
-                            // submitButton.setAttribute("disabled", "true");
-                            $('#attachment_error').html('Check your file orientation or size.')
+                            if (dimensions.width >= dimensions.height && fileSize <= 10485760 ) {
+                                // submitButton.removeAttribute("disabled");
+                                $('#attachment_error').html('')
+                            } else if (dimensions.width < dimensions.height || fileSize > 10485760 ){
+                                // submitButton.setAttribute("disabled", "true");
+                                $('#attachment_error').html('Check your file orientation or size.')
+                            }
+
+                        } else {
+
+                            $('#attachment_error').html('Unsupported file type.')
+
                         }
-
-                    } else {
-
-                        $('#attachment_error').html('Unsupported file type.')
-
-                    }
-                })
-                
-            }
+                    })
+                    
+                }
             
         })
 
@@ -506,13 +679,13 @@ void new class Ads{
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} viewInfo btn-icon m-2" data-id="${data.id}" title="View">
                             <i class="fa-solid fa-eye"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? 'Disable' : 'Enable'}">
+                        <a href="javascript:;" class="btn btn-sm btn-clean ${data.status == 1 ? 'btn-success disableAd' : 'btn-danger enableAd'} btn-icon m-2" data-id="${data.id}" title="${data.status == 1 ? '' : 'Enable'}">
                             <i class="fa-solid fa-toggle-on"></i>
                         </a>
                         <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} editInfo btn-icon m-2" data-id="${data.id}" title="Edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                         </a>
-                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger'} deleteInfo btn-icon m-2" data-id="${data.id}" title="Delete">
+                        <a href="javascript:;" class="btn btn-sm btn-clean  ${data.status == 1 ? 'btn-success' : 'btn-danger deleteInfo'}  btn-icon m-2" data-id="${data.id}" title="Delete">
                             <i class="fa-solid fa-trash"></i>
                         </a> `
                     },

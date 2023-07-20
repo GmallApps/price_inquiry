@@ -55,6 +55,7 @@ class ColorRepository implements ColorInterface
             $color->status = 1;
             $color->save();
 
+            return $this->success('Color successfully added!',[], 200);
             
         }catch(Exception $e){
             DB::rollBack();
