@@ -15,7 +15,7 @@ void new class BipIndex{
         this.InquiryBgColor()
         this.InquiryAd()
         this.InquiryLogo()
-        // this.getIpAddress()
+        this.getIpAddress()
     }
     eventHandler = () => { 
       
