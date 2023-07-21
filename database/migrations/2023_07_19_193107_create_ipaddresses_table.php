@@ -15,7 +15,7 @@ class CreateIpaddressesTable extends Migration
     {
         Schema::create('ipaddresses', function (Blueprint $table) {
             $table->id();
-            $table->string('ipaddress');
+            $table->string('ipaddress')->unique();;
             $table->string('description');
             $table->tinyInteger('status');
             $table->timestamps();

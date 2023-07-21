@@ -33,14 +33,9 @@ class IpaddressRepository implements IpaddressInterface
     public function checkTerminal($terminal)
     {
         try{
-            $checkIp = Ipaddress::where('ipaddress', $terminal)->get();
-            $countResult = $checkIp->count();
 
-            if ($countResult > 0){
-                return 1;
-            }else{
-                return 0;
-            }
+            return Ipaddress::where('ipaddress', $terminal)->get();
+
         }catch(Exception $e){
 
             DB::rollBack();
@@ -48,6 +43,11 @@ class IpaddressRepository implements IpaddressInterface
             return $this->error($e->getMessage(),$e->getCode());
 
         }
+    }
+
+    public function getIpDetails($id)
+    {
+        return Ipaddress::find($id);
     }
 
     public function createTerminal($request)
@@ -70,6 +70,26 @@ class IpaddressRepository implements IpaddressInterface
 
             DB::rollBack();
 
+            // return $this->error($e->getMessage(),$e->getCode());
+            return $this->error('Duplicate Entry', 400);
+
+        }
+        
+
+    }
+
+    public function updateTerminal($request)
+    {
+        try{
+
+            Ipaddress::find($request->terminal_id)->update(['ipaddress' => $request->ip_address, 'description' => $request->description]);
+
+            return $this->success('Terminal updated successfully!',[], 200);
+
+        }catch(Exception $e){
+
+            DB::rollBack();
+
             return $this->error($e->getMessage(),$e->getCode());
 
         }
@@ -77,6 +97,30 @@ class IpaddressRepository implements IpaddressInterface
 
     }
 
-    
+    public function activateIp($id)
+    {
+        
+        Ipaddress::find($id)->update(['status' => 1]);
+        
+        return $this->success('Terminal activated successfully!',[], 200);
+    }
+
+    public function deactivateIp($id)
+    {
+        Ipaddress::find($id)->update(['status' => 0]);
+        
+        return $this->success('Terminal deactivated successfully!',[], 200);
+    }
+
+    public function terminalDelete($id)
+    {
+
+        $ip = Ipaddress::find($id); 
+
+        $ip->delete();
+        
+        return $this->success('Terminal successfully deleted!',[], 200);
+
+    }
 
 }

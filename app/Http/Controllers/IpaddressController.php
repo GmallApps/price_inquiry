@@ -26,12 +26,36 @@ class IpaddressController extends Controller
 
     public function checkTerminal($ipAddress)
     {
-        // Log::error('ipAddress: ' .  $ipAddress);
         return $this->ipaddressInterface->checkTerminal($ipAddress);
     }
 
     public function createTerminal(Request $request)
     {
         return $this->ipaddressInterface->createTerminal($request);
+    }
+
+    public function getIpDetails($id)
+    {
+        return $this->ipaddressInterface->getIpDetails($id);
+    }
+
+    public function updateTerminal(Request $request)
+    {
+        return $this->ipaddressInterface->updateTerminal($request);
+    }
+
+    public function activateIp($id)
+    {
+        return $this->ipaddressInterface->activateIp($id);
+    }
+
+    public function deactivateIp($id)
+    {
+        return $this->ipaddressInterface->deactivateIp($id);
+    }
+
+    public function terminalDelete($id)
+    {
+        return $this->ipaddressInterface->terminalDelete($id);
     }
 }

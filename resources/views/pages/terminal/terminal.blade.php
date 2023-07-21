@@ -29,6 +29,7 @@
         <!--end::Card-->
     </div>
     @include('pages.modals.new_terminal')
+    @include('pages.modals.delete_terminal')
 
 @endsection
 

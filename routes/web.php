@@ -31,6 +31,7 @@ Route::middleware('guest')->group(function(){
     Route::get('/inquiry_ad',[AdController::class,'inquiryAd']);
     Route::get('/inquiry_logo',[LogoController::class,'inquiryLogo']);
     Route::get('/get_ipaddress',[StoreController::class,'getIpAddress']);
+    Route::view('/ip','pages.ip_check.ip_check')->name('view_ip');
 });
 
     Route::get('/api/fetch/tpsStore',[StoreController::class,'fetchStoreData']);
@@ -68,7 +69,12 @@ Route::middleware('guest')->group(function(){
 
         Route::get('/terminal_list',[IpaddressController::class,'ipaddressList']);
         Route::get('/check_ip/{ipAddress}',[IpaddressController::class,'checkTerminal']);
+        Route::get('/get_ip_details/{id}',[IpaddressController::class,'getIpDetails']);
+        Route::get('/activate_ip/{id}',[IpaddressController::class,'activateIp']);
+        Route::get('/deactivate_ip/{id}',[IpaddressController::class,'deactivateIp']);
+        Route::get('/terminal_delete/{id}',[IpaddressController::class,'terminalDelete']);
         Route::post('/create_terminal',[IpaddressController::class,'createTerminal']);
+        Route::post('/update_ip',[IpaddressController::class,'updateTerminal']);
         Route::view('/terminal','pages.terminal.terminal')->name('ipTerminal');
 
         Route::get('/logout',[AuthController::class,'logout'])->name('logout');

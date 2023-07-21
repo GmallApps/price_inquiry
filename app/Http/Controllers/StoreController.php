@@ -49,7 +49,7 @@ class StoreController extends Controller
     public function inquiryIndexView(Request $request)
     {
         $ipAddress = $request->ip();
-        $ip_add = Ipaddress::where('ipaddress',$ipAddress)->get();
+        $ip_add = Ipaddress::where('ipaddress',$ipAddress)->where('status',1)->get();
         $result_count = $ip_add->count();
 
         if ($result_count == 1){
