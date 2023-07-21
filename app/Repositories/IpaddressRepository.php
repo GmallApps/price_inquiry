@@ -30,6 +30,53 @@ class IpaddressRepository implements IpaddressInterface
         return ['recordsTotal' => $totalRecords, 'recordsFiltered' => $totalDisplay,'data' =>$data];
     }
 
+    public function checkTerminal($terminal)
+    {
+        try{
+            $checkIp = Ipaddress::where('ipaddress', $terminal)->get();
+            $countResult = $checkIp->count();
+
+            if ($countResult > 0){
+                return 1;
+            }else{
+                return 0;
+            }
+        }catch(Exception $e){
+
+            DB::rollBack();
+
+            return $this->error($e->getMessage(),$e->getCode());
+
+        }
+    }
+
+    public function createTerminal($request)
+    {
+        try{
+
+            $ip = new Ipaddress;
+
+            $ip->ipaddress = $request->ip_address;
+
+            $ip->description = $request->description;
+
+            $ip->status = 1;
+
+            $ip->save();
+
+            return $this->success('Terminal added successfully!',[], 200);
+
+        }catch(Exception $e){
+
+            DB::rollBack();
+
+            return $this->error($e->getMessage(),$e->getCode());
+
+        }
+        
+
+    }
+
     
 
 }

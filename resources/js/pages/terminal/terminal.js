@@ -15,7 +15,13 @@ void new class Terminal{
         
         this.modalTitle= document.querySelector('#modal_title')
 
+        this.ip_error= document.querySelector('#ip_error')
+
+        this.desc_error= document.querySelector('#desc_error')
+
         this.ipInput = document.getElementById('ip_address')
+
+        this.descriptionInput = document.getElementById('description')
 
         this.initDatatable()
 
@@ -36,6 +42,10 @@ void new class Terminal{
 
             this.createSubmitButton.style.display = ''
 
+            this.ip_error.innerHTML = ''
+
+            this.desc_error.innerHTML = ''
+
             $('#kt_modal_create_terminal').modal('show')
 
         })
@@ -50,7 +60,24 @@ void new class Terminal{
             
             const buttonAction = 'create'
 
-            this.checkExistingIp(this.ipInput.value, buttonAction)
+            if (this.descriptionInput.value == ''){
+
+                this.desc_error.innerHTML = 'This field is required'
+
+            }
+
+            if (this.ipInput.value == ''){
+
+                this.ip_error.innerHTML = 'This field is required'
+
+            }
+
+            if (this.descriptionInput.value != '' && this.ipInput.value != '') {
+
+                this.checkExistingIp(this.ipInput.value, buttonAction)
+
+            }
+
         })
 
     }
@@ -115,12 +142,14 @@ void new class Terminal{
         try{
             const {data:result} = await axios.get(`/check_ip/${ipAddress}`)
             
+            console.log(result);
+
             if (result == 0 && buttonAction == 'create'){ 
                 this.insertIpAjax()
             }else if (result == 0 && buttonAction == 'update'){
                 // this.updateIpAjax()
             }else{
-                $('#title_error').html('IP Address Already Exist!')
+                this.ip_error.innerHTML = 'IP address already exist!'
             }
             
             

@@ -34,10 +34,10 @@
                         <div class="col-lg-8 col-md-9 col-sm-12">
                             <div class="input-group">
                                 <input type="hidden" class="form-control" name="terminal_id" id="terminal_id"/>
-                                <input type="text" class="form-control" name="ip_address" id="ip_address" placeholder="IP Address"/>
+                                <input type="text" class="form-control" name="ip_address" id="ip_address" placeholder="IP Address" />
                             </div>
                             <div class="fv-plugins-message-container">
-                                <div id="title_error" class="fv-help-block"></div>
+                                <div id="ip_error" class="fv-help-block"></div>
                             </div>
                         </div>
                     </div>
@@ -45,10 +45,10 @@
                         <label class="col-form-label col-lg-3 col-sm-12 text-right">Description</label>
                         <div class="col-lg-8 col-md-9 col-sm-12">
                             <div class="input-group">
-                                <input type="text" class="form-control" name="description" id="description" placeholder="Description"/>
+                                <input type="text" class="form-control" name="description" id="description" placeholder="Description" />
                             </div>
                             <div class="fv-plugins-message-container">
-                                <div id="title_error" class="fv-help-block"></div>
+                                <div id="desc_error" class="fv-help-block"></div>
                             </div>
                         </div>
                     </div>
