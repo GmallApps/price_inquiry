@@ -46,7 +46,7 @@
 						<h3 class="font-weight-bolder text-center font-size-h4 font-size-h3-lg m-5" style="color: #FFFFFF;">
 						<br/>
 						<p>Web-based Price Inquiry</p> <br/>
-						<p>Login to post</p>
+						<p>Login to Post</p>
 						<p>an advertisement</p></h3>
 						<!--end::Aside title-->
 					</div>
