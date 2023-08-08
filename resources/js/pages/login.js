@@ -67,7 +67,10 @@ var KTLogin = function() {
                     axios({
                         url:'/login',
                         method:'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
                         data:form_data
                     }).then((response) => {
                             if(response.data.success){

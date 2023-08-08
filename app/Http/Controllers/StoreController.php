@@ -65,7 +65,7 @@ class StoreController extends Controller
     public function getStoreInformation(Request $request, $barcode)
     { 
         $current_date = $request->input('current_date');
-        $tps = new TpsConnection('spm_tps');
+        $tps = new TpsConnection('dps_tps');
         if(empty($tps->getItemBySKU($barcode,$current_date))) return $this->error("Invalid Code", 400);
         return $tps->getItemBySKU($barcode,$current_date);
     }

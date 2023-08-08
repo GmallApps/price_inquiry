@@ -59,10 +59,10 @@ return [
 
 
 
-        'spm_tps' => [
+        'dps_tps' => [
             'driver' => 'odbc',
             'database' => '',
-            'dsn' => 'SPM_TPS',
+            'dsn' => 'DPS_TPS',
             'username' => '',
             'password' => ''
         ],
