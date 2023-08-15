@@ -51,11 +51,11 @@ class TpsConnection {
 
                 $endConvertedDate = Carbon::parse($end_converted_date);
 
-                Log::error('start_converted_date: ' . $start_converted_date);
+                // Log::error('start_converted_date: ' . $start_converted_date);
 
                 $isValidClarionDate=true;
                
-                Log::error('endConvertedDate: ' . $endConvertedDate);
+                // Log::error('endConvertedDate: ' . $endConvertedDate);
                 if( $currentDateTime->gte($startConvertedDate) && $currentDateTime->lte($endConvertedDate) ){
                     $compact = [
                         'sku' => $invupc[0]->sku,
@@ -76,7 +76,7 @@ class TpsConnection {
                 
                 $promo_data_ordered = $this->db->table('invevt')->select('sku','start','stop','price','pricetype')->where('sku',$invupc[0]->sku)->where('pricetype','RET')->orderByDesc('code')->get();
                 // foreach ($promo_data as $promo) {
-                    Log::info('promo_data_ordered : ',$promo_data_ordered->toArray());
+                    // Log::info('promo_data_ordered : ',$promo_data_ordered->toArray());
 
                     $price_type = $promo_data_ordered[0]->pricetype;
                     
@@ -135,7 +135,7 @@ class TpsConnection {
         $startClarionDate = strval($clarionDate);
         $startDateTime = Carbon::create(1800, 12, 28)->addDays($startClarionDate);
         $startConvertedDate = $startDateTime->format('Y-m-d');
-        Log::error('conversion: ' . $startConvertedDate);
+        // Log::error('conversion: ' . $startConvertedDate);
 
         return $startConvertedDate;
 
